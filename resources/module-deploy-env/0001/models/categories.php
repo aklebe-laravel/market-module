@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // class of eloquent model
+    "model"     => \Modules\Market\app\Models\Category::class,
+    // update data if exists and data differ (default false)
+    "update"    => false,
+    // columns to check if data already exists (AND WHERE)
+    "uniques"   => ["code"],
+    // relations to update/create
+    "relations" => [
+        "res" => [
+            // relation method which have to exists
+            "method" => "parents",
+            // column(s) to find specific #sync_relations items below
+            "columns" => "code",
+            // delete items if not listed here (default: false)
+            "delete" => false,
+        ],
+    ],
+    // data rows itself
+    "data"      => [
+        [
+            "code"        => "computer",
+            "name"        => "Computer",
+            "description" => "Computer and Accessoires",
+        ],
+        [
+            "code"            => "laptop",
+            "name"            => "Laptops",
+            "description"     => "Laptops and Notebooks",
+            "#sync_relations" => [
+                "res" => [
+                    "computer",
+                    "electronic"
+                ]
+            ]
+        ],
+        [
+            "code"            => "network",
+            "name"            => "Network",
+            "description"     => "Network device and adapters",
+            "#sync_relations" => [
+                "res" => [
+                    "computer",
+                ]
+            ]
+        ],
+    ]
+];
+
