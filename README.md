@@ -1,7 +1,7 @@
 ## Market Module
 
-A module for [Mercy Scaffold Application](https://github.com/AKlebeLaravel/MercyScaffold.git)
-(or any based on it like [Jumble Sale](https://github.com/AKlebeLaravel/JumbleSale.git)).
+A module for [Mercy Scaffold Application](https://github.com/aklebe-laravel/mercy-scaffold.git)
+(or any based on it like [Jumble Sale](https://github.com/aklebe-laravel/jumble-sale.git)).
 
 This module required the module [WebsiteBase] and provides several features to make your website to an lightweight
 webshop.
