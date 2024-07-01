@@ -3,6 +3,12 @@
 namespace Modules\Market\app\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Modules\DeployEnv\app\Events\ImportRow;
+use Modules\Market\app\Listeners\ImportRowAddress;
+use Modules\Market\app\Listeners\ImportRowCategory;
+use Modules\Market\app\Listeners\ImportRowProduct;
+use Modules\Market\app\Listeners\ImportRowStore;
+use Modules\Market\app\Listeners\ImportRowUser;
 use Modules\WebsiteBase\app\Events\InitNavigation;
 
 class EventServiceProvider extends ServiceProvider
@@ -15,6 +21,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         InitNavigation::class => [
             \Modules\Market\app\Listeners\InitNavigation::class,
+        ],
+        ImportRow::class=> [
+            ImportRowProduct::class,
+            ImportRowCategory::class,
+            ImportRowUser::class,
+            ImportRowAddress::class,
+            ImportRowStore::class,
         ],
     ];
 

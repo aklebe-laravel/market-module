@@ -308,7 +308,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'css_group'    => 'col-12',
                                         'options'      => [
                                             'form'          => 'website-base::form.media-item',
-                                            'table'         => 'website-base::data-table.media-item-image',
+                                            'table'         => 'website-base::data-table.media-item-image-user-avatar',
                                             'table_options' => [
                                                 'hasCommands' => $defaultSettings['can_manage'],
                                                 'editable'    => $defaultSettings['can_manage'],

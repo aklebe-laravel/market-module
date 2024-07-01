@@ -100,6 +100,14 @@ return [
                 ],
             ],
         ],
+        '0008'                   => [
+            [
+                'cmd'     => 'models',
+                'sources' => [
+                    'core-configs.php',
+                ],
+            ],
+        ],
     ],
 
 ];

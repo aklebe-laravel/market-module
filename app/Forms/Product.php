@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Market\app\Models\PaymentMethod;
 use Modules\Market\app\Models\ShippingMethod;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
+use Modules\WebsiteBase\app\Services\Config;
 
 /**
  *
@@ -58,6 +59,7 @@ class Product extends ModelBaseExtraAttributes
         return array_merge(parent::makeObjectModelInstanceDefaultValues(), [
             'is_enabled'         => true,
             'is_public'          => false,
+            'is_individual'      => true, // default true for jumble sales
             'user_id'            => $this->getOwnerUserId(),
             'store_id'           => app('website_base_settings')->getStore()->getKey() ?? null,
             'payment_method_id'  => PaymentMethod::with([])
@@ -85,6 +87,9 @@ class Product extends ModelBaseExtraAttributes
         $extraAttributeTab = $this->getTabExtraAttributes($this->jsonResource);
 
         $productRatingVisible = Auth::user()->hasAclResource('rating.product.visible');
+
+        /** @var Config $websiteBaseConfig */
+        $websiteBaseConfig = app('website_base_config');
 
         return [
             ... $parentFormData,
@@ -168,6 +173,30 @@ class Product extends ModelBaseExtraAttributes
                                         'html_element' => 'switch',
                                         'label'        => __('Test'),
                                         'description'  => __('test_products'),
+                                        'validator'    => [
+                                            'nullable',
+                                            'bool'
+                                        ],
+                                        'css_group'    => 'col-12 col-md-4',
+                                    ],
+                                    'is_individual'          => [
+                                        'html_element' => 'switch',
+                                        'label'        => __('Individual'),
+                                        // 'default'      => true, // default true for jumble sales
+                                        'description'  => __('individual_products'),
+                                        'validator'    => [
+                                            'nullable',
+                                            'bool'
+                                        ],
+                                        'css_group'    => 'col-12 col-md-4',
+                                    ],
+                                    'force_public'           => [
+                                        'disabled'     => $websiteBaseConfig->get('site.public',
+                                                false) || !$websiteBaseConfig->get('product.force_public.enabled',
+                                                false),
+                                        'html_element' => 'switch',
+                                        'label'        => __('Force Public'),
+                                        'description'  => __('force_public_products'),
                                         'validator'    => [
                                             'nullable',
                                             'bool'
@@ -340,7 +369,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('Images assigned to this product'),
                                         'css_group'    => 'col-12',
                                         'options'      => [
-                                            'table' => 'website-base::data-table.media-item',
+                                            'table' => 'website-base::data-table.media-item-image-product',
                                         ],
                                         'validator'    => [
                                             'nullable',

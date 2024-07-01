@@ -144,7 +144,7 @@ class Category extends ModelBaseExtraAttributes
                                             'ASC')->get(), [
                                             'id',
                                             'code'
-                                        ], 'id', [self::UNSELECT_RELATION_IDENT => '[Keine Auswahl]']),
+                                        ], 'id', [self::UNSELECT_RELATION_IDENT => __('No choice')]),
                                         'description'  => __('The Store assigned to the category'),
                                         'validator'    => [
                                             'nullable',
@@ -222,7 +222,7 @@ class Category extends ModelBaseExtraAttributes
                                         'description'   => __('Images assigned to this product'),
                                         'css_group'     => 'col-12',
                                         'options'       => [
-                                            'table' => 'website-base::data-table.media-item',
+                                            'table' => 'website-base::data-table.media-item-image-category',
                                         ],
                                         'table_options' => [
                                             'hasCommands' => $defaultSettings['can_manage'],
