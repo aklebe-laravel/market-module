@@ -104,7 +104,7 @@ return [
             [
                 'cmd'     => 'models',
                 'sources' => [
-                    'core-configs.php',
+                    'core-config.php',
                 ],
             ],
         ],
