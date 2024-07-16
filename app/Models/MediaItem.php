@@ -3,8 +3,6 @@
 namespace Modules\Market\app\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Modules\Market\Models\IdeHelperMediaItem;
-
 
 /**
  * @mixin IdeHelperMediaItem

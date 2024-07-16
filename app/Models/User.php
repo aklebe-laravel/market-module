@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
-use Modules\Market\Models\IdeHelperUser;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
 use Modules\WebsiteBase\app\Models\Base\TraitAttributeAssignment;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseMedia;
 use Modules\WebsiteBase\app\Models\Base\UserTrait;
-
 
 /**
  * @mixin IdeHelperUser

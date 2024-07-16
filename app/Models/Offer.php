@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Mail\Attachment;
-use Modules\Market\Models\IdeHelperOffer;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseModel;
-
 
 /**
  * @mixin IdeHelperOffer

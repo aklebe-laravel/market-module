@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
-use Modules\Market\Models\IdeHelperProduct;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
 use Modules\SystemBase\app\Services\FileService;
 use Modules\SystemBase\app\Services\SystemService;

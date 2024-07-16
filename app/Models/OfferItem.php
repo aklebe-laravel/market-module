@@ -5,9 +5,7 @@ namespace Modules\Market\app\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modules\Market\Models\IdeHelperOfferItem;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseModel;
-
 
 /**
  * @mixin IdeHelperOfferItem

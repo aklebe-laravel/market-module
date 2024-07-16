@@ -4,9 +4,7 @@ namespace Modules\Market\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Market\Models\IdeHelperShippingMethod;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseModel;
-
 
 /**
  * @mixin IdeHelperShippingMethod

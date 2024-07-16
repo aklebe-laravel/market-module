@@ -4,8 +4,6 @@ namespace Modules\Market\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modules\Market\Models\IdeHelperRating;
-
 
 /**
  * @mixin IdeHelperRating

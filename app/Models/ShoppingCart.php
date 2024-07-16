@@ -5,9 +5,7 @@ namespace Modules\Market\app\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-use Modules\Market\Models\IdeHelperShoppingCart;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseModel;
-
 
 /**
  * @mixin IdeHelperShoppingCart
