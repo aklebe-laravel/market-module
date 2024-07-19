@@ -114,7 +114,7 @@ class Product extends Model
      * Pivot tables can differ by class objects.
      *
      * @param  string  $contentCode
-     * @param  bool  $forceAny  If true: Also select nullable pivots but order by pivots exists
+     * @param  bool    $forceAny  If true: Also select nullable pivots but order by pivots exists
      *
      * @return BelongsToMany
      * @todo: caching?
@@ -202,7 +202,7 @@ class Product extends Model
     {
         return Attribute::make(get: function ($value, $attributes) {
             return app('system_base')->getPriceFormatted($this->price, $this->getExtraAttribute('currency', ''),
-                $this->paymentMethod->code ?? '');
+                $this->paymentMethod?->code ?? '');
         });
     }
 
@@ -337,20 +337,31 @@ class Product extends Model
     }
 
     /**
-     * @return $this
+     * Adjust existing product if needed.
+     *
+     * @return bool true if save() is needed
      */
-    public function makeWithDefaults(array $attributes): static
+    public function validateAndAdjustProperties(): bool
     {
-        $name = implode(' ', fake()->words(rand(1, 4)));
-        $this->setRawAttributes(array_merge([
-            'name'              => 'Product '.$name,
-            'short_description' => implode(' ', fake()->words(10)),
-            'description'       => implode(' ', fake()->words(20)),
-            'meta_description'  => implode(' ', fake()->words(10)),
-            'web_uri'           => FileService::sanitize($name).'_'.uniqid('product_'),
-        ], $attributes));
+        $changed = false;
 
-        return $this;
+        if (!$this->web_uri) {
+            $this->web_uri = uniqid('product_');
+            $changed = true;
+        }
+
+        // $settings = app('market_settings');
+        // if (!$this->payment_method_id) {
+        //     $this->payment_method_id = $settings->getDefaultPaymentMethod()->getKey();
+        //     $changed = true;
+        // }
+        //
+        // if (!$this->shipping_method_id) {
+        //     $this->shipping_method_id = $settings->getDefaultShippingMethod()->getKey();
+        //     $changed = true;
+        // }
+
+        return $changed;
     }
 
 }

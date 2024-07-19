@@ -44,7 +44,7 @@ class AggregateRatingProcess implements ShouldQueue
      * Create a new job instance.
      *
      * @param  string|null  $ratingClassName  If no class given, rating of all models will be aggregated.
-     * @param  array  $modelIds
+     * @param  array        $modelIds
      */
     public function __construct(?string $ratingClassName = null, array $modelIds = [])
     {
@@ -57,7 +57,7 @@ class AggregateRatingProcess implements ShouldQueue
      * Aggregates a rating (user or product) by model id
      *
      * @param  string  $modelClassName
-     * @param  int  $modelId
+     * @param  int     $modelId
      * @return void
      */
     public function aggregateModelRating(string $modelClassName, int $modelId): void
@@ -109,14 +109,17 @@ class AggregateRatingProcess implements ShouldQueue
         if (!$this->forceAllRatings) {
             $latestAggregatedRating = AggregatedRating::with([])->orderByDesc('updated_at')->first();
         }
+        $latestAggregatedRatingAt = $latestAggregatedRating->updated_at ?? '0000-00-00 00:00:00';
 
         if ((!$this->ratingClassName) || ($this->ratingClassName === Product::class)) {
             $startTime = microtime(true);
 
-            $products = Product::with([])->whereHas('ratings', function (Builder $query) use ($latestAggregatedRating) {
-                return $query->where('updated_at', '>', $latestAggregatedRating->updated_at ?? null)
-                    ->orWhereNull('updated_at');
-            })->pluck('id');
+            $products = Product::with([])
+                ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
+                    return $query->where('updated_at', '>', $latestAggregatedRatingAt)
+                        ->orWhereNull('updated_at');
+                })
+                ->pluck('id');
 
             if ($products->count()) {
                 // Log::debug(sprintf("Rated products found: %d. Aggregating ...", $products->count()));
@@ -132,8 +135,8 @@ class AggregateRatingProcess implements ShouldQueue
 
             $users = app(User::class)
                 ->with([])
-                ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRating) {
-                    return $query->where('updated_at', '>', $latestAggregatedRating->updated_at ?? null)
+                ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
+                    return $query->where('updated_at', '>', $latestAggregatedRatingAt)
                         ->orWhereNull('updated_at');
                 })
                 ->pluck('id');

@@ -2,8 +2,10 @@
 
 namespace Modules\Market\app\Providers;
 
+use Modules\Market\app\Console\MarketProducts;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\User;
+use Modules\Market\app\Services\ProductService;
 use Modules\Market\app\Services\Setting;
 use Modules\SystemBase\app\Providers\Base\ModuleBaseServiceProvider;
 
@@ -29,6 +31,7 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
         parent::register();
 
         $this->app->singleton('market_settings', Setting::class);
+        $this->app->singleton(ProductService::class);
 
         // Important to get Modules\WebsiteBase\Models\User when accessing app(\App\Models\User::class)
         $this->app->bind(\App\Models\User::class, User::class);
@@ -56,5 +59,9 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
     public function boot(): void
     {
         parent::boot();
+
+        $this->commands([
+            MarketProducts::class
+        ]);
     }
 }

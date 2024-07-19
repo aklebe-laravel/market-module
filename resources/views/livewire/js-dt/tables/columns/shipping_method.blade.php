@@ -7,5 +7,7 @@
      **/
 @endphp
 <div class="text-muted">
-    {{ __('shipping_method_' . $item->shippingMethod->code) }}
+    @if ($item->shippingMethod)
+        {{ __('shipping_method_' . $item->shippingMethod->code) }}
+    @endif
 </div>

@@ -69,7 +69,7 @@ class ShoppingCartItem extends Model
     {
         return Attribute::make(get: function ($value, $attributes) {
             return app('system_base')->getPriceFormatted((float) $this->price, $this->currency_code,
-                $this->paymentMethod->code);
+                $this->paymentMethod?->code ?? '');
         });
     }
 }

@@ -40,10 +40,10 @@ class ImportRowMarket extends ImportRowBase
 
     /**
      * @param  Product|Category|MarketUser  $o
-     * @param  array  $source
-     * @param  string  $sourceKey
-     * @param  string|null  $destKey
-     * @param  callable|null  $callback
+     * @param  array                        $source
+     * @param  string                       $sourceKey
+     * @param  string|null                  $destKey
+     * @param  callable|null                $callback
      * @return bool
      */
     protected function addCustomExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source,
@@ -64,10 +64,10 @@ class ImportRowMarket extends ImportRowBase
 
     /**
      * @param  Product|Category|MarketUser  $o
-     * @param  array  $source
-     * @param  string  $sourceKey
-     * @param  string|null  $destKey
-     * @param  mixed|null  $default
+     * @param  array                        $source
+     * @param  string                       $sourceKey
+     * @param  string|null                  $destKey
+     * @param  mixed|null                   $default
      * @return bool
      */
     protected function addBasicExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source,
@@ -82,7 +82,7 @@ class ImportRowMarket extends ImportRowBase
 
     /**
      * @param  Product|Category|MarketUser  $o
-     * @param  array  $row
+     * @param  array                        $row
      * @return void
      */
     protected function setExtraAttributes(Product|Category|MarketUser $o, array $row): void
@@ -92,7 +92,7 @@ class ImportRowMarket extends ImportRowBase
     /**
      * get user_id by id or email
      *
-     * @param  array  $row
+     * @param  array   $row
      * @param  string  $sourceColumn
      * @return string|int|null
      */
@@ -116,7 +116,7 @@ class ImportRowMarket extends ImportRowBase
     /**
      * get store_id by id or store code
      *
-     * @param  array  $row
+     * @param  array   $row
      * @param  string  $sourceColumn
      * @return string|int|null
      */
@@ -141,7 +141,7 @@ class ImportRowMarket extends ImportRowBase
      * Media items not listed will be detached, but not deleted.
      *
      * @param  Product|Category|MarketUser  $o
-     * @param  array  $row
+     * @param  array                        $row
      * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -159,6 +159,13 @@ class ImportRowMarket extends ImportRowBase
         /** @var MediaService $mediaService */
         $mediaService = app(MediaService::class);
 
+        $isUser = $o instanceof MarketUser;
+        $isProduct = $o instanceof Product;
+        $isCategory = $o instanceof Category;
+        $userId = ($isProduct) ? $o->user_id : ($isUser ? $o->getKey() : null);
+        $storeId = ($isProduct || $isCategory) ? $o->store_id : null;
+        $name = ($isProduct || $isUser) ? $o->name : $o->code;
+
         // add images
         $mediaIds = [];
         $position = 100;
@@ -171,8 +178,12 @@ class ImportRowMarket extends ImportRowBase
             $position += 10;
 
             /** @var MediaItem $mediaItemFound */
-            if ($mediaItemFound = $o->images()->where('extern_url', $imageFilename)->first()) {
-                Log::debug("Image already found. Skipped.");
+            if ($mediaItemFound = MediaItem::with([])
+                ->where('media_type', \Modules\WebsiteBase\app\Models\MediaItem::MEDIA_TYPE_IMAGE)
+                ->where('extern_url', $imageFilename)
+                ->where('user_id', $userId)
+                ->first()) {
+                Log::debug("Image already found. Skipped.", [$mediaItemFound->getKey(), $imageFilename]);
                 $mediaIds[] = $mediaItemFound->getKey();
                 if ($mediaItemFound->position > $position) {
                     $position = $mediaItemFound->position + 10;
@@ -185,13 +196,6 @@ class ImportRowMarket extends ImportRowBase
                 // download file
                 $tempImageFilename = tempnam(sys_get_temp_dir(), 'tmp-image');
                 file_put_contents($tempImageFilename, $content);
-
-                $isUser = $o instanceof MarketUser;
-                $isProduct = $o instanceof Product;
-                $isCategory = $o instanceof Category;
-                $userId = ($isProduct) ? $o->user_id : ($isUser ? $o->getKey() : null);
-                $storeId = ($isProduct || $isCategory) ? $o->store_id : null;
-                $name = ($isProduct || $isUser) ? $o->name : $o->code;
 
                 // create mediaItem
                 $createData = [

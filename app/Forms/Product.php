@@ -3,8 +3,6 @@
 namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
-use Modules\Market\app\Models\PaymentMethod;
-use Modules\Market\app\Models\ShippingMethod;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Services\Config;
 
@@ -41,12 +39,14 @@ class Product extends ModelBaseExtraAttributes
 
     /**
      * Singular
+     *
      * @var string
      */
     protected string $objectFrontendLabel = 'Product';
 
     /**
      * Plural
+     *
      * @var string
      */
     protected string $objectsFrontendLabel = 'Products';
@@ -56,20 +56,15 @@ class Product extends ModelBaseExtraAttributes
      */
     public function makeObjectModelInstanceDefaultValues(): array
     {
+        $settings = app('market_settings');
         return array_merge(parent::makeObjectModelInstanceDefaultValues(), [
             'is_enabled'         => true,
             'is_public'          => false,
             'is_individual'      => true, // default true for jumble sales
             'user_id'            => $this->getOwnerUserId(),
             'store_id'           => app('website_base_settings')->getStore()->getKey() ?? null,
-            'payment_method_id'  => PaymentMethod::with([])
-                ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
-                ->first()
-                ->getKey(),
-            'shipping_method_id' => ShippingMethod::with([])
-                ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
-                ->first()
-                ->getKey(),
+            'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
+            'shipping_method_id' => $settings->getDefaultShippingMethod()->getKey(),
             'web_uri'            => uniqid('product_'),
         ]);
     }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Modules\Acl\app\Services\UserService;
 use Modules\Market\app\Models\Category;
+use Modules\Market\app\Models\PaymentMethod;
+use Modules\Market\app\Models\ShippingMethod;
 use Modules\Market\app\Models\ShoppingCart;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -14,6 +16,8 @@ use Spatie\Navigation\Section;
 class Setting
 {
     protected ?\Modules\WebsiteBase\app\Services\Setting $websiteBaseSetting = null;
+    protected ?PaymentMethod $defaultPaymentMethod = null;
+    protected ?ShippingMethod $defaultShippingMethod = null;
 
     /**
      * @var ShoppingCart|null
@@ -181,6 +185,33 @@ class Setting
         }
 
         return false;
+    }
+
+    /**
+     * @return PaymentMethod|null
+     */
+    public function getDefaultPaymentMethod()
+    {
+        if (!$this->defaultPaymentMethod) {
+            $this->defaultPaymentMethod = PaymentMethod::with([])
+                ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
+                ->first();
+        }
+        return $this->defaultPaymentMethod;
+    }
+
+    /**
+     * @return ShippingMethod|null
+     */
+    public function getDefaultShippingMethod()
+    {
+        if (!$this->defaultShippingMethod) {
+            $this->defaultShippingMethod = ShippingMethod::with([])
+                ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
+                ->first();
+        }
+
+        return $this->defaultShippingMethod;
     }
 
 }

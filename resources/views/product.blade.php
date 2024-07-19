@@ -89,12 +89,12 @@
                         </div>
                         <div class="col-sm text-sm-end">
                             @if ($product->paymentMethod)
-                                {{ __('payment_method_' . $product->paymentMethod->code) }}
+                                {{ __('payment_method_' . $product->paymentMethod->code ?? '') }}
                                 <span class="btn px-0"
                                       data-bs-toggle="popover"
                                       data-bs-trigger="hover focus"
-                                      title="{{ __('Payment Method') }}: {{ __('payment_method_' . $product->paymentMethod->code) }}"
-                                      data-bs-content="{{ __('payment_method_description_' . $product->paymentMethod->code) }}">
+                                      title="{{ __('Payment Method') }}: {{ __('payment_method_' . $product->paymentMethod->code ?? '') }}"
+                                      data-bs-content="{{ __('payment_method_description_' . $product->paymentMethod->code ?? '') }}">
                                                     <span class="bi bi-info-circle"></span>
                                                 </span>
                             @else
@@ -108,12 +108,12 @@
                         </div>
                         <div class="col-sm text-sm-end">
                             @if ($product->shippingMethod)
-                                {{ __('shipping_method_' . $product->shippingMethod->code) }}
+                                {{ __('shipping_method_' . $product->shippingMethod->code ?? '') }}
                                 <span class="btn px-0"
                                       data-bs-toggle="popover"
                                       data-bs-trigger="hover focus"
-                                      title="{{ __('Shipping Method') }}: {{ __('shipping_method_' . $product->shippingMethod->code) }}"
-                                      data-bs-content="{{ __('shipping_method_description_' . $product->shippingMethod->code) }}">
+                                      title="{{ __('Shipping Method') }}: {{ __('shipping_method_' . $product->shippingMethod->code ?? '') }}"
+                                      data-bs-content="{{ __('shipping_method_description_' . $product->shippingMethod->code ?? '') }}">
                                                     <span class="bi bi-info-circle"></span>
                                                 </span>
                             @else

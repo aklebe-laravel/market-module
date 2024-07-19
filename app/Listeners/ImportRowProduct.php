@@ -41,20 +41,20 @@ class ImportRowProduct extends ImportRowMarket
             return true;
         }
 
-        // get product by id or sku
-        $product = Product::with([]);
-        if ($id) {
-            $product->where('id', $id);
-        } elseif ($sku) {
-            $product->where('sku', $sku);
-        }
-
         // validate data
         $validated = $this->validateRow($event->row);
 
         // user is required
         if ($validated['user_id'] === null) {
             return true;
+        }
+
+        // get product by id or sku
+        $product = Product::with([]);
+        if ($id) {
+            $product->where('id', $id);
+        } elseif ($sku) {
+            $product->where('sku', $sku)->where('user_id', $validated['user_id']);
         }
 
         // save the base product
@@ -73,6 +73,10 @@ class ImportRowProduct extends ImportRowMarket
 
         if (!$product || !$product->getKey()) {
             return true;
+        }
+
+        if ($product->validateAndAdjustProperties()) {
+            $product->save();
         }
 
         // save the product relations
@@ -105,13 +109,14 @@ class ImportRowProduct extends ImportRowMarket
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_individual', default: true);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'sku');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'name');
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'web_uri');
 
         return $validatedRow;
     }
 
     /**
      * @param  Product  $product
-     * @param  array  $row
+     * @param  array    $row
      * @return void
      */
     private function doCategoryRelations(Product $product, array &$row): void
@@ -143,7 +148,7 @@ class ImportRowProduct extends ImportRowMarket
 
     /**
      * @param  Product|Category|MarketUser  $o
-     * @param  array  $row
+     * @param  array                        $row
      * @return void
      */
     protected function setExtraAttributes(Product|Category|MarketUser $o, array $row): void

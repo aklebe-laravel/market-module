@@ -17,6 +17,28 @@ Including the following features:
 7) Multi Mandant, (every customer can be a trader)
 8) Product-Ratings
 
+## Console Commands
+
+```php artisan market:products {product_command} {ids}```
+
+**product_command**: Delete product. All media items will also be removed if there is no other relation left.
+
+**ids**: Comma separated ids. Also, a range (x-y) is accepted. Every id will be checked before deleting. 
+
+### Examples
+
+Delete all products from id 200 to 999999
+
+```
+php artisan market:products delete 200-999999
+```
+
+Delete products 1,2,4,9 and ids 10-20
+
+```
+php artisan market:products delete 1,2,9,10-20,4
+```
+
 ## Extended Auto Import
 
 ```php artisan deploy-env:auto-import``` is extended to import products, categories and users
@@ -24,6 +46,14 @@ Including the following features:
 All (optional) columns not explicit exists will not be touched on update and set to default on create.
 
 Every column not listed will not be ignored.
+
+### Examples
+
+Import all files containing "test", but processing products only.
+
+```
+php artisan deploy-env:auto-import "test" --type=product
+```
 
 ### Product Import format
 
@@ -44,6 +74,8 @@ A product will find in the following order: ```id``` or ```sku```
 | name          | Product name.                                                                                                                                      |
 | images        | Comma separated image urls. Import will remember the import url and will avoid download/upload it again. Detached media items will not be deleted. |
 | categories    | Comma separated categories (ids, or codes). Previous categories not listed here will be detached.                                                  |
+
+Media items: If a media item with the same url in 'images' was found by this user, the existing media item will be used instead of create a new one.   
 
 ### Category Import format
 

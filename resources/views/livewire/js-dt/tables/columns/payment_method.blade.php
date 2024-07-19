@@ -7,5 +7,7 @@
      **/
 @endphp
 <div class="text-muted">
-    {{ __('payment_method_' . $item->paymentMethod->code) }}
+    @if ($item->paymentMethod)
+        {{ __('payment_method_' . $item->paymentMethod->code ?? '') }}
+    @endif
 </div>
