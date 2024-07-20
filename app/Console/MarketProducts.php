@@ -13,7 +13,7 @@ class MarketProducts extends Command
      *
      * @var string
      */
-    protected $signature = 'market:products {product_command} {ids}';
+    protected $signature = 'market:products {product_command?} {--ids=}';
 
     /**
      * The console command description.
@@ -32,7 +32,7 @@ class MarketProducts extends Command
         /** @var ProductService $productService */
         $productService = app(ProductService::class);
         $command = $this->argument('product_command');
-        $productIdArg = $this->argument('ids');
+        $productIdArg = $this->option('ids');
 
         // can still contains x-y
         $productIds = explode(',', $productIdArg);
@@ -40,10 +40,19 @@ class MarketProducts extends Command
         $total = 0;
         $success = 0;
         foreach ($productIds as $productId) {
+            if (!($productId = trim($productId))) {
+                continue;
+            }
             $products = Product::with([]);
             $between = explode('-', $productId);
             if (count($between) === 2) {
-                $products->whereBetween('id', $between);
+                if (!$between[0]) { // "-y"
+                    $products->where('id', '<=', $between[1]);
+                } elseif (!$between[1]) { // "x-"
+                    $products->where('id', '>=', $between[0]);
+                } else { // "x-y"
+                    $products->whereBetween('id', $between);
+                }
             } else {
                 $products->where('id', $productId);
             }

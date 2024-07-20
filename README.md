@@ -19,7 +19,7 @@ Including the following features:
 
 ## Console Commands
 
-```php artisan market:products {product_command} {ids}```
+```php artisan market:products {product_command?} {--ids=}```
 
 **product_command**: Delete product. All media items will also be removed if there is no other relation left.
 
@@ -30,13 +30,25 @@ Including the following features:
 Delete all products from id 200 to 999999
 
 ```
-php artisan market:products delete 200-999999
+php artisan market:products delete --ids="200-999999"
 ```
 
 Delete products 1,2,4,9 and ids 10-20
 
 ```
-php artisan market:products delete 1,2,9,10-20,4
+php artisan market:products delete --ids="1,2,9,10-20,4"
+```
+
+Delete products below 100
+
+```
+php artisan market:products delete --ids="-99"
+```
+
+Delete products above 100
+
+```
+php artisan market:products delete --ids="101-"
 ```
 
 ## Extended Auto Import
