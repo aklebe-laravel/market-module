@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Listeners;
 
 use Illuminate\Support\Facades\Log;
+use Modules\DeployEnv\app\Events\ImportRow;
 use Modules\WebsiteBase\app\Models\Store;
 
 class ImportRowStore extends ImportRowMarket
@@ -20,10 +21,10 @@ class ImportRowStore extends ImportRowMarket
     /**
      * Handle the event.
      *
-     * @param  \Modules\DeployEnv\app\Events\ImportRow  $event
+     * @param  ImportRow  $event
      * @return bool  false to stop all following listeners
      */
-    public function handle(\Modules\DeployEnv\app\Events\ImportRow $event): bool
+    public function handle(ImportRow $event): bool
     {
         if (!$this->isRequiredType($event->type)) {
             return true;
@@ -76,11 +77,11 @@ class ImportRowStore extends ImportRowMarket
             /**
              * get user_id by id or email
              */
-            'user_id'  => $this->getCalculatedUserColumnAsId($row),
+            'user_id'   => $this->getCalculatedUserColumnAsId($row),
             /**
              * get user_id by id or email
              */
-            'parent_id'  => $this->getCalculatedStoreColumnAsId($row, 'parent'),
+            'parent_id' => $this->getCalculatedStoreColumnAsId($row, 'parent'),
         ]);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_enabled', default: true);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_public', default: false);

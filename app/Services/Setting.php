@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Modules\Acl\app\Services\UserService;
 use Modules\Market\app\Models\Category;
@@ -18,6 +19,8 @@ class Setting
     protected ?\Modules\WebsiteBase\app\Services\Setting $websiteBaseSetting = null;
     protected ?PaymentMethod $defaultPaymentMethod = null;
     protected ?ShippingMethod $defaultShippingMethod = null;
+    protected ?Collection $validPaymentMethods = null;
+    protected ?Collection $validShippingMethods = null;
 
     /**
      * @var ShoppingCart|null
@@ -212,6 +215,28 @@ class Setting
         }
 
         return $this->defaultShippingMethod;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getValidPaymentMethods(): Collection
+    {
+        if (!$this->validPaymentMethods) {
+            $this->validPaymentMethods = PaymentMethod::with([])->get();
+        }
+        return $this->validPaymentMethods;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getValidShippingMethods(): Collection
+    {
+        if (!$this->validShippingMethods) {
+            $this->validShippingMethods = ShippingMethod::with([])->get();
+        }
+        return $this->validShippingMethods;
     }
 
 }

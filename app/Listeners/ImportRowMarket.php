@@ -183,7 +183,7 @@ class ImportRowMarket extends ImportRowBase
                 ->where('extern_url', $imageFilename)
                 ->where('user_id', $userId)
                 ->first()) {
-                Log::debug("Image already found. Skipped.", [$mediaItemFound->getKey(), $imageFilename]);
+                // Image already found. Skipping download and media item creation
                 $mediaIds[] = $mediaItemFound->getKey();
                 if ($mediaItemFound->position > $position) {
                     $position = $mediaItemFound->position + 10;

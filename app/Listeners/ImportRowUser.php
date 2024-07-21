@@ -3,7 +3,10 @@
 namespace Modules\Market\app\Listeners;
 
 use Modules\Acl\app\Models\AclGroup;
+use Modules\DeployEnv\app\Events\ImportRow;
 use Modules\Market\app\Models\User as MarketUser;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ImportRowUser extends ImportRowMarket
 {
@@ -20,10 +23,12 @@ class ImportRowUser extends ImportRowMarket
     /**
      * Handle the event.
      *
-     * @param  \Modules\DeployEnv\app\Events\ImportRow  $event
+     * @param  ImportRow  $event
      * @return bool  false to stop all following listeners
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function handle(\Modules\DeployEnv\app\Events\ImportRow $event): bool
+    public function handle(ImportRow $event): bool
     {
         if (!$this->isRequiredType($event->type)) {
             return true;

@@ -103,13 +103,39 @@ class ImportRowProduct extends ImportRowMarket
             'store_id' => $this->getCalculatedStoreColumnAsId($row),
         ]);
 
+        // Set current user if not explicit specified
+        if ($validatedRow['user_id'] === null) {
+            $validatedRow['user_id'] = app('website_base_settings')->currentUser()?->getKey() ?? null;
+        }
+
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_enabled', default: true);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_public', default: false);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_test', default: false);
         $this->addBasicColumnIfPresent($row, $validatedRow, 'is_individual', default: true);
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'product_type');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'sku');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'name');
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'system_status');
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'short_description');
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'description');
+        $this->addBasicColumnIfPresent($row, $validatedRow, 'meta_description');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'web_uri');
+
+        $settings = app('market_settings');
+        $this->addCustomColumnIfPresent($row, $validatedRow, 'payment_method', 'payment_method_id',
+            function () use ($row, $settings) {
+                return $settings->getValidPaymentMethods()
+                    ->where('code', $row['payment_method'])
+                    ->first()
+                    ?->getKey() ?? null;
+            });
+        $this->addCustomColumnIfPresent($row, $validatedRow, 'shipping_method', 'shipping_method_id',
+            function () use ($row, $settings) {
+                return $settings->getValidShippingMethods()
+                    ->where('code', $row['shipping_method'])
+                    ->first()
+                    ?->getKey() ?? null;
+            });
 
         return $validatedRow;
     }
