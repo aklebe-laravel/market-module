@@ -143,6 +143,7 @@ class Product extends ModelBaseExtraAttributes
                                             'Max:255'
                                         ],
                                         'css_group'    => 'col-12',
+                                        'dusk'         => 'product-name',
                                     ],
                                     'is_enabled'             => [
                                         'html_element' => 'switch',
