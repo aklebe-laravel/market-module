@@ -70,7 +70,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'css_group'    => 'col-12 col-md-6 col-lg-3',
                                     ],
                                     'order_to_delete_at'    => [
-                                        'html_element' => 'date',
+                                        'html_element' => 'datetime-local',
                                         'label'        => __('Prepare Deletion'),
                                         'description'  => __('Deletion step 1/3: Enter a date to mark user wanted to delete. User becomes invalid and is unable to login.'),
                                         'validator'    => ['nullable', 'date'],

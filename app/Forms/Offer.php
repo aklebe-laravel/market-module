@@ -157,7 +157,7 @@ class Offer extends ModelBase
                                         'css_group'    => 'col-12',
                                     ],
                                     'expired_at'      => [
-                                        'html_element' => 'date',
+                                        'html_element' => 'datetime-local',
                                         'label'        => __('Expired At'),
                                         'description'  => __('Offer Expired At Description'),
                                         'validator'    => ['nullable', 'date'],

@@ -232,14 +232,14 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'started_at'             => [
-                                        'html_element' => 'date',
+                                        'html_element' => 'datetime-local',
                                         'label'        => __('Started At'),
                                         'description'  => __('Product Started At Description'),
                                         'validator'    => ['nullable', 'date'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'expired_at'             => [
-                                        'html_element' => 'date',
+                                        'html_element' => 'datetime-local',
                                         'label'        => __('Expired At'),
                                         'description'  => __('Product Expired At Description'),
                                         'validator'    => ['nullable', 'date'],
