@@ -27,7 +27,7 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         // add aliases before parent::register() ...
         $modelList = ModuleService::getAllClassesInPath($this->moduleName, 'model');
