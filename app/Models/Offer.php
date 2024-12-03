@@ -43,6 +43,12 @@ class Offer extends Model implements Attachable
      */
     protected $table = 'offers';
 
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = OfferFactory::class;
+
     /**
      * @return BelongsTo
      */

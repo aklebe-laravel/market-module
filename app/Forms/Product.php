@@ -54,10 +54,10 @@ class Product extends ModelBaseExtraAttributes
     /**
      * @return array
      */
-    public function makeObjectModelInstanceDefaultValues(): array
+    public function makeObjectInstanceDefaultValues(): array
     {
         $settings = app('market_settings');
-        return array_merge(parent::makeObjectModelInstanceDefaultValues(), [
+        return array_merge(parent::makeObjectInstanceDefaultValues(), [
             'is_enabled'         => true,
             'is_public'          => false,
             'is_individual'      => true, // default true for jumble sales

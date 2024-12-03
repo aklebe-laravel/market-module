@@ -6,6 +6,35 @@ use Modules\WebsiteBase\app\Http\Livewire\DataTable\User as WebsiteBaseDataTable
 
 class User extends WebsiteBaseDataTableUser
 {
+    use BaseMarketDataTable;
+
+    /**
+     * @return void
+     */
+    protected function initFilters(): void
+    {
+        parent::initFilters();
+
+        $this->addFilterElement('user_filter1', [
+            'label'      => 'Filter',
+            'default'    => 10,
+            'position'   => 1700, // between elements rows and search
+            'soft_reset' => true,
+            'css_group'  => 'col-12 col-md-3 text-start',
+            'css_item'   => '',
+            'options'    => [
+                ''          => '[No Filter]',
+                ... $this->getFilterOptionsForImages()
+            ],
+            'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
+        ]);
+    }
+
+
+
+    /**
+     * @return array|array[]
+     */
     public function getColumns(): array
     {
         $parentResult = parent::getColumns();

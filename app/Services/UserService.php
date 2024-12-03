@@ -11,9 +11,17 @@ use Modules\Market\app\Models\User as MarketUserModel;
 use Modules\SystemBase\app\Services\Base\BaseService;
 use Modules\WebsiteBase\app\Models\NotificationConcern;
 use Modules\WebsiteBase\app\Services\SendNotificationService;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class UserService extends BaseService
 {
+    /**
+     * @param  bool  $useQueue
+     *
+     * @return void
+     */
     public function aggregateRatings(bool $useQueue = true): void
     {
         if ($useQueue) {
@@ -31,6 +39,9 @@ class UserService extends BaseService
      * 3)
      *
      * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws TelegramSDKException
      */
     public function calculateTraders(): void
     {
@@ -95,6 +106,5 @@ class UserService extends BaseService
             }
         });
     }
-
 
 }

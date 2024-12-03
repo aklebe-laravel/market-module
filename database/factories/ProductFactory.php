@@ -3,8 +3,8 @@
 namespace Modules\Market\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Modules\Market\app\Models\Product;
-use Modules\SystemBase\app\Services\FileService;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Market\app\Models\Product>
@@ -24,10 +24,11 @@ class ProductFactory extends Factory
 
         return [
             'name'              => 'Product '.$name,
+            'sku'               => config('seeders.users.products.sku_prefix', '').Str::uuid(),
             'short_description' => implode(' ', fake()->words(10)),
             'description'       => implode(' ', fake()->words(20)),
             'meta_description'  => implode(' ', fake()->words(10)),
-            'web_uri'           => FileService::sanitize($name).'_'.uniqid('product_'),
+            'web_uri'           => app('system_base_file')->sanitize($name).'_'.uniqid('product_'),
         ];
     }
 

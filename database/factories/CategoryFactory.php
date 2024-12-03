@@ -4,7 +4,6 @@ namespace Modules\Market\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Market\app\Models\Category;
-use Modules\SystemBase\app\Services\FileService;
 use Modules\WebsiteBase\app\Models\Store;
 
 /**
@@ -28,7 +27,7 @@ class CategoryFactory extends Factory
             'name'             => 'Category '.$name,
             'description'      => implode(' ', fake()->words(20)),
             'meta_description' => implode(' ', fake()->words(10)),
-            'web_uri'          => FileService::sanitize($name).'_'.uniqid('category_'),
+            'web_uri'          => app('system_base_file')->sanitize($name).'_'.uniqid('category_'),
             //            'rating'           => fake()->randomFloat(4, 0, 100),
         ];
     }

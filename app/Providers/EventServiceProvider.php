@@ -16,6 +16,7 @@ use Modules\Market\app\Listeners\ImportRowProduct;
 use Modules\Market\app\Listeners\ImportRowStore;
 use Modules\Market\app\Listeners\ImportRowUser;
 use Modules\WebsiteBase\app\Events\InitNavigation;
+use Modules\WebsiteBase\app\Events\ModelWithAttributesDeleting;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         InitNavigation::class => [
             \Modules\Market\app\Listeners\InitNavigation::class,
+        ],
+        ModelWithAttributesDeleting::class => [
+            \Modules\Market\app\Listeners\ModelWithAttributesDeleting::class,
         ],
         ImportRow::class      => [
             ImportRowProduct::class,

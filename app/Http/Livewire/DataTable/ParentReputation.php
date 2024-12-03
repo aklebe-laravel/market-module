@@ -93,7 +93,7 @@ class ParentReputation extends User
             $user = app(\App\Models\User::class)->with([])->find($this->parentData['id']);
             $c = $user->parentReputations;
             $this->addSortToCollectionOrBuilder($collectionName, $c);
-            $this->addSearchToCollectionOrBuilder($collectionName, $c);
+            //$this->addSearchToCollectionOrBuilder($collectionName, $c);
             return $c;
         }
 

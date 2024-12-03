@@ -23,4 +23,12 @@ class PaymentMethod extends Model
     const PAYMENT_METHOD_OFFER = 'offer';
 
     protected $table = 'payment_methods';
+
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = PaymentMethodFactory::class;
+
+
 }

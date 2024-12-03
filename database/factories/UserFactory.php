@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use Modules\Market\app\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ *
  */
-class UserFactory extends Factory // \database\factories\UserFactory
+class UserFactory extends Factory
 {
     protected $model = User::class;
 
@@ -18,7 +18,7 @@ class UserFactory extends Factory // \database\factories\UserFactory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name'              => fake()->unique()->name(),
@@ -36,7 +36,7 @@ class UserFactory extends Factory // \database\factories\UserFactory
      *
      * @return static
      */
-    public function unverified()
+    public function unverified(): static
     {
         return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,

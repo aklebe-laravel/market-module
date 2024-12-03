@@ -19,41 +19,65 @@ Including the following features:
 
 ## Console Commands
 
-```php artisan market:products {product_command?} {--ids=}```
+```php artisan market:manage {subject} {sub_command?} {--ids=} {--since-created=} {--last-seed}```
 
-**product_command**: Delete product. All media items will also be removed if there is no other relation left.
+**subject**: Can be a model like ```model-product``` or ```model-user```. 
 
-**ids**: Comma separated ids. Also, a range (x-y) is accepted. Every id will be checked before deleting. 
+**sub_command**: one of these: ```info,status,repair,delete```. In case of delete all media items will also be removed if there are no linked objects left (happens in event/listener). Use status to check what's going on.
+
+**ids** (optional): Comma separated ids to filter results. Also, a range (x-y) is accepted. Every id will be checked before deleting.
+
+**since_created** (optional): Timestamp like "1973-03-27 17:00" to filter results.
 
 ### Examples
 
 Delete all products from id 200 to 999999
 
 ```
-php artisan market:products delete --ids="200-999999"
+php artisan market:manage model-product delete --ids="200-999999"
 ```
 
 Delete products 1,2,4,9 and ids 10-20
 
 ```
-php artisan market:products delete --ids="1,2,9,10-20,4"
+php artisan market:manage model-product delete --ids="1,2,9,10-20,4"
 ```
 
 Delete products below 100
 
 ```
-php artisan market:products delete --ids="-99"
+php artisan market:manage model-product delete --ids="-99"
 ```
 
 Delete products above 100
 
 ```
-php artisan market:products delete --ids="101-"
+php artisan market:manage model-product delete --ids="101-"
 ```
+
+Show info for all Users created since 2073-03-27 17:00
+```
+php artisan market:manage model-user info --since-created="2073-03-27 17:00"
+```
+
+Show info for all Models created since 2073-03-27 17:00
+```
+php artisan market:manage model-* info --since-created="2073-03-27 17:00"
+```
+
+Delete all Models created since 2073-03-27 17:00
+```
+php artisan market:manage model-* delete --since-created="2073-03-27 17:00"
+```
+
 
 ## Extended Auto Import
 
-```php artisan deploy-env:auto-import``` is extended to import products, categories and users
+```php artisan deploy-env:auto-import``` is extended to import products, categories and users.
+The default location of import files (if not explicit given in ```--root```) is ```storage/app/import```.
+Specify ```--dir``` if you want select a specific sub path in root.
+
+Use ```market:products delete``` to delete your last imports.
 
 All (optional) columns not explicit exists will not be touched on update and set to default on create.
 
@@ -87,7 +111,7 @@ A product will find in the following order: ```id``` or ```sku```
 | images        | Comma separated image urls. Import will remember the import url and will avoid download/upload it again. Detached media items will not be deleted. |
 | categories    | Comma separated categories (ids, or codes). Previous categories not listed here will be detached.                                                  |
 
-Media items: If a media item with the same url in 'images' was found by this user, the existing media item will be used instead of create a new one.   
+Media items: If a media item with the same url in 'images' was found by this user, the existing media item will be used instead of create a new one.
 
 ### Category Import format
 

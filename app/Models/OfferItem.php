@@ -25,6 +25,12 @@ class OfferItem extends Model
      */
     protected $table = 'offer_items';
 
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = OfferItemFactory::class;
+
     /**
      * @return BelongsTo
      */

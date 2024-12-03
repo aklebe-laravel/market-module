@@ -99,8 +99,10 @@ class Category extends BaseDataTable
      *
      * @return void
      */
-    protected function addCustomFilters(Builder $builder, string $collectionName)
+    protected function extendBuilderByFilters(Builder $builder, string $collectionName): void
     {
+        parent::extendBuilderByFilters($builder, $collectionName);
+
         // filter current store
         $builder->where('store_id', '=', app('website_base_settings')->getStore()->getKey());
     }
