@@ -4,6 +4,7 @@ namespace Modules\Market\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseModel;
 
@@ -25,10 +26,16 @@ class ShoppingCart extends Model
      */
     protected $table = 'shopping_carts';
 
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = ShoppingCartFactory::class;
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function shoppingCartItems()
+    public function shoppingCartItems(): HasMany
     {
         return $this->hasMany(ShoppingCartItem::class);
     }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
+use Modules\Market\database\factories\CategoryFactory;
 use Modules\WebsiteBase\app\Models\Base\TraitAttributeAssignment;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseMedia;
 use Modules\WebsiteBase\app\Models\MediaItem;
@@ -46,6 +47,12 @@ class Category extends Model
     protected $table = 'categories';
 
     /**
+     * You can use this instead of newFactory()
+     * @var string
+     */
+    public static string $factory = CategoryFactory::class;
+
+    /**
      * Multiple bootable model traits is not working
      * https://github.com/laravel/framework/issues/40645
      *
@@ -54,9 +61,9 @@ class Category extends Model
      *
      * Important for \Modules\Acl\Models\Base\TraitBaseModel::bootTraitBaseModel
      */
-    public function __construct()
+    public function __construct(array $attributes = array())
     {
-        parent::__construct();
+        parent::__construct($attributes);
     }
 
     /**

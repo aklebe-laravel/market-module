@@ -6,13 +6,17 @@ use Chelout\RelationshipEvents\Concerns\HasBelongsToManyEvents;
 use Chelout\RelationshipEvents\Concerns\HasOneEvents;
 use Chelout\RelationshipEvents\Traits\HasDispatchableEvents;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
+use Modules\Market\database\factories\UserFactory;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
 use Modules\WebsiteBase\app\Models\Base\TraitAttributeAssignment;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseMedia;
 use Modules\WebsiteBase\app\Models\Base\UserTrait;
+use Modules\WebsiteBase\app\Models\Store;
 
 /**
  * @mixin IdeHelperUser
@@ -20,7 +24,7 @@ use Modules\WebsiteBase\app\Models\Base\UserTrait;
 class User extends \Modules\WebsiteBase\app\Models\User
 {
     // Traits Have to use redundant here, using in WebsiteUser is not enough!
-    use TraitAttributeAssignment, TraitBaseMedia, UserTrait, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta;
+    use HasFactory, Notifiable, TraitAttributeAssignment, TraitBaseMedia, UserTrait, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta;
 
     const RATING_SUB_CODE_WELL_KNOWN = 'well_known';
     const RATING_SUB_CODE_TRUST = 'trust';
@@ -36,6 +40,12 @@ class User extends \Modules\WebsiteBase\app\Models\User
     ];
 
     /**
+     * You can use this instead of newFactory()
+     * @var string
+     */
+    public static string $factory = UserFactory::class;
+
+    /**
      * Multiple bootable model traits is not working
      * https://github.com/laravel/framework/issues/40645
      *
@@ -44,9 +54,9 @@ class User extends \Modules\WebsiteBase\app\Models\User
      *
      * Important for \Modules\Acl\Models\Base\TraitBaseModel::bootTraitBaseModel
      */
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
     }
 
     /**
@@ -68,6 +78,38 @@ class User extends \Modules\WebsiteBase\app\Models\User
     /**
      * @return HasMany
      */
+    public function offersAddressedMe(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'addressed_to_user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function offersAddressedOthers(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'created_by_user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function stores(): HasMany
+    {
+        return $this->hasMany(Store::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function shoppingCarts(): HasMany
+    {
+        return $this->hasMany(ShoppingCart::class);
+    }
+
+    /**
+     * @return HasMany
+     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
@@ -78,9 +120,7 @@ class User extends \Modules\WebsiteBase\app\Models\User
      */
     public function parentReputations(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'user_parent_reputations', 'user_id', 'parent_id')
-            ->withTimestamps()
-            ->withPivot('created_at');
+        return $this->belongsToMany(self::class, 'user_parent_reputations', 'user_id', 'parent_id')->withTimestamps()->withPivot('created_at');
     }
 
     /**
@@ -98,9 +138,7 @@ class User extends \Modules\WebsiteBase\app\Models\User
      */
     public function crossSellingProducts(): mixed
     {
-        return $this->frontendProducts()
-            ->take(app('website_base_config')->get('product.cross_selling.max_items', 12))
-            ->inRandomOrder();
+        return $this->frontendProducts()->take(app('website_base_config')->get('product.cross_selling.max_items', 12))->inRandomOrder();
     }
 
     /**

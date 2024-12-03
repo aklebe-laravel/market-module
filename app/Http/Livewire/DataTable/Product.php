@@ -9,6 +9,8 @@ use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
 
 class Product extends BaseDataTable
 {
+    use BaseMarketDataTable;
+
     /**
      * Minimum restrictions to allow this component.
      */
@@ -18,6 +20,28 @@ class Product extends BaseDataTable
      * Minimum restrictions to allow this component.
      */
     public string $description = 'dt_own_product_description';
+
+    /**
+     * @return void
+     */
+    protected function initFilters(): void
+    {
+        parent::initFilters();
+
+        $this->addFilterElement('product_filter1', [
+            'label'      => 'Filter',
+            'default'    => 10,
+            'position'   => 1700, // between elements rows and search
+            'soft_reset' => true,
+            'css_group'  => 'col-12 col-md-3 text-start',
+            'css_item'   => '',
+            'options'    => [
+                ''          => '[All]',
+                ... $this->getFilterOptionsForImages()
+            ],
+            'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
+        ]);
+    }
 
     /**
      * Overwrite to init your sort orders before session exists
@@ -142,14 +166,19 @@ class Product extends BaseDataTable
      *
      * @return void
      */
-    protected function addCustomFilters(Builder $builder, string $collectionName)
+    protected function extendBuilderByFilters(Builder $builder, string $collectionName): void
     {
+        parent::extendBuilderByFilters($builder, $collectionName);
+
         // filter current store
-        $builder->where('store_id', '=', app('website_base_settings')->getStore()->getKey());
+        $builder->where('store_id', '=', app('website_base_settings')
+            ->getStore()
+            ->getKey());
     }
 
     /**
      * @param $item
+     *
      * @return bool
      */
     protected function isItemValid($item): bool
@@ -160,6 +189,7 @@ class Product extends BaseDataTable
 
     /**
      * @param $item
+     *
      * @return bool
      */
     protected function isItemWarn($item): bool
@@ -183,6 +213,7 @@ class Product extends BaseDataTable
         if ($this->useCollectionUserFilter) {
             $builder = $builder->whereUserId($this->getUserId());
         }
+
         return $builder;
     }
 

@@ -2,18 +2,20 @@
 
 namespace Modules\Market\database\seeders;
 
-use Illuminate\Database\Seeder;
 use Modules\Market\app\Models\Category;
+use Modules\SystemBase\database\seeders\BaseModelSeeder;
 
-class CategorySeeder extends Seeder
+class CategorySeeder extends BaseModelSeeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Category::factory()->count(10)->create();
+        parent::run();
+
+        $this->TryCreateFactories(Category::class, config('seeders.categories.count', 10));
     }
 }

@@ -15,6 +15,12 @@ class Rating extends Model
      */
     protected $guarded = [];
 
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = RatingFactory::class;
+
     /**
      * @return BelongsTo
      */

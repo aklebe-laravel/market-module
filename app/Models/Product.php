@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
+use Modules\Market\database\factories\ProductFactory;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
 use Modules\SystemBase\app\Services\FileService;
 use Modules\SystemBase\app\Services\SystemService;
@@ -60,7 +61,7 @@ class Product extends Model
      * @var array
      */
     protected $appends = [
-        'extra_attributes'
+        'extra_attributes',
     ];
 
     /**
@@ -77,6 +78,12 @@ class Product extends Model
     protected $table = 'products';
 
     /**
+     * You can use this instead of newFactory()
+     * @var string
+     */
+    public static string $factory = ProductFactory::class;
+
+    /**
      * Multiple bootable model traits is not working
      * https://github.com/laravel/framework/issues/40645
      *
@@ -85,9 +92,9 @@ class Product extends Model
      *
      * Important for \Modules\Acl\Models\Base\TraitBaseModel::bootTraitBaseModel
      */
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
     }
 
     /**
@@ -114,7 +121,7 @@ class Product extends Model
      * Pivot tables can differ by class objects.
      *
      * @param  string  $contentCode
-     * @param  bool    $forceAny  If true: Also select nullable pivots but order by pivots exists
+     * @param  bool  $forceAny  If true: Also select nullable pivots but order by pivots exists
      *
      * @return BelongsToMany
      * @todo: caching?
@@ -201,8 +208,7 @@ class Product extends Model
     protected function priceFormatted(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
-            return app('system_base')->getPriceFormatted($this->price, $this->getExtraAttribute('currency', ''),
-                $this->paymentMethod?->code ?? '');
+            return app('system_base')->getPriceFormatted($this->price, $this->getExtraAttribute('currency', ''), $this->paymentMethod?->code ?? '');
         });
     }
 
@@ -280,9 +286,7 @@ class Product extends Model
             // @todo: filter products in closed offers (flat table?)
 
             return $isSalable;
-        }
-
-        );
+        });
     }
 
     public static function getBuilderFrontendItems(): Builder
@@ -294,6 +298,7 @@ class Product extends Model
      * scope frontendItems()
      *
      * @param  Builder  $query
+     *
      * @return Builder
      */
     public function scopeFrontendItems(Builder $query)

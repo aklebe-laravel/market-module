@@ -157,7 +157,7 @@ class ImportRowMarket extends ImportRowBase
         }
 
         /** @var MediaService $mediaService */
-        $mediaService = app(MediaService::class);
+        $mediaService = app('website_base_media');
 
         $isUser = $o instanceof MarketUser;
         $isProduct = $o instanceof Product;

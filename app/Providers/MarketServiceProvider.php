@@ -2,12 +2,13 @@
 
 namespace Modules\Market\app\Providers;
 
-use Modules\Market\app\Console\MarketProducts;
+use Modules\Market\app\Console\MarketManager;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\User;
 use Modules\Market\app\Services\ProductService;
 use Modules\Market\app\Services\Setting;
 use Modules\SystemBase\app\Providers\Base\ModuleBaseServiceProvider;
+use Modules\SystemBase\app\Services\ModuleService;
 
 class MarketServiceProvider extends ModuleBaseServiceProvider
 {
@@ -28,6 +29,25 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
      */
     public function register()
     {
+        // add aliases before parent::register() ...
+        $modelList = ModuleService::getAllClassesInPath($this->moduleName, 'model');
+        $this->modelAliases = array_merge($this->modelAliases, $modelList);
+
+        //// or manually like this ...
+        //$this->modelAliases = array_merge($this->modelAliases, [
+        //    'aggregated_rating' => AggregatedRating::class,
+        //    'category'          => Category::class,
+        //    'media_item'        => MediaItem::class,
+        //    'offer'             => Offer::class,
+        //    'offer_item'        => OfferItem::class,
+        //    'payment_method'    => PaymentMethod::class,
+        //    'product'           => Product::class,
+        //    'rating'            => Rating::class,
+        //    'shipping_method'   => ShippingMethod::class,
+        //    'store'             => Store::class,
+        //    'user'              => User::class,
+        //]);
+
         parent::register();
 
         $this->app->singleton('market_settings', Setting::class);
@@ -61,7 +81,7 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
         parent::boot();
 
         $this->commands([
-            MarketProducts::class
+            MarketManager::class,
         ]);
     }
 }

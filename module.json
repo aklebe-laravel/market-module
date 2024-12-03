@@ -7,5 +7,10 @@
     "providers": [
         "Modules\\Market\\app\\Providers\\MarketServiceProvider"
     ],
+    "migration": {
+        "seeds": [
+            "Modules\\Market\\database\\seeders\\DatabaseSeeder"
+        ]
+    },
     "files": []
 }

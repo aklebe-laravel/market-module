@@ -21,5 +21,15 @@ class ShippingMethod extends Model
     const SHIPPING_METHOD_SELF_COLLECT = 'self_collect';
     const SHIPPING_METHOD_SELF_PRIVATE = 'private';
 
+    /**
+     * @var string
+     */
     protected $table = 'shipping_methods';
+
+//    /**
+//     * You can use this instead of newFactory()
+//     * @var string
+//     */
+//    public static string $factory = ShippingMethodFactory::class;
+
 }

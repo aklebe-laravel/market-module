@@ -249,7 +249,9 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'css_group'    => 'col-12',
                                         'options'      => [
                                             'form'          => 'website-base::form.media-item',
-                                            'table'         => 'website-base::data-table.media-item-image-user-avatar',
+                                            //'table'         => 'website-base::data-table.media-item-image-user-avatar',
+                                            'table'         => 'website-base::data-table.media-item-image',
+                                            //'table'         => 'website-base::data-table.media-item',
                                             'table_options' => [
                                                 'hasCommands' => $defaultSettings['can_manage'],
                                                 'editable'    => $defaultSettings['can_manage'],
