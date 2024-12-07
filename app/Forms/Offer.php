@@ -50,7 +50,7 @@ class Offer extends ModelBase
 
     protected function canEditStatus(): bool
     {
-        /** @var \Modules\Market\app\Services\OfferService $offerService */
+        /** @var OfferService $offerService */
         $offerService = app(OfferService::class);
         $status = data_get($this->jsonResource, 'status', '');
         // Is current offer status allowed to be edited?

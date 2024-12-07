@@ -10,8 +10,6 @@ use Modules\Market\app\Models\Rating;
 
 trait TraitBaseAggregatedRating
 {
-    //    protected array $ratingSubCodes = [];
-
     /**
      * @return HasMany
      * @todo: another trait?
@@ -30,18 +28,28 @@ trait TraitBaseAggregatedRating
             ->where('model', '=', $this->getAttributeModelIdent());
     }
 
+    /**
+     * @param  string  $subCode
+     *
+     * @return float
+     */
     protected function getAggregatedRatingBySubCode(string $subCode): float
     {
         $rating = $this->aggregatedRatings->where('model_sub_code', '=', $subCode)->first();
         if ($rating) {
-            $rating = (float) $rating->value;
+            $rating = $rating->value;
         } else {
-            $rating = (float) 0;
+            $rating = 0.0;
         }
 
         return $rating;
     }
 
+    /**
+     * @param  string  $subCode
+     *
+     * @return float
+     */
     protected function getAggregatedRating5BySubCode(string $subCode): float
     {
         return $this->getAggregatedRatingBySubCode($subCode) / 20.0;
@@ -145,6 +153,9 @@ trait TraitBaseAggregatedRating
         return Attribute::make(get: fn() => $this->calculateRatings($calcMap));
     }
 
+    /**
+     * @return Attribute
+     */
     protected function rating5(): Attribute
     {
         return Attribute::make(get: fn() => $this->rating / 20.0);

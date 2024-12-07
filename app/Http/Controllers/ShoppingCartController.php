@@ -2,13 +2,21 @@
 
 namespace Modules\Market\app\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\Acl\app\Http\Controllers\Controller;
 use Modules\SystemBase\app\Models\JsonViewResponse;
 
 class ShoppingCartController extends Controller
 {
-    protected function getShoppingCartResponse(bool $forceReload = false)
+    /**
+     * @param  bool  $forceReload
+     *
+     * @return JsonViewResponse
+     */
+    protected function getShoppingCartResponse(bool $forceReload = false): JsonViewResponse
     {
         $jsonResponse = new JsonViewResponse('OK');
         $cart = app('market_settings')->getCurrentShoppingCart($forceReload);
@@ -21,14 +29,24 @@ class ShoppingCartController extends Controller
         return $jsonResponse;
     }
 
-    public function get(Request $request)
+    /**
+     * @param  Request  $request
+     *
+     * @return \Illuminate\Foundation\Application|Response|Application|ResponseFactory
+     */
+    public function get(Request $request): \Illuminate\Foundation\Application|Response|Application|ResponseFactory
     {
         $jsonResponse = $this->getShoppingCartResponse();
 
         return $jsonResponse->go();
     }
 
-    public function addProduct(Request $request)
+    /**
+     * @param  Request  $request
+     *
+     * @return \Illuminate\Foundation\Application|Response|Application|ResponseFactory
+     */
+    public function addProduct(Request $request): \Illuminate\Foundation\Application|Response|Application|ResponseFactory
     {
         $cart = app('market_settings')->getCurrentShoppingCart();
         $cartItem = $cart->addProduct($request->get('product_id'));
@@ -43,11 +61,11 @@ class ShoppingCartController extends Controller
     /**
      * Used by categories and product detail view
      *
-     * @param Request $request
+     * @param  Request  $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
-    public function removeProduct(Request $request)
+    public function removeProduct(Request $request): Response|Application|ResponseFactory
     {
         $cart = app('market_settings')->getCurrentShoppingCart();
         $removed = $cart->removeProduct($request->get('product_id'));

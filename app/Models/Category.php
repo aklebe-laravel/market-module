@@ -22,24 +22,17 @@ class Category extends Model
     /**
      * Default media type. Should be overwritten by delivered class.
      */
-    const MEDIA_TYPE = MediaItem::MEDIA_TYPE_IMAGE;
+    const string MEDIA_TYPE = MediaItem::MEDIA_TYPE_IMAGE;
 
     /**
      * Default media object type. Should be overwritten by delivered class.
      */
-    const MEDIA_OBJECT_TYPE = MediaItem::OBJECT_TYPE_CATEGORY_IMAGE;
+    const string MEDIA_OBJECT_TYPE = MediaItem::OBJECT_TYPE_CATEGORY_IMAGE;
 
     /**
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * appends will be filled dynamically for this instance by ModelWithAttributesLoaded
-     *
-     * @var array
-     */
-    protected $appends = ['extra_attributes'];
 
     /**
      * @var string
@@ -48,6 +41,7 @@ class Category extends Model
 
     /**
      * You can use this instead of newFactory()
+     *
      * @var string
      */
     public static string $factory = CategoryFactory::class;
@@ -61,7 +55,7 @@ class Category extends Model
      *
      * Important for \Modules\Acl\Models\Base\TraitBaseModel::bootTraitBaseModel
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
     }
@@ -115,6 +109,7 @@ class Category extends Model
      * scope frontendItems()
      *
      * @param  Builder  $query
+     *
      * @return Builder
      */
     public function scopeFrontendItems(Builder $query): Builder

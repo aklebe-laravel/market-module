@@ -12,6 +12,7 @@ class MediaItem extends \Modules\WebsiteBase\app\Models\MediaItem
 {
     /**
      * You can use this instead of newFactory()
+     *
      * @var string
      */
     public static string $factory = MediaItemFactory::class;
@@ -19,7 +20,7 @@ class MediaItem extends \Modules\WebsiteBase\app\Models\MediaItem
     /**
      * @return BelongsToMany
      */
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
@@ -27,7 +28,7 @@ class MediaItem extends \Modules\WebsiteBase\app\Models\MediaItem
     /**
      * @return BelongsToMany
      */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }

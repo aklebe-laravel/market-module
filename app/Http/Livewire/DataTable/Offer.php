@@ -2,6 +2,7 @@
 
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
 use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
@@ -12,7 +13,7 @@ class Offer extends BaseDataTable
     /**
      * Restrictions to allow this component.
      */
-    public const aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
+    public const array aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
 
     /**
      * @var OfferService
@@ -57,6 +58,7 @@ class Offer extends BaseDataTable
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -126,9 +128,9 @@ class Offer extends BaseDataTable
                 'icon'    => 'tag',
                 'options' => [
                     'observe_info_data' => [
-                        'description'
-                    ]
-                ]
+                        'description',
+                    ],
+                ],
             ],
             [
                 'name'       => 'updated_at',
@@ -170,7 +172,7 @@ class Offer extends BaseDataTable
      * @param  string  $collectionName
      *
      * @return Builder|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
@@ -182,7 +184,7 @@ class Offer extends BaseDataTable
         // filter user offers only
         $builder->where(function (Builder $b) {
             $b->where('created_by_user_id', '=', $this->getUserId())
-                ->orWhere('addressed_to_user_id', '=', $this->getUserId());
+              ->orWhere('addressed_to_user_id', '=', $this->getUserId());
         });
 
         return $builder;

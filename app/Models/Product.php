@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
 use Modules\Market\database\factories\ProductFactory;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
-use Modules\SystemBase\app\Services\FileService;
 use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Models\Base\TraitAttributeAssignment;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseMedia;
@@ -33,36 +32,27 @@ class Product extends Model
     /**
      * Default media type. Should be overwritten by delivered class.
      */
-    const MEDIA_TYPE = MediaItem::MEDIA_TYPE_IMAGE;
+    const string MEDIA_TYPE = MediaItem::MEDIA_TYPE_IMAGE;
 
     /**
      * Default media object type. Should be overwritten by delivered class.
      */
-    const MEDIA_OBJECT_TYPE = MediaItem::OBJECT_TYPE_PRODUCT_IMAGE;
+    const string MEDIA_OBJECT_TYPE = MediaItem::OBJECT_TYPE_PRODUCT_IMAGE;
 
     /**
      * Zustand
      */
-    const RATING_SUB_CODE_CONDITION = 'condition';
+    const string RATING_SUB_CODE_CONDITION = 'condition';
 
     /**
      * Öffentliche/allgemeine Produktbewertung
      */
-    const RATING_SUB_CODE_PUBLIC_PRODUCT = 'public_product';
+    const string RATING_SUB_CODE_PUBLIC_PRODUCT = 'public_product';
 
     /**
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * appends will be filled dynamically for this instance by ModelWithAttributesLoaded
-     *
-     * @var array
-     */
-    protected $appends = [
-        'extra_attributes',
-    ];
 
     /**
      * @var array|string[]
@@ -79,6 +69,7 @@ class Product extends Model
 
     /**
      * You can use this instead of newFactory()
+     *
      * @var string
      */
     public static string $factory = ProductFactory::class;
@@ -95,25 +86,16 @@ class Product extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-    }
 
-    /**
-     * Override this instead of declare $appends with all parent declarations.
-     *
-     * @return array|string[]
-     */
-    protected function getArrayableAppends()
-    {
-        return parent::getArrayableAppends() + [
-                'image_maker',
-                'price',
-                'price_formatted',
-                'rating',
-                'rating5',
-                'rating5_'.self::RATING_SUB_CODE_CONDITION,
-                'rating5_'.self::RATING_SUB_CODE_PUBLIC_PRODUCT,
-                'salable',
-            ];
+        $this->appends += [
+            'price',
+            'price_formatted',
+            'rating',
+            'rating5',
+            'rating5_'.self::RATING_SUB_CODE_CONDITION,
+            'rating5_'.self::RATING_SUB_CODE_PUBLIC_PRODUCT,
+            'salable',
+        ];
     }
 
     /**
@@ -121,7 +103,7 @@ class Product extends Model
      * Pivot tables can differ by class objects.
      *
      * @param  string  $contentCode
-     * @param  bool  $forceAny  If true: Also select nullable pivots but order by pivots exists
+     * @param  bool    $forceAny  If true: Also select nullable pivots but order by pivots exists
      *
      * @return BelongsToMany
      * @todo: caching?
@@ -152,7 +134,7 @@ class Product extends Model
     /**
      * @return BelongsTo
      */
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class);
     }
@@ -160,7 +142,7 @@ class Product extends Model
     /**
      * @return BelongsTo
      */
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
@@ -168,7 +150,7 @@ class Product extends Model
     /**
      * @return BelongsTo
      */
-    public function paymentMethod()
+    public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class);
     }
@@ -289,6 +271,9 @@ class Product extends Model
         });
     }
 
+    /**
+     * @return Builder
+     */
     public static function getBuilderFrontendItems(): Builder
     {
         return self::query()->frontendItems();
@@ -301,7 +286,7 @@ class Product extends Model
      *
      * @return Builder
      */
-    public function scopeFrontendItems(Builder $query)
+    public function scopeFrontendItems(Builder $query): Builder
     {
         return $query->where(function (Builder $q) {
             $q->where('is_locked', false);
@@ -322,13 +307,15 @@ class Product extends Model
      * After replicated/duplicated/copied
      * but before save()
      *
+     * @param  Model  $fromItem
+     *
      * @return void
      */
-    public function afterReplicated(Model $fromItem)
+    public function afterReplicated(Model $fromItem): void
     {
         $this->is_public = false;
         $this->name = __('New').' '.$this->name.' '.uniqid();
-        $this->web_uri = FileService::sanitize($this->name).'_'.uniqid('product_');
+        $this->web_uri = app('system_base_file')->sanitize($this->name).'_'.uniqid('product_');
     }
 
     /**

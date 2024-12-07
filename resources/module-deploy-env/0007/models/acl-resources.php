@@ -1,8 +1,10 @@
 <?php
 
+use Modules\Acl\app\Models\AclResource;
+
 return [
     // class of eloquent model
-    "model"   => \Modules\Acl\app\Models\AclResource::class,
+    "model"   => AclResource::class,
     // update data if exists and data differ (default false)
     "update"  => false,
     // columns to check if data already exists (AND WHERE)

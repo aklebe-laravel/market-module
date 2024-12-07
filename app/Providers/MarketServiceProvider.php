@@ -2,6 +2,7 @@
 
 namespace Modules\Market\app\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Modules\Market\app\Console\MarketManager;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\User;
@@ -55,6 +56,8 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
 
         // Important to get Modules\WebsiteBase\Models\User when accessing app(\App\Models\User::class)
         $this->app->bind(\App\Models\User::class, User::class);
+        // user shorthand
+        $this->app->bind('user', User::class);
 
         // @todo: this should not needed if clean coded in websiteBase like app(\App\Models\User::class)
         $this->app->bind(\Modules\WebsiteBase\app\Models\User::class, User::class);
@@ -64,7 +67,7 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
         $this->app->bind(\Modules\WebsiteBase\app\Models\MediaItem::class, MediaItem::class);
 
         // This is also important to overwrite the user successfully!
-        \Illuminate\Support\Facades\Config::set('auth.providers.users.model', User::class);
+        Config::set('auth.providers.users.model', User::class);
 
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);

@@ -10,7 +10,7 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (!Schema::hasTable('user_parent_reputations')) {
             Schema::create('user_parent_reputations', function (Blueprint $table) {
@@ -19,15 +19,15 @@ return new class () extends Migration {
                 $table->unsignedBigInteger('parent_id')->unsigned();
 
                 $table->foreign('user_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('users')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->foreign('parent_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('users')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
 
                 $table->timestamps();
                 $table->comment('Works like a log, so entries can doubled');
@@ -40,7 +40,7 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('user_parent_reputations');
     }

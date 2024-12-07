@@ -26,14 +26,22 @@ class ShoppingCartItem extends Model
      */
     protected $table = 'shopping_cart_items';
 
-    protected $appends = [
-        'price_formatted',
-    ];
+    /**
+     * @param  array  $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->appends += [
+            'price_formatted',
+        ];
+    }
 
     /**
      * @return BelongsTo
      */
-    public function shoppingCart()
+    public function shoppingCart(): BelongsTo
     {
         return $this->belongsTo(ShoppingCart::class);
     }
@@ -41,7 +49,7 @@ class ShoppingCartItem extends Model
     /**
      * @return BelongsTo
      */
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
@@ -49,7 +57,7 @@ class ShoppingCartItem extends Model
     /**
      * @return BelongsTo
      */
-    public function paymentMethod()
+    public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class);
     }
@@ -57,7 +65,7 @@ class ShoppingCartItem extends Model
     /**
      * @return BelongsTo
      */
-    public function shippingMethod()
+    public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
     }
@@ -68,8 +76,7 @@ class ShoppingCartItem extends Model
     protected function priceFormatted(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
-            return app('system_base')->getPriceFormatted((float) $this->price, $this->currency_code,
-                $this->paymentMethod?->code ?? '');
+            return app('system_base')->getPriceFormatted($this->price, $this->currency_code, $this->paymentMethod?->code ?? '');
         });
     }
 }

@@ -1,8 +1,10 @@
 <?php
 
+use Modules\Market\app\Models\Category;
+
 return [
     // class of eloquent model
-    "model"     => \Modules\Market\app\Models\Category::class,
+    "model"     => Category::class,
     // update data if exists and data differ (default false)
     "update"    => false,
     // columns to check if data already exists (AND WHERE)

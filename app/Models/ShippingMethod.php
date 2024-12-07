@@ -16,10 +16,10 @@ class ShippingMethod extends Model
 
     protected $guarded = [];
 
-    const SHIPPING_METHOD_FREE = 'free';
-    const SHIPPING_METHOD_DIGITAL = 'digital';
-    const SHIPPING_METHOD_SELF_COLLECT = 'self_collect';
-    const SHIPPING_METHOD_SELF_PRIVATE = 'private';
+    const string SHIPPING_METHOD_FREE = 'free';
+    const string SHIPPING_METHOD_DIGITAL = 'digital';
+    const string SHIPPING_METHOD_SELF_COLLECT = 'self_collect';
+    const string SHIPPING_METHOD_SELF_PRIVATE = 'private';
 
     /**
      * @var string

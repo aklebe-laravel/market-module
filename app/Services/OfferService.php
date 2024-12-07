@@ -14,12 +14,12 @@ use Throwable;
 
 class OfferService extends BaseService
 {
-    const canEditStatusWhiteList = [
+    const array canEditStatusWhiteList = [
         Offer::STATUS_APPLIED,
         Offer::STATUS_REJECTED,
     ];
 
-    const statusActionMap = [
+    const array statusActionMap = [
         'created_by_user_id'   => [
             Offer::STATUS_APPLIED  => [
                 'form_actions' => [
@@ -50,7 +50,11 @@ class OfferService extends BaseService
         ],
     ];
 
-
+    /**
+     * @param  Offer  $offer
+     *
+     * @return bool
+     */
     public function disbandOfferToCartItems(Offer $offer): bool
     {
         $shoppingCart = app('market_settings')->getCurrentShoppingCart();
@@ -196,6 +200,11 @@ class OfferService extends BaseService
         return false;
     }
 
+    /**
+     * @param  Offer  $offer
+     *
+     * @return Offer
+     */
     public function reOffer(Offer $offer): Offer
     {
         // create the new offer ...
@@ -272,9 +281,7 @@ class OfferService extends BaseService
     public function getOfferActions(Offer $offer): array
     {
         if ($userProp = $this->getOwnerProperty($offer, Auth::id())) {
-            $actions = data_get(self::statusActionMap, $userProp.'.'.$offer->status.'.form_actions', []);
-
-            return $actions;
+            return data_get(self::statusActionMap, $userProp.'.'.$offer->status.'.form_actions', []);
         }
 
         return [];

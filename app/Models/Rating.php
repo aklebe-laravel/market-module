@@ -15,16 +15,16 @@ class Rating extends Model
      */
     protected $guarded = [];
 
-//    /**
-//     * You can use this instead of newFactory()
-//     * @var string
-//     */
-//    public static string $factory = RatingFactory::class;
+    //    /**
+    //     * You can use this instead of newFactory()
+    //     * @var string
+    //     */
+    //    public static string $factory = RatingFactory::class;
 
     /**
      * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

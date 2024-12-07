@@ -2,6 +2,7 @@
 
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\On;
 use Modules\Acl\app\Models\AclResource;
@@ -13,7 +14,7 @@ class ShoppingCartItem extends BaseDataTable
     /**
      * Minimum restrictions to allow this component.
      */
-    public const aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
+    public const array aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
 
     /**
      * @var bool
@@ -29,6 +30,7 @@ class ShoppingCartItem extends BaseDataTable
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -127,7 +129,7 @@ class ShoppingCartItem extends BaseDataTable
      * @param  string  $collectionName
      *
      * @return Builder|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
@@ -138,7 +140,7 @@ class ShoppingCartItem extends BaseDataTable
         $builder->with([
             'product',
             'shoppingCart',
-            'paymentMethod'
+            'paymentMethod',
         ])->select('*')->whereRelation('shoppingCart', 'id', '=', $cart->getKey());
 
         return $builder;
@@ -147,14 +149,16 @@ class ShoppingCartItem extends BaseDataTable
     /**
      * @param  mixed  $livewireId
      * @param  mixed  $itemId
+     *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     #[On('delete-item')]
     public function deleteItem(mixed $livewireId, mixed $itemId): bool
     {
         if (!parent::deleteItem($livewireId, $itemId)) {
             $this->addErrorMessage(__('Unable to remove cart item'));
+
             return false;
         }
 

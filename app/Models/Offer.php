@@ -19,19 +19,19 @@ class Offer extends Model implements Attachable
     use TraitBaseModel;
 
     /** @var string Angelegt, aber noch nicht erhoben */
-    const STATUS_APPLIED = 'APPLIED';
+    const string STATUS_APPLIED = 'APPLIED';
 
     /** @var string In Verhandlung */
-    const STATUS_NEGOTIATION = 'NEGOTIATION';
+    const string STATUS_NEGOTIATION = 'NEGOTIATION';
 
     /** @var string Abgelehnt */
-    const STATUS_REJECTED = 'REJECTED';
+    const string STATUS_REJECTED = 'REJECTED';
 
     /** @var string Geschlossen */
-    const STATUS_CLOSED = 'CLOSED';
+    const string STATUS_CLOSED = 'CLOSED';
 
     /** @var string Abgeschlossen */
-    const STATUS_COMPLETED = 'COMPLETED';
+    const string STATUS_COMPLETED = 'COMPLETED';
 
     /**
      * @var array
@@ -43,11 +43,11 @@ class Offer extends Model implements Attachable
      */
     protected $table = 'offers';
 
-//    /**
-//     * You can use this instead of newFactory()
-//     * @var string
-//     */
-//    public static string $factory = OfferFactory::class;
+    //    /**
+    //     * You can use this instead of newFactory()
+    //     * @var string
+    //     */
+    //    public static string $factory = OfferFactory::class;
 
     /**
      * @return BelongsTo
@@ -107,13 +107,13 @@ class Offer extends Model implements Attachable
 
     /**
      * @param  array  $values
+     *
      * @return bool
      */
     public function updateAllProducts(array $values): bool
     {
         /** @var OfferItem $offerItem */
         foreach ($this->offerItems as $offerItem) {
-            /** @var Product $product */
             if ($product = $offerItem->product) {
                 $product->update($values);
             }

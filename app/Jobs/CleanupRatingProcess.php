@@ -19,7 +19,7 @@ class CleanupRatingProcess implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         // all ratings - fifo
         Rating::with([])->orderBy('id')->chunk(500, function ($ratings) {
@@ -40,6 +40,7 @@ class CleanupRatingProcess implements ShouldQueue
 
     /**
      * @param  Rating|AggregatedRating  $ratingOrAggregatedRating
+     *
      * @return bool
      */
     private function checkDeleteRatingOrAggregatedRating(Rating|AggregatedRating $ratingOrAggregatedRating): bool
@@ -48,7 +49,8 @@ class CleanupRatingProcess implements ShouldQueue
         if (class_exists($ratingOrAggregatedRating->model)) {
             if (!app($ratingOrAggregatedRating->model)->withoutEvents(function () use ($ratingOrAggregatedRating) {
                 return app($ratingOrAggregatedRating->model)->whereId($ratingOrAggregatedRating->model_id)->first();
-            })) {
+            })
+            ) {
                 // Log::debug(sprintf("Model '%s':'%s' no longer exists. (%s:%s)", $ratingOrAggregatedRating->model,
                 //     $ratingOrAggregatedRating->model_id, get_class($ratingOrAggregatedRating),
                 //     $ratingOrAggregatedRating->getKey()));

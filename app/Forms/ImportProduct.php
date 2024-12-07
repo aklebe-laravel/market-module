@@ -14,7 +14,7 @@ class ImportProduct extends NativeObjectBase
     /**
      * Relation method if parent form exists.
      */
-    const PARENT_RELATION_METHOD_NAME = 'products';
+    const string PARENT_RELATION_METHOD_NAME = 'products';
 
     /**
      *

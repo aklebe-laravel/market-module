@@ -22,18 +22,19 @@ class ImportRowStore extends ImportRowMarket
      * Handle the event.
      *
      * @param  ImportRow  $event
-     * @return bool  false to stop all following listeners
+     *
+     * @return bool  true to accept this data for this type
      */
     public function handle(ImportRow $event): bool
     {
-        if (!$this->isRequiredType($event->type)) {
-            return true;
+        if (!$this->isRequiredType($event->importContentEvent->type)) {
+            return false;
         }
 
         $id = data_get($event->row, 'id');
         $code = data_get($event->row, 'code');
         if (!$id && !$code) {
-            return true;
+            return false;
         }
 
         // get store by id or sku
@@ -61,7 +62,7 @@ class ImportRowStore extends ImportRowMarket
         }
 
         if (!$store || !$store->getKey()) {
-            return true;
+            return false;
         }
 
         return true;
@@ -69,6 +70,7 @@ class ImportRowStore extends ImportRowMarket
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array

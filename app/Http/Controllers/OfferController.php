@@ -2,13 +2,16 @@
 
 namespace Modules\Market\app\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Modules\Acl\app\Http\Controllers\Controller;
 use Modules\Market\app\Models\ShoppingCartItem;
 
 class OfferController extends Controller
 {
-    public function potential(Request $request)
+    public function potential(Request $request): View|Factory|Application
     {
         $cartItemsByUsers = [];
         $cart = app('market_settings')->getCurrentShoppingCart();

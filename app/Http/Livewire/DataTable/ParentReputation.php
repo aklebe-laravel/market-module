@@ -2,6 +2,8 @@
 
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
+use Illuminate\Support\Collection;
+
 class ParentReputation extends User
 {
     /**
@@ -85,9 +87,9 @@ class ParentReputation extends User
 
     /**
      * @param  string  $collectionName
-     * @return \Illuminate\Support\Collection|null
+     * @return Collection|null
      */
-    public function getFixCollection(string $collectionName): ?\Illuminate\Support\Collection
+    public function getFixCollection(string $collectionName): ?Collection
     {
         if ($this->parentData['id']) {
             $user = app(\App\Models\User::class)->with([])->find($this->parentData['id']);

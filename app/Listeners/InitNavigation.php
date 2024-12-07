@@ -2,6 +2,9 @@
 
 namespace Modules\Market\app\Listeners;
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
 class InitNavigation
 {
     /**
@@ -20,8 +23,10 @@ class InitNavigation
      * @param  object  $event
      *
      * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function handle($event)
+    public function handle(object $event): void
     {
         app('market_settings')->createNavigation();
     }

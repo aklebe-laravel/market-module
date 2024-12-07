@@ -16,11 +16,11 @@ class PaymentMethod extends Model
 
     protected $guarded = [];
 
-    const PAYMENT_METHOD_FREE = 'free';
-    const PAYMENT_METHOD_CASH = 'cash';
-    const PAYMENT_METHOD_BANK_TRANSFER = 'bank_transfer';
-    const PAYMENT_METHOD_PREPAYMENT = 'prepayment';
-    const PAYMENT_METHOD_OFFER = 'offer';
+    const string PAYMENT_METHOD_FREE = 'free';
+    const string PAYMENT_METHOD_CASH = 'cash';
+    const string PAYMENT_METHOD_BANK_TRANSFER = 'bank_transfer';
+    const string PAYMENT_METHOD_PREPAYMENT = 'prepayment';
+    const string PAYMENT_METHOD_OFFER = 'offer';
 
     protected $table = 'payment_methods';
 

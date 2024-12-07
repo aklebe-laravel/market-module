@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Forms;
 
 use Modules\Form\app\Forms\Base\ModelBase;
+use Modules\WebsiteBase\app\Models\Currency;
 
 class ShoppingCartItem extends ModelBase
 {
@@ -78,7 +79,7 @@ class ShoppingCartItem extends ModelBase
                                     'currency_code'                 => [
                                         'html_element' => 'select',
                                         'label'        => __('Currency'),
-                                        'options'      => app('system_base')->toHtmlSelectOptions(\Modules\WebsiteBase\app\Models\Currency::orderBy('code',
+                                        'options'      => app('system_base')->toHtmlSelectOptions(Currency::orderBy('code',
                                             'ASC')->get(), ['code', 'name'], 'code',
                                             [self::UNSELECT_RELATION_IDENT => '['.__('No choice').']']),
                                         'description'  => __('Currency'),

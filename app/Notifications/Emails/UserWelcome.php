@@ -15,6 +15,7 @@ class UserWelcome extends Mailable
 
     /**
      * public properties are accessible in view template
+     *
      * @var User
      */
     public User $user;
@@ -33,9 +34,9 @@ class UserWelcome extends Mailable
     /**
      * Get the message envelope.
      *
-     * @return \Illuminate\Mail\Mailables\Envelope
+     * @return Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         $toAddress = new Address($this->user->email, $this->user->name);
         $fromAddress = new Address(config('mail.from.address'), config('mail.from.name'));
@@ -44,7 +45,7 @@ class UserWelcome extends Mailable
             subject: 'Welcome ...', tags: [
                 'welcome',
                 'greetings',
-                'shop'
+                'shop',
             ], metadata: [
                 'user_id' => $this->user->shared_id,
             ],);

@@ -62,7 +62,7 @@ class UserService extends BaseService
             ->whereHas('ratings', function (Builder $query) {
                 return $query->where('model_sub_code', '=', MarketUserModel::RATING_SUB_CODE_TRUST)
                     ->where('value', '>=', 100);
-            }, operator: '>=', count: 2)->whereNotNull('shared_id');
+            }, count: 2)->whereNotNull('shared_id');
 
         // chunk to avoid memory overflow
         $builder->chunk(100, function ($users) {

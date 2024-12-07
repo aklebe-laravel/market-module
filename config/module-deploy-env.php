@@ -1,5 +1,8 @@
 <?php
 
+use Modules\Market\app\Models\PaymentMethod;
+use Modules\WebsiteBase\app\Models\CoreConfig;
+
 return [
 
     /*
@@ -27,7 +30,7 @@ return [
                     [
                         'function' => function ($code) {
                             // payment methods have to be empty
-                            return (bool) (!\Modules\Market\app\Models\PaymentMethod::first());
+                            return (bool) (!PaymentMethod::first());
                         },
                     ],
                 ],
@@ -43,7 +46,7 @@ return [
                     [
                         'function' => function ($code) {
                             // specific config should not exist
-                            return (bool) (!\Modules\WebsiteBase\app\Models\CoreConfig::where('path',
+                            return (bool) (!CoreConfig::where('path',
                                 'catalog.product.image.width')->first());
                         },
                     ],

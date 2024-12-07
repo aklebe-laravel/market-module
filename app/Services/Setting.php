@@ -34,6 +34,7 @@ class Setting
 
     /**
      * @param  bool  $forceReload
+     *
      * @return ShoppingCart
      */
     public function getCurrentShoppingCart(bool $forceReload = false): ShoppingCart
@@ -117,7 +118,7 @@ class Setting
         $navigationCategories = Category::with([]);
         $navigationCategories->where(function (Builder $b) {
             $b->whereDoesntHave('parents');
-        })->where('store_id', '=', $this->websiteBaseSetting->getStore()->id)->orderBy('name', 'asc');
+        })->where('store_id', '=', $this->websiteBaseSetting->getStore()->id)->orderBy('name');
         $navigationCategories = $navigationCategories->get();
 
         foreach ($navigationCategories as $category) {
@@ -149,8 +150,10 @@ class Setting
         /** @var \Modules\Market\app\Services\UserService $userService */
         $userService = app(UserService::class);
 
-        if (app('website_base_config')->get('site.rating.enabled', true) && $userService->hasUserResource(Auth::user(),
-                'rating.visible')) {
+        if (app('website_base_config')->get('site.rating.enabled', true)
+            && $userService->hasUserResource(Auth::user(),
+                'rating.visible')
+        ) {
             return true;
         }
 
@@ -167,8 +170,11 @@ class Setting
         /** @var \Modules\Market\app\Services\UserService $userService */
         $userService = app(UserService::class);
 
-        if ($this->canShowRating() && app('website_base_config')->get('product.rating.enabled',
-                true) && $userService->hasUserResource(Auth::user(), 'rating.product.visible')) {
+        if ($this->canShowRating()
+            && app('website_base_config')->get('product.rating.enabled',
+                true)
+            && $userService->hasUserResource(Auth::user(), 'rating.product.visible')
+        ) {
             return true;
         }
 
@@ -182,8 +188,10 @@ class Setting
      */
     public function canShowUserRating(): bool
     {
-        if ($this->canShowRating() && app('website_base_config')->get('user.rating.enabled', true) && Auth::user()
-                ->hasAclResource('rating.user.visible')) {
+        if ($this->canShowRating() && app('website_base_config')->get('user.rating.enabled', true)
+            && Auth::user()
+                   ->hasAclResource('rating.user.visible')
+        ) {
             return true;
         }
 
@@ -193,25 +201,26 @@ class Setting
     /**
      * @return PaymentMethod|null
      */
-    public function getDefaultPaymentMethod()
+    public function getDefaultPaymentMethod(): ?PaymentMethod
     {
         if (!$this->defaultPaymentMethod) {
             $this->defaultPaymentMethod = PaymentMethod::with([])
-                ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
-                ->first();
+                                                       ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
+                                                       ->first();
         }
+
         return $this->defaultPaymentMethod;
     }
 
     /**
      * @return ShippingMethod|null
      */
-    public function getDefaultShippingMethod()
+    public function getDefaultShippingMethod(): ?ShippingMethod
     {
         if (!$this->defaultShippingMethod) {
             $this->defaultShippingMethod = ShippingMethod::with([])
-                ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
-                ->first();
+                                                         ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
+                                                         ->first();
         }
 
         return $this->defaultShippingMethod;
@@ -225,6 +234,7 @@ class Setting
         if (!$this->validPaymentMethods) {
             $this->validPaymentMethods = PaymentMethod::with([])->get();
         }
+
         return $this->validPaymentMethods;
     }
 
@@ -236,6 +246,7 @@ class Setting
         if (!$this->validShippingMethods) {
             $this->validShippingMethods = ShippingMethod::with([])->get();
         }
+
         return $this->validShippingMethods;
     }
 

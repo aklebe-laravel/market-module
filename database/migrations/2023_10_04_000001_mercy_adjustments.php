@@ -10,20 +10,20 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         // Should only hit mercy upgraded servers
         if (!Schema::hasColumn('products', 'is_custom')) {
             Schema::table('products', function (Blueprint $table) {
 
                 $table->boolean('is_custom')
-                    ->default(true)
-                    ->comment('Marked as individual item (in jumble sales or smth)')
-                    ->after('is_public');
+                      ->default(true)
+                      ->comment('Marked as individual item (in jumble sales or smth)')
+                      ->after('is_public');
                 $table->boolean('force_public')
-                    ->default(false)
-                    ->comment('In private stores this can be linked public for everyone')
-                    ->after('is_custom');
+                      ->default(false)
+                      ->comment('In private stores this can be linked public for everyone')
+                      ->after('is_custom');
                 $table->timestamp('started_at')->nullable()->comment('null = always available')->after('web_uri');
                 $table->timestamp('expired_at')->nullable()->comment('null = open end')->after('started_at');
 
@@ -45,7 +45,7 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
     }
 

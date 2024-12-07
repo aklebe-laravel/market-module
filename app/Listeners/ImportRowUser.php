@@ -24,21 +24,22 @@ class ImportRowUser extends ImportRowMarket
      * Handle the event.
      *
      * @param  ImportRow  $event
-     * @return bool  false to stop all following listeners
+     *
+     * @return bool  true to accept this data for this type
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function handle(ImportRow $event): bool
     {
-        if (!$this->isRequiredType($event->type)) {
-            return true;
+        if (!$this->isRequiredType($event->importContentEvent->type)) {
+            return false;
         }
 
         $id = data_get($event->row, 'id');
         $email = data_get($event->row, 'email');
         $name = data_get($event->row, 'name');
         if (!$id && !$email && !$name) {
-            return true;
+            return false;
         }
 
         // get User by id or sku
@@ -75,7 +76,7 @@ class ImportRowUser extends ImportRowMarket
         }
 
         if (!$user || !$user->getKey()) {
-            return true;
+            return false;
         }
 
         // save the User relations
@@ -87,6 +88,7 @@ class ImportRowUser extends ImportRowMarket
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array
@@ -96,15 +98,17 @@ class ImportRowUser extends ImportRowMarket
         $this->addBasicColumnIfPresent($row, $validatedRow, 'email');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'name');
         $this->addBasicColumnIfPresent($row, $validatedRow, 'password');
+
         return $validatedRow;
     }
 
     /**
      * @param  MarketUser  $user
-     * @param  array  $row
+     * @param  array       $row
+     *
      * @return void
      */
-    private function doUserRolesRelations(MarketUser $user, array &$row)
+    private function doUserRolesRelations(MarketUser $user, array &$row): void
     {
         if (!($aclGroups = data_get($row, 'acl_groups'))) {
             return;

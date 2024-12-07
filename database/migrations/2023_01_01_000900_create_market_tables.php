@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Market\app\Models\Offer;
 
 return new class () extends Migration {
     /**
@@ -10,7 +11,7 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (!Schema::hasTable('payment_methods')) {
             Schema::create('payment_methods', function (Blueprint $table) {
@@ -57,15 +58,15 @@ return new class () extends Migration {
 
                 $table->unique(['category_id', 'parent_id']);
                 $table->foreign('category_id')
-                    ->references('id')
-                    ->on('categories')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('categories')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->foreign('parent_id')
-                    ->references('id')
-                    ->on('categories')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('categories')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
 
                 $table->timestamps();
             });
@@ -79,38 +80,38 @@ return new class () extends Migration {
                 $table->boolean('is_public')->default(true)->comment('Only public will be listed');
                 $table->boolean('is_locked')->default(false)->comment('Closed by system');
                 $table->boolean('force_public')
-                    ->default(false)
-                    ->comment('In private stores this can be linked public for everyone');
+                      ->default(false)
+                      ->comment('In private stores this can be linked public for everyone');
                 $table->boolean('is_custom')
-                    ->default(true)
-                    ->comment('Marked as individual item (in jumble sales or smth)');
+                      ->default(true)
+                      ->comment('Marked as individual item (in jumble sales or smth)');
                 $table->unsignedBigInteger('parent_id')->nullable()->index();
                 $table->foreign('parent_id')
-                    ->references('id')
-                    ->on($table->getTable())
-                    ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                      ->references('id')
+                      ->on($table->getTable())
+                      ->cascadeOnUpdate()
+                      ->cascadeOnDelete();
                 $table->unsignedBigInteger('store_id')->nullable()->index();
                 $table->foreign('store_id')->references('id')->on('stores')->cascadeOnUpdate()->cascadeOnDelete();
                 $table->unsignedBigInteger('user_id')->nullable()->index();
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
                 $table->string('product_type', 100)->nullable();
                 $table->string('system_status', 100)
-                    ->nullable()
-                    ->comment('Status for future used. Temporary locked or something.');
+                      ->nullable()
+                      ->comment('Status for future used. Temporary locked or something.');
                 $table->string('name', 255)->nullable();
                 $table->unsignedBigInteger('payment_method_id')->nullable()->unsigned();
                 $table->foreign('payment_method_id')
-                    ->references('id')
-                    ->on('payment_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('payment_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('shipping_method_id')->nullable()->unsigned();
                 $table->foreign('shipping_method_id')
-                    ->references('id')
-                    ->on('shipping_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('shipping_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->string('short_description', 255)->nullable();
                 $table->text('description')->nullable();
                 $table->string('meta_description')->nullable();
@@ -129,15 +130,15 @@ return new class () extends Migration {
 
                 $table->unique(['category_id', 'product_id']);
                 $table->foreign('category_id')
-                    ->references('id')
-                    ->on('categories')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('categories')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->foreign('product_id')
-                    ->references('id')
-                    ->on('products')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('products')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
 
                 $table->timestamps();
             });
@@ -152,15 +153,15 @@ return new class () extends Migration {
 
                 $table->unique(['media_item_id', 'product_id']);
                 $table->foreign('media_item_id')
-                    ->references('id')
-                    ->on('media_items')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('media_items')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->foreign('product_id')
-                    ->references('id')
-                    ->on('products')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('products')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
 
                 $table->timestamps();
             });
@@ -175,15 +176,15 @@ return new class () extends Migration {
 
                 $table->unique(['media_item_id', 'category_id']);
                 $table->foreign('category_id')
-                    ->references('id')
-                    ->on('categories')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('categories')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->foreign('media_item_id')
-                    ->references('id')
-                    ->on('media_items')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('media_items')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
 
                 $table->timestamps();
             });
@@ -207,28 +208,28 @@ return new class () extends Migration {
                 $table->id();
                 $table->unsignedBigInteger('shopping_cart_id')->unsigned();
                 $table->foreign('shopping_cart_id')
-                    ->references('id')
-                    ->on('shopping_carts')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('shopping_carts')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('product_id')->unsigned();
                 $table->foreign('product_id')
-                    ->references('id')
-                    ->on('products')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('products')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('payment_method_id')->nullable()->unsigned();
                 $table->foreign('payment_method_id')
-                    ->references('id')
-                    ->on('payment_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('payment_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('shipping_method_id')->nullable()->unsigned();
                 $table->foreign('shipping_method_id')
-                    ->references('id')
-                    ->on('shipping_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('shipping_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->string('product_name', 100)->nullable()->comment('product name');
                 $table->double('price')->default(0)->comment('price');
                 $table->string('currency_code', 3)->nullable()->comment('currency code');
@@ -241,36 +242,36 @@ return new class () extends Migration {
             Schema::create('offers', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('prev_offer_id')
-                    ->nullable()
-                    ->unsigned()
-                    ->comment('If given its the previous offer and this one is the changed one');
+                      ->nullable()
+                      ->unsigned()
+                      ->comment('If given its the previous offer and this one is the changed one');
                 $table->foreign('prev_offer_id')
-                    ->references('id')
-                    ->on('offers')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('offers')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('created_by_user_id')->nullable()->unsigned();
                 $table->foreign('created_by_user_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('users')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('addressed_to_user_id')->unsigned();
                 $table->foreign('addressed_to_user_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('users')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('address_id')->nullable()->unsigned();
                 $table->foreign('address_id')
-                    ->references('id')
-                    ->on('addresses')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('addresses')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('store_id')->unsigned();
                 $table->string('status', 100)
-                    ->default(\Modules\Market\app\Models\Offer::STATUS_APPLIED)
-                    ->comment('Status of this offer like APPLIED, NEGOTIATION, REJECTED, CLOSED');
+                      ->default(Offer::STATUS_APPLIED)
+                      ->comment('Status of this offer like APPLIED, NEGOTIATION, REJECTED, CLOSED');
                 $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('session_token', 255)->nullable()->comment('session token');
                 $table->string('shared_id', 255)->unique()->nullable()->comment('share token');
@@ -287,22 +288,22 @@ return new class () extends Migration {
                 $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade')->onUpdate('cascade');
                 $table->unsignedBigInteger('product_id')->unsigned();
                 $table->foreign('product_id')
-                    ->references('id')
-                    ->on('products')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('products')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('payment_method_id')->nullable()->unsigned();
                 $table->foreign('payment_method_id')
-                    ->references('id')
-                    ->on('payment_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('payment_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->unsignedBigInteger('shipping_method_id')->nullable()->unsigned();
                 $table->foreign('shipping_method_id')
-                    ->references('id')
-                    ->on('shipping_methods')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
+                      ->references('id')
+                      ->on('shipping_methods')
+                      ->onDelete('cascade')
+                      ->onUpdate('cascade');
                 $table->string('product_name', 100)->nullable()->comment('product name');
                 $table->double('price')->default(0)->comment('price');
                 $table->string('currency_code', 3)->nullable()->comment('currency code');
@@ -319,8 +320,8 @@ return new class () extends Migration {
                 $table->string('model', 255)->nullable()->comment('Model incl namespace');
                 $table->unsignedBigInteger('model_id')->comment('product id, user id, ...');
                 $table->string('model_sub_code', 255)
-                    ->nullable()
-                    ->comment('Model specific like: public_rating, condition, ...');
+                      ->nullable()
+                      ->comment('Model specific like: public_rating, condition, ...');
                 $table->float('value')->default(1)->comment('rating value 0..100 (for stars 1-5: 20,40,60,80,100)');
                 $table->string('description', 255)->nullable()->comment('Rating description');
                 $table->timestamps();
@@ -333,8 +334,8 @@ return new class () extends Migration {
                 $table->string('model', 255)->nullable()->comment('Model incl namespace');
                 $table->unsignedBigInteger('model_id')->comment('product id, user id, ...');
                 $table->string('model_sub_code', 255)
-                    ->nullable()
-                    ->comment('Model specific like: public_rating, condition, ...');
+                      ->nullable()
+                      ->comment('Model specific like: public_rating, condition, ...');
                 $table->float('value')->default(1)->comment('rating value 0..100 (for stars 1-5: 20,40,60,80,100)');
                 $table->timestamps();
             });
@@ -346,7 +347,7 @@ return new class () extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('aggregated_ratings');
         Schema::dropIfExists('ratings');

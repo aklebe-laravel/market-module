@@ -17,20 +17,18 @@ class User extends WebsiteBaseDataTableUser
 
         $this->addFilterElement('user_filter1', [
             'label'      => 'Filter',
-            'default'    => 10,
+            'default'    => '',
             'position'   => 1700, // between elements rows and search
             'soft_reset' => true,
             'css_group'  => 'col-12 col-md-3 text-start',
             'css_item'   => '',
             'options'    => [
-                ''          => '[No Filter]',
-                ... $this->getFilterOptionsForImages()
+                '' => '[No Filter]',
+                ... $this->getFilterOptionsForImages(),
             ],
             'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
         ]);
     }
-
-
 
     /**
      * @return array|array[]
