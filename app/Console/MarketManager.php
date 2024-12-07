@@ -2,6 +2,7 @@
 
 namespace Modules\Market\app\Console;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Modules\SystemBase\app\Services\ModuleService;
 use Symfony\Component\Console\Command\Command as CommandAlias;
@@ -57,7 +58,7 @@ class MarketManager extends MarketCommand
             try {
                 // for pp bindings see MarketServiceProvider
                 $subjectModel = app($subject);
-            } catch (\Exception) {
+            } catch (Exception) {
                 $this->error("Unable to resolve instance of \"{$subject}\"");
 
                 return CommandAlias::FAILURE;

@@ -1,8 +1,10 @@
 <?php
 
+use Modules\WebsiteBase\app\Models\NotificationEvent;
+
 return [
     // class of eloquent model
-    "model"     => \Modules\WebsiteBase\app\Models\NotificationEvent::class,
+    "model"     => NotificationEvent::class,
     // update data if exists and data differ (default false)
     "update"    => true,
     // columns to check if data already exists (AND WHERE)
@@ -33,7 +35,7 @@ return [
             "event_trigger" => "auto",
             "name"          => "New Trader",
             "subject"       => '{{ $user->name }}, willkommen als Händler in {{ config("app.name") }}',
-            "event_code"    => \Modules\WebsiteBase\app\Models\NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
+            "event_code"    => NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
             "event_data"    => [
                 "acl_group" => "Traders"
             ],
@@ -45,7 +47,7 @@ return [
             "event_trigger" => "auto",
             "name"          => "New ACL Group",
             "subject"       => '{{ $user->name }}, du wurdest Gruppen neu zugewiesen in {{ config("app.name") }}',
-            "event_code"    => \Modules\WebsiteBase\app\Models\NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
+            "event_code"    => NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
             "event_data"    => [
                 "acl_group" => "*"
             ],
@@ -57,7 +59,7 @@ return [
             "event_trigger"   => "auto",
             "name"            => "New ACL Group",
             "subject"         => '{{ $user->name }}, du wurdest Gruppen neu zugewiesen in {{ config("app.name") }}',
-            "event_code"      => \Modules\WebsiteBase\app\Models\NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
+            "event_code"      => NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
             // "force_channel"   => "telegram",
             "content"         => "",
             // "content_data"  => "",
@@ -80,7 +82,7 @@ return [
             "event_trigger"   => "auto",
             "name"            => "New Trader",
             "subject"         => '{{ $user->name }}, du wurdest Gruppen neu zugewiesen in {{ config("app.name") }}',
-            "event_code"      => \Modules\WebsiteBase\app\Models\NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
+            "event_code"      => NotificationEvent::EVENT_CODE_ACL_GROUP_ATTACHED_USERS,
             // "force_channel"   => "telegram",
             "content"         => "",
             // "content_data"  => "",

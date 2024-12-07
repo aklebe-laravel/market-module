@@ -11,10 +11,11 @@ class OfferItem extends BaseDataTable
     /**
      * Minimum restrictions to allow this component.
      */
-    public const aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
+    public const array aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_TRADER];
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void

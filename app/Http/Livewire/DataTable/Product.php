@@ -14,7 +14,7 @@ class Product extends BaseDataTable
     /**
      * Minimum restrictions to allow this component.
      */
-    public const aclResources = [AclResource::RES_TRADER];
+    public const array aclResources = [AclResource::RES_TRADER];
 
     /**
      * Minimum restrictions to allow this component.
@@ -30,14 +30,14 @@ class Product extends BaseDataTable
 
         $this->addFilterElement('product_filter1', [
             'label'      => 'Filter',
-            'default'    => 10,
+            'default'    => '',
             'position'   => 1700, // between elements rows and search
             'soft_reset' => true,
             'css_group'  => 'col-12 col-md-3 text-start',
             'css_item'   => '',
             'options'    => [
-                ''          => '[All]',
-                ... $this->getFilterOptionsForImages()
+                '' => '[All]',
+                ... $this->getFilterOptionsForImages(),
             ],
             'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
         ]);
@@ -45,6 +45,7 @@ class Product extends BaseDataTable
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -162,7 +163,7 @@ class Product extends BaseDataTable
      * Overwrite this to add filters
      *
      * @param  Builder  $builder
-     * @param  string  $collectionName
+     * @param  string   $collectionName
      *
      * @return void
      */

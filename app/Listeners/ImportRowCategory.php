@@ -23,20 +23,22 @@ class ImportRowCategory extends ImportRowMarket
      * Handle the event.
      *
      * @param  ImportRow  $event
-     * @return bool  false to stop all following listeners
+     *
+     * @return bool  true to accept this data for this type
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function handle(ImportRow $event): bool
     {
-        if (!$this->isRequiredType($event->type)) {
-            return true;
+        if (!$this->isRequiredType($event->importContentEvent->type)) {
+            return false;
         }
 
         $id = data_get($event->row, 'id');
         $code = data_get($event->row, 'code');
         if (!$id && !$code) {
-            return true;
+            return false;
         }
 
         // get Category by id or sku
@@ -68,7 +70,7 @@ class ImportRowCategory extends ImportRowMarket
         }
 
         if (!$category || !$category->getKey()) {
-            return true;
+            return false;
         }
 
         // save the category relations
@@ -79,6 +81,7 @@ class ImportRowCategory extends ImportRowMarket
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array

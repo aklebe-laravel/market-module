@@ -7,7 +7,7 @@ use Modules\Market\app\Models\Category;
 use Modules\WebsiteBase\app\Models\Store;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Market\app\Models\Category>
+ * @extends Factory<Category>
  */
 class CategoryFactory extends Factory
 {
@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $name = implode(' ', fake()->words(rand(1, 2)));
 

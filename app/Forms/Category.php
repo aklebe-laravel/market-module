@@ -3,13 +3,14 @@
 namespace Modules\Market\app\Forms;
 
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
+use Modules\WebsiteBase\app\Models\Store;
 
 class Category extends ModelBaseExtraAttributes
 {
     /**
      * Relation method if parent form exists.
      */
-    const PARENT_RELATION_METHOD_NAME = 'categories';
+    const string PARENT_RELATION_METHOD_NAME = 'categories';
 
     /**
      * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in getJsonResource().
@@ -140,7 +141,7 @@ class Category extends ModelBaseExtraAttributes
                                     'store_id'             => [
                                         'html_element' => 'select',
                                         'label'        => __('Store'),
-                                        'options'      => app('system_base')->toHtmlSelectOptions(\Modules\WebsiteBase\app\Models\Store::orderBy('code',
+                                        'options'      => app('system_base')->toHtmlSelectOptions(Store::orderBy('code',
                                             'ASC')->get(), [
                                             'id',
                                             'code'

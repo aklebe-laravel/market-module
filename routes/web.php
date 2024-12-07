@@ -12,17 +12,23 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use Modules\Acl\app\Http\Middleware\StaffUserPresent;
 use Modules\Market\app\Http\Controllers\CategoryProductController;
 use Modules\Market\app\Http\Controllers\OfferController;
+use Modules\Market\app\Http\Controllers\RatingController;
 use Modules\Market\app\Http\Controllers\SearchController;
 use Modules\Market\app\Http\Controllers\ShoppingCartController;
+use Modules\Market\app\Models\Category;
+use Modules\Market\app\Models\Product;
+use Modules\Market\app\Models\User;
+use Modules\SystemBase\app\Models\JsonViewResponse;
 use Modules\WebsiteBase\app\Http\Middleware\StoreUserValid;
 use Modules\WebsiteBase\app\Services\WebsiteService;
 
 //
 $forceAuthMiddleware = [
     'auth',
-    StoreUserValid::class
+    StoreUserValid::class,
 ];
 /** @var WebsiteService $websiteService */
 $websiteService = app(WebsiteService::class);
@@ -31,8 +37,26 @@ $defaultMiddleware = $websiteService->getDefaultMiddleware();
 /**
  * In this group we need staff user is logged in.
  */
-Route::group(['middleware' => [\Modules\Acl\app\Http\Middleware\StaffUserPresent::class]], function () {
-    // nothing so far ...
+Route::group(['middleware' => [StaffUserPresent::class]], function () {
+
+    // ------------------------------------------------------------------------------
+    // REST API
+    // ------------------------------------------------------------------------------
+    Route::get('/rest-api/user/{user?}', function ($userId = 0) {
+
+        if (!empty($userId)) {
+            /** @var User $user */
+            if ($user = User::with([])->loadByFrontend($userId, 'id')->first()) {
+                $jsonResponse = new JsonViewResponse('OK');
+                $jsonResponse->setData($user);
+
+                return $jsonResponse->go();
+            }
+        }
+
+        return null;
+    })->name('rest-api-user');
+
 });
 
 /**
@@ -42,7 +66,7 @@ Route::group(['middleware' => $forceAuthMiddleware], function () {
 
     Route::get('offer/potential', [
         OfferController::class,
-        'potential'
+        'potential',
     ])->name('offer.potential');
 
 });
@@ -53,13 +77,13 @@ Route::group(['middleware' => $forceAuthMiddleware], function () {
  */
 Route::group(['middleware' => $defaultMiddleware], function () {
 
-    Route::get('/', [CategoryProductController::class, 'show'])->name('home');;
+    Route::get('/', [CategoryProductController::class, 'show'])->name('home');
 
     Route::get('/categories/{category?}', function ($categoryId = 0) {
 
         $children = [];
         if (!empty($categoryId)) {
-            if ($category = \Modules\Market\app\Models\Category::with([])->loadByFrontend($categoryId, 'web_uri')->first()) {
+            if ($category = Category::with([])->loadByFrontend($categoryId, 'web_uri')->first()) {
                 $children = $category->children()->get();
             } else {
                 app()->abort(404);
@@ -76,12 +100,12 @@ Route::group(['middleware' => $defaultMiddleware], function () {
 
     Route::get('/category-products/{category?}', [
         CategoryProductController::class,
-        'show'
+        'show',
     ])->name('category-products');
 
     Route::get('/product/{product?}', function ($productId = 0) {
 
-        $product = \Modules\Market\app\Models\Product::with([])->loadByFrontend($productId, 'web_uri')->first();
+        $product = Product::with([])->loadByFrontend($productId, 'web_uri')->first();
 
         // is $product valid?
         if (!$product || !$product->salable) {
@@ -91,16 +115,16 @@ Route::group(['middleware' => $defaultMiddleware], function () {
         return view('website-base::page', [
             'title'       => $product->name,
             'contentView' => 'market::product',
-            'product'     => $product
+            'product'     => $product,
         ]);
     })->name('product');
 
-    Route::get('get-form-rating/product/{id}', [\Modules\Market\app\Http\Controllers\RatingController::class, 'showProduct'])
-        ->name('get.form.rating.product');
-    Route::get('get-form-rating/user/{id}', [\Modules\Market\app\Http\Controllers\RatingController::class, 'showUser'])
-        ->name('get.form.rating.user');
-    Route::post('submit-form-rating', [\Modules\Market\app\Http\Controllers\RatingController::class, 'setProductRating'])
-        ->name('submit.form.rating.product');
+    Route::get('get-form-rating/product/{id}', [RatingController::class, 'showProduct'])
+         ->name('get.form.rating.product');
+    Route::get('get-form-rating/user/{id}', [RatingController::class, 'showUser'])
+         ->name('get.form.rating.user');
+    Route::post('submit-form-rating', [RatingController::class, 'setProductRating'])
+         ->name('submit.form.rating.product');
 
     Route::post('cart/add-product', [ShoppingCartController::class, 'addProduct'])->name('cart.add-product');
 
@@ -124,6 +148,25 @@ Route::group(['middleware' => $defaultMiddleware], function () {
     // ------------------------------------------------------------------------------
     Route::post('/search', [SearchController::class, 'find'])->name('search');
 
+
+    // ------------------------------------------------------------------------------
+    // REST API
+    // ------------------------------------------------------------------------------
+    Route::get('/rest-api/product/{product?}', function ($productId = 0) {
+
+        if (!empty($productId)) {
+            /** @var Product $product */
+            if ($product = Product::with([])->loadByFrontend($productId, 'id')->first()) {
+                $jsonResponse = new JsonViewResponse('OK');
+                $jsonResponse->setData($product);
+
+                return $jsonResponse->go();
+            }
+        }
+
+        return null;
+    })->name('rest-api-product');
+
 });
 
 /**
@@ -137,7 +180,7 @@ Route::group(['middleware' => []], function () {
     // ------------------------------------------------------------------------------
     Route::get('cart/get/{id}', [
         ShoppingCartController::class,
-        'get'
+        'get',
     ])->name('cart.get');
 
 

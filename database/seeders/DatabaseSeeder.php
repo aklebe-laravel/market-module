@@ -150,7 +150,7 @@ class DatabaseSeeder extends BaseModelSeeder
         if ($minProductsPerCategory > $productsCount) {
             $minProductsPerCategory = $productsCount;
         }
-        $maxProductsPerCategory = config('seeders.categories.count_max_products', 100);;
+        $maxProductsPerCategory = config('seeders.categories.count_max_products', 100);
         if ($maxProductsPerCategory > $productsCount) {
             $maxProductsPerCategory = $productsCount;
         }
@@ -160,11 +160,11 @@ class DatabaseSeeder extends BaseModelSeeder
                                ->where('object_type', '=', MediaItem::OBJECT_TYPE_CATEGORY_IMAGE)
                                ->get();
         $mediaItemsCount = $mediaItems->count();
-        $minMediaItemsPerCategory = config('seeders.categories.count_min_media_items', 1);;
+        $minMediaItemsPerCategory = config('seeders.categories.count_min_media_items', 1);
         if ($minMediaItemsPerCategory > $mediaItemsCount) {
             $minMediaItemsPerCategory = $mediaItemsCount;
         }
-        $maxMediaItemsPerCategory = config('seeders.categories.count_max_media_items', 3);;
+        $maxMediaItemsPerCategory = config('seeders.categories.count_max_media_items', 3);
         if ($maxMediaItemsPerCategory > $mediaItemsCount) {
             $maxMediaItemsPerCategory = $mediaItemsCount;
         }

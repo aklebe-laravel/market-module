@@ -21,12 +21,13 @@ class ImportRowAddress extends ImportRowMarket
      * Handle the event.
      *
      * @param  ImportRow  $event
-     * @return bool  false to stop all following listeners
+     *
+     * @return bool  true to accept this data for this type
      */
     public function handle(ImportRow $event): bool
     {
-        if (!$this->isRequiredType($event->type)) {
-            return true;
+        if (!$this->isRequiredType($event->importContentEvent->type)) {
+            return false;
         }
 
         if (!($id = data_get($event->row, 'id'))) {
@@ -43,7 +44,7 @@ class ImportRowAddress extends ImportRowMarket
 
         // user is required
         if ($validated['user_id'] === null) {
-            return true;
+            return false;
         }
 
         // save the base Address
@@ -60,7 +61,7 @@ class ImportRowAddress extends ImportRowMarket
         }
 
         if (!$address || !$address->getKey()) {
-            return true;
+            return false;
         }
 
         return true;
@@ -68,6 +69,7 @@ class ImportRowAddress extends ImportRowMarket
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array

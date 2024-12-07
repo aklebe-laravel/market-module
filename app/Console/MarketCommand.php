@@ -4,14 +4,15 @@ namespace Modules\Market\app\Console;
 
 use Illuminate\Console\Command;
 use Modules\SystemBase\app\Services\ModelService;
+use Symfony\Component\Console\Command\Command as CommandResult;
 
 abstract class MarketCommand extends Command
 {
     /**
      * Execute the console command.
      *
-     * @param $command
-     * @param $modelClass
+     * @param                 $command
+     * @param                 $modelClass
      * @param  callable|null  $callbackBuilder
      * @param  callable|null  $callbackItem
      *
@@ -58,7 +59,7 @@ abstract class MarketCommand extends Command
         }
         $this->comment(sprintf("Items %d/%d: %s", $success, $total, $taskDone));
 
-        return Command::SUCCESS;
+        return CommandResult::SUCCESS;
     }
 
 }

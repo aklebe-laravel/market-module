@@ -25,20 +25,21 @@ class ImportRowProduct extends ImportRowMarket
      * Handle the event.
      *
      * @param  ImportRow  $event
-     * @return bool  false to stop all following listeners
+     *
+     * @return bool  true to accept this data for this type
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function handle(ImportRow $event): bool
     {
-        if (!$this->isRequiredType($event->type)) {
-            return true;
+        if (!$this->isRequiredType($event->importContentEvent->type)) {
+            return false;
         }
 
         $id = data_get($event->row, 'id');
         $sku = data_get($event->row, 'sku');
         if (!$id && !$sku) {
-            return true;
+            return false;
         }
 
         // validate data
@@ -46,7 +47,7 @@ class ImportRowProduct extends ImportRowMarket
 
         // user is required
         if ($validated['user_id'] === null) {
-            return true;
+            return false;
         }
 
         // get product by id or sku
@@ -72,8 +73,10 @@ class ImportRowProduct extends ImportRowMarket
         }
 
         if (!$product || !$product->getKey()) {
-            return true;
+            return false;
         }
+
+        // now for sure we have a product object, we should always return true from here ...
 
         if ($product->validateAndAdjustProperties()) {
             $product->save();
@@ -83,11 +86,13 @@ class ImportRowProduct extends ImportRowMarket
         $this->doMediaRelations($product, $event->row);
         $this->doCategoryRelations($product, $event->row);
 
+        // the one and only success
         return true;
     }
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array
@@ -125,16 +130,16 @@ class ImportRowProduct extends ImportRowMarket
         $this->addCustomColumnIfPresent($row, $validatedRow, 'payment_method', 'payment_method_id',
             function () use ($row, $settings) {
                 return $settings->getValidPaymentMethods()
-                    ->where('code', $row['payment_method'])
-                    ->first()
-                    ?->getKey() ?? null;
+                                ->where('code', $row['payment_method'])
+                                ->first()
+                                ?->getKey() ?? null;
             });
         $this->addCustomColumnIfPresent($row, $validatedRow, 'shipping_method', 'shipping_method_id',
             function () use ($row, $settings) {
                 return $settings->getValidShippingMethods()
-                    ->where('code', $row['shipping_method'])
-                    ->first()
-                    ?->getKey() ?? null;
+                                ->where('code', $row['shipping_method'])
+                                ->first()
+                                ?->getKey() ?? null;
             });
 
         return $validatedRow;
@@ -143,6 +148,7 @@ class ImportRowProduct extends ImportRowMarket
     /**
      * @param  Product  $product
      * @param  array    $row
+     *
      * @return void
      */
     private function doCategoryRelations(Product $product, array &$row): void
@@ -175,6 +181,7 @@ class ImportRowProduct extends ImportRowMarket
     /**
      * @param  Product|Category|MarketUser  $o
      * @param  array                        $row
+     *
      * @return void
      */
     protected function setExtraAttributes(Product|Category|MarketUser $o, array $row): void

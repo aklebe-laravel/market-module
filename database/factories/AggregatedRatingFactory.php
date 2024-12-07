@@ -4,9 +4,10 @@ namespace Modules\Market\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Market\app\Models\AggregatedRating;
+use Modules\Market\app\Models\Category;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Market\app\Models\Category>
+ * @extends Factory<Category>
  */
 class AggregatedRatingFactory extends Factory
 {
@@ -17,7 +18,7 @@ class AggregatedRatingFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'value' => fake()->randomFloat(4, 20, 100),

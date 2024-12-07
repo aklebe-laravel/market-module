@@ -16,6 +16,7 @@ class UserAssignedToTrader extends Mailable
 
     /**
      * public properties are accessible in view template
+     *
      * @var User
      */
     public User $user;
@@ -33,9 +34,9 @@ class UserAssignedToTrader extends Mailable
     /**
      * Get the message envelope.
      *
-     * @return \Illuminate\Mail\Mailables\Envelope
+     * @return Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         $toAddress = new Address($this->user->email, $this->user->name);
         $fromAddress = new Address(config('mail.from.address'), config('mail.from.name'));
@@ -53,9 +54,9 @@ class UserAssignedToTrader extends Mailable
     /**
      * Get the message content definition.
      *
-     * @return \Illuminate\Mail\Mailables\Content
+     * @return Content
      */
-    public function content()
+    public function content(): Content
     {
         return new Content(view: 'notifications.emails.user-assigned-to-trader',
         //            text: 'notifications.emails.offers.created-text',
@@ -68,7 +69,7 @@ class UserAssignedToTrader extends Mailable
      *
      * @return array
      */
-    public function attachments()
+    public function attachments(): array
     {
         return [];
     }

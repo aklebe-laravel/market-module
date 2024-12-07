@@ -11,14 +11,15 @@ class Category extends BaseDataTable
     /**
      *
      */
-    public const aclResources = [
+    public const array aclResources = [
         AclResource::RES_DEVELOPER,
         AclResource::RES_MANAGE_CONTENT,
-        AclResource::RES_MANAGE_DESIGN
+        AclResource::RES_MANAGE_DESIGN,
     ];
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -95,7 +96,7 @@ class Category extends BaseDataTable
      * Overwrite this to add filters
      *
      * @param  Builder  $builder
-     * @param  string  $collectionName
+     * @param  string   $collectionName
      *
      * @return void
      */

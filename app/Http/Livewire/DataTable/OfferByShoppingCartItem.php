@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Modules\Market\app\Services\OfferService;
+use Throwable;
 
 
 class OfferByShoppingCartItem extends ShoppingCartItem
@@ -18,8 +19,14 @@ class OfferByShoppingCartItem extends ShoppingCartItem
      */
     public string $modelName = 'ShoppingCartItem';
 
+    /**
+     * @var string
+     */
     public string $footerActions = 'market::inc.offers.actions-cart-items';
 
+    /**
+     * @var array|true[]
+     */
     public array $enabledCollectionNames = [
         // self::COLLECTION_NAME_DEFAULT          => true,
         self::COLLECTION_NAME_SELECTED_ITEMS => true,
@@ -28,6 +35,7 @@ class OfferByShoppingCartItem extends ShoppingCartItem
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -66,7 +74,7 @@ class OfferByShoppingCartItem extends ShoppingCartItem
         $builder->with([
             'product',
             'shoppingCart',
-            'paymentMethod'
+            'paymentMethod',
         ])->select('*');
 
         return $builder;
@@ -74,11 +82,12 @@ class OfferByShoppingCartItem extends ShoppingCartItem
 
     /**
      * @param $userId
+     *
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      */
     #[On('create-offer-to-user')]
-    public function createOfferToUser($userId)
+    public function createOfferToUser($userId): void
     {
         //        $this->checkLivewireId()
         if ($this->getUserId() !== (int) $userId) {

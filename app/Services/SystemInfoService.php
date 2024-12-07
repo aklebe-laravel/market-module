@@ -2,14 +2,16 @@
 
 namespace Modules\Market\app\Services;
 
+use Modules\Market\app\Models\User;
 use Illuminate\Support\Carbon;
+use Modules\Market\app\Models\Product;
 use Modules\SystemBase\app\Services\Base\BaseService;
 
 class SystemInfoService extends BaseService
 {
     public function getSystemInfo(): array
     {
-        $result = [
+        return [
             'headers' => [
                 'key'   => [
                     'label' => 'Key',
@@ -24,7 +26,7 @@ class SystemInfoService extends BaseService
                         'content' => 'Users total',
                     ],
                     'value' => [
-                        'content' => \App\Models\User::with([])->count(),
+                        'content' => User::with([])->count(),
                     ],
                 ],
                 [
@@ -32,9 +34,9 @@ class SystemInfoService extends BaseService
                         'content' => 'Users active today',
                     ],
                     'value' => [
-                        'content' => \App\Models\User::with([])
-                            ->where('last_visited_at', '>', Carbon::today())
-                            ->count(),
+                        'content' => User::with([])
+                                         ->where('last_visited_at', '>', Carbon::today())
+                                         ->count(),
                     ],
                 ],
                 [
@@ -42,9 +44,9 @@ class SystemInfoService extends BaseService
                         'content' => 'Users active since 7 days',
                     ],
                     'value' => [
-                        'content' => \App\Models\User::with([])
-                            ->where('last_visited_at', '>', Carbon::today()->subDays(7))
-                            ->count(),
+                        'content' => User::with([])
+                                         ->where('last_visited_at', '>', Carbon::today()->subDays(7))
+                                         ->count(),
                     ],
                 ],
                 [
@@ -52,7 +54,7 @@ class SystemInfoService extends BaseService
                         'content' => 'Products',
                     ],
                     'value' => [
-                        'content' => \Modules\Market\app\Models\Product::with([])->count(),
+                        'content' => Product::with([])->count(),
                     ],
                 ],
                 [
@@ -65,8 +67,5 @@ class SystemInfoService extends BaseService
                 ],
             ],
         ];
-
-
-        return $result;
     }
 }

@@ -79,16 +79,31 @@ Specify ```--dir``` if you want select a specific sub path in root.
 
 Use ```market:products delete``` to delete your last imports.
 
-All (optional) columns not explicit exists will not be touched on update and set to default on create.
+All (optional) source columns not explicit exists will not be touched on update and will be set to default on create.
 
-Every column not listed will not be ignored.
+Every column not listed below is matter and will not be ignored.
 
 ### Examples
 
-Import all files containing "test", but processing products only.
+Import all files containing "test", but processing products only. 
+This also means in this case the files must have product data. 
+Every file and row will be processed, but if no product data were found, nothing happens.
 
 ```
 php artisan deploy-env:auto-import "test" --type=product
+```
+
+if no type option given, the files must have the format ```"[type]-[...]"```.
+So found files named ```"product-test-01.csv"``` and ```"product-my-big-test.csv"``` will be processed as products with:
+
+```
+php artisan deploy-env:auto-import "test"
+```
+
+Found files named ```"category-test-99.csv"``` and ```"categories-in-computer.csv"``` will be processed as categories with the same:
+
+```
+php artisan deploy-env:auto-import "test"
 ```
 
 ### Product Import format

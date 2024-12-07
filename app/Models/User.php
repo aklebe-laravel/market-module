@@ -17,6 +17,8 @@ use Modules\WebsiteBase\app\Models\Base\TraitAttributeAssignment;
 use Modules\WebsiteBase\app\Models\Base\TraitBaseMedia;
 use Modules\WebsiteBase\app\Models\Base\UserTrait;
 use Modules\WebsiteBase\app\Models\Store;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @mixin IdeHelperUser
@@ -26,9 +28,9 @@ class User extends \Modules\WebsiteBase\app\Models\User
     // Traits Have to use redundant here, using in WebsiteUser is not enough!
     use HasFactory, Notifiable, TraitAttributeAssignment, TraitBaseMedia, UserTrait, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta;
 
-    const RATING_SUB_CODE_WELL_KNOWN = 'well_known';
-    const RATING_SUB_CODE_TRUST = 'trust';
-    const RATING_SUB_CODE_OFFER_SUCCESS = 'offer_success';
+    const string RATING_SUB_CODE_WELL_KNOWN = 'well_known';
+    const string RATING_SUB_CODE_TRUST = 'trust';
+    const string RATING_SUB_CODE_OFFER_SUCCESS = 'offer_success';
 
     /**
      * @var array|string[]
@@ -41,6 +43,7 @@ class User extends \Modules\WebsiteBase\app\Models\User
 
     /**
      * You can use this instead of newFactory()
+     *
      * @var string
      */
     public static string $factory = UserFactory::class;
@@ -57,22 +60,14 @@ class User extends \Modules\WebsiteBase\app\Models\User
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-    }
 
-    /**
-     * Override this instead of declare $appends with all parent declarations.
-     *
-     * @return array|string[]
-     */
-    protected function getArrayableAppends()
-    {
-        return parent::getArrayableAppends() + [
-                'rating',
-                'rating5',
-                'rating5_'.self::RATING_SUB_CODE_WELL_KNOWN,
-                'rating5_'.self::RATING_SUB_CODE_TRUST,
-                'rating5_'.self::RATING_SUB_CODE_OFFER_SUCCESS,
-            ];
+        $this->appends += [
+            'rating',
+            'rating5',
+            'rating5_'.self::RATING_SUB_CODE_WELL_KNOWN,
+            'rating5_'.self::RATING_SUB_CODE_TRUST,
+            'rating5_'.self::RATING_SUB_CODE_OFFER_SUCCESS,
+        ];
     }
 
     /**
@@ -126,15 +121,15 @@ class User extends \Modules\WebsiteBase\app\Models\User
     /**
      * @return mixed
      */
-    public function frontendProducts()
+    public function frontendProducts(): mixed
     {
         return $this->products()->frontendItems();
     }
 
     /**
      * @return mixed
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function crossSellingProducts(): mixed
     {

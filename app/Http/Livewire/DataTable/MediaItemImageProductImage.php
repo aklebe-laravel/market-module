@@ -5,6 +5,7 @@ namespace Modules\Market\app\Http\Livewire\DataTable;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\WebsiteBase\app\Http\Livewire\DataTable\MediaItemImage;
+use Modules\WebsiteBase\app\Models\MediaItem;
 
 class MediaItemImageProductImage extends MediaItemImage
 {
@@ -20,7 +21,7 @@ class MediaItemImageProductImage extends MediaItemImage
     public function getBaseBuilder(string $collectionName): ?Builder
     {
         $builder = parent::getBaseBuilder($collectionName);
-        $builder->where('object_type', '=', \Modules\WebsiteBase\app\Models\MediaItem::OBJECT_TYPE_PRODUCT_IMAGE);
+        $builder->where('object_type', '=', MediaItem::OBJECT_TYPE_PRODUCT_IMAGE);
         return $builder;
     }
 

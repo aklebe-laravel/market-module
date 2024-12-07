@@ -9,6 +9,7 @@ use Modules\Market\app\Models\Category;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\Product;
 use Modules\Market\app\Models\User as MarketUser;
+use Modules\WebsiteBase\app\Models\MediaItem as WebsiteBaseMediaItem;
 use Modules\WebsiteBase\app\Models\Store;
 use Modules\WebsiteBase\app\Services\MediaService;
 use Psr\Container\ContainerExceptionInterface;
@@ -29,13 +30,12 @@ class ImportRowMarket extends ImportRowBase
 
     /**
      * @param $row
+     *
      * @return array
      */
     protected function validateRow(&$row): array
     {
-        $validatedRow = [];
-
-        return $validatedRow;
+        return [];
     }
 
     /**
@@ -44,10 +44,10 @@ class ImportRowMarket extends ImportRowBase
      * @param  string                       $sourceKey
      * @param  string|null                  $destKey
      * @param  callable|null                $callback
+     *
      * @return bool
      */
-    protected function addCustomExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source,
-        string $sourceKey, ?string $destKey = null, callable $callback = null): bool
+    protected function addCustomExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source, string $sourceKey, ?string $destKey = null, callable $callback = null): bool
     {
         if (!isset($source[$sourceKey])) {
             return false;
@@ -68,14 +68,15 @@ class ImportRowMarket extends ImportRowBase
      * @param  string                       $sourceKey
      * @param  string|null                  $destKey
      * @param  mixed|null                   $default
+     *
      * @return bool
      */
-    protected function addBasicExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source,
-        string $sourceKey, ?string $destKey = null, mixed $default = null): bool
+    protected function addBasicExtraAttributeIfPresent(Product|Category|MarketUser $o, array &$source, string $sourceKey, ?string $destKey = null, mixed $default = null): bool
     {
         return $this->addCustomExtraAttributeIfPresent($o, $source, $sourceKey, $destKey,
             function () use (&$source, $sourceKey, $default) {
                 $v = data_get($source, $sourceKey, $default);
+
                 return $this->typeCast($sourceKey, $v);
             });
     }
@@ -83,6 +84,7 @@ class ImportRowMarket extends ImportRowBase
     /**
      * @param  Product|Category|MarketUser  $o
      * @param  array                        $row
+     *
      * @return void
      */
     protected function setExtraAttributes(Product|Category|MarketUser $o, array $row): void
@@ -94,6 +96,7 @@ class ImportRowMarket extends ImportRowBase
      *
      * @param  array   $row
      * @param  string  $sourceColumn
+     *
      * @return string|int|null
      */
     protected function getCalculatedUserColumnAsId(array &$row, string $sourceColumn = 'user'): string|int|null
@@ -110,6 +113,7 @@ class ImportRowMarket extends ImportRowBase
             return $user->getKey();
         }
         Log::error(sprintf("User '%s' not found.", $userId));
+
         return null;
     }
 
@@ -118,6 +122,7 @@ class ImportRowMarket extends ImportRowBase
      *
      * @param  array   $row
      * @param  string  $sourceColumn
+     *
      * @return string|int|null
      */
     protected function getCalculatedStoreColumnAsId(array &$row, string $sourceColumn = 'store'): string|int|null
@@ -134,6 +139,7 @@ class ImportRowMarket extends ImportRowBase
             return $store->getKey();
         }
         Log::error(sprintf("Store '%s' not found. Set relation to null.", $storeId));
+
         return null;
     }
 
@@ -142,6 +148,7 @@ class ImportRowMarket extends ImportRowBase
      *
      * @param  Product|Category|MarketUser  $o
      * @param  array                        $row
+     *
      * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -179,10 +186,11 @@ class ImportRowMarket extends ImportRowBase
 
             /** @var MediaItem $mediaItemFound */
             if ($mediaItemFound = MediaItem::with([])
-                ->where('media_type', \Modules\WebsiteBase\app\Models\MediaItem::MEDIA_TYPE_IMAGE)
-                ->where('extern_url', $imageFilename)
-                ->where('user_id', $userId)
-                ->first()) {
+                                           ->where('media_type', \Modules\WebsiteBase\app\Models\MediaItem::MEDIA_TYPE_IMAGE)
+                                           ->where('extern_url', $imageFilename)
+                                           ->where('user_id', $userId)
+                                           ->first()
+            ) {
                 // Image already found. Skipping download and media item creation
                 $mediaIds[] = $mediaItemFound->getKey();
                 if ($mediaItemFound->position > $position) {
@@ -205,8 +213,8 @@ class ImportRowMarket extends ImportRowBase
                     'extern_url'       => $imageFilename,
                     'description'      => 'Auto generated by import',
                     'meta_description' => 'import',
-                    'media_type'       => MediaItem::MEDIA_TYPE_IMAGE,
-                    'object_type'      => ($isUser) ? MediaItem::OBJECT_TYPE_USER_AVATAR : ($isCategory ? MediaItem::OBJECT_TYPE_CATEGORY_IMAGE : MediaItem::OBJECT_TYPE_PRODUCT_IMAGE),
+                    'media_type'       => WebsiteBaseMediaItem::MEDIA_TYPE_IMAGE,
+                    'object_type'      => ($isUser) ? WebsiteBaseMediaItem::OBJECT_TYPE_USER_AVATAR : ($isCategory ? WebsiteBaseMediaItem::OBJECT_TYPE_CATEGORY_IMAGE : WebsiteBaseMediaItem::OBJECT_TYPE_PRODUCT_IMAGE),
                     'position'         => $position,
                 ];
 

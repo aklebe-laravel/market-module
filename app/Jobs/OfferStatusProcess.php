@@ -9,6 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Modules\Market\app\Models\Offer;
 use Modules\WebsiteBase\app\Services\SendNotificationService;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class OfferStatusProcess implements ShouldQueue
 {
@@ -33,8 +36,11 @@ class OfferStatusProcess implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws TelegramSDKException
      */
-    public function handle()
+    public function handle(): void
     {
         // Log::debug(sprintf("Handle offer (%s), status: %s.", $this->offer->id, $this->offer->status), [__METHOD__]);
 
