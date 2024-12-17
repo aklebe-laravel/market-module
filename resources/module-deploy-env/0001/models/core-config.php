@@ -83,32 +83,37 @@ return [
             'store_id'    => null,
             "path"        => "users.profiles.media.enabled",
             "value"       => "0",
+            "form_input"  => "switch",
             "description" => "Enables media listing in user profiles",
         ],
         [
             'store_id'    => null,
             "path"        => "users.profiles.products.enabled",
             "value"       => "0",
+            "form_input"  => "switch",
             "description" => "Enables product listing in user profiles",
         ],
         [
             'store_id'    => null,
             "path"        => "site.rating.enabled",
             "value"       => "1",
+            "form_input"  => "switch",
             "description" => "Enables site ratings. If this if disabled, all ratings are disabled.",
         ],
         [
             'store_id'    => null,
             "path"        => "user.rating.enabled",
             "value"       => "1",
+            "form_input"  => "switch",
             "description" => "Enables user ratings",
         ],
         [
             'store_id'    => null,
             "path"        => "product.rating.enabled",
             "value"       => "1",
+            "form_input"  => "switch",
             "description" => "Enables product ratings",
         ],
-    ]
+    ],
 ];
 

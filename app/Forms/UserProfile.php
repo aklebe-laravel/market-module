@@ -15,6 +15,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
 
     /**
      * Needed in Userprofile because the Classname differ
+     *
      * @var string|null
      */
     protected ?string $objectEloquentModelName = \Modules\Market\app\Models\User::class;
@@ -37,12 +38,14 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
 
     /**
      * Singular
+     *
      * @var string
      */
     protected string $objectFrontendLabel = 'User';
 
     /**
      * Plural
+     *
      * @var string
      */
     protected string $objectsFrontendLabel = 'Users';
@@ -122,7 +125,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'label'        => __('ID'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'shared_id'             => [
@@ -130,7 +133,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                     ],
                                     'name'                  => [
@@ -140,7 +143,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'validator'    => [
                                             'required',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -151,7 +154,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'validator'    => [
                                             'required',
                                             'email',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -164,7 +167,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'validator'     => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'     => 'col-12 col-md-6',
                                     ],
@@ -177,7 +180,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'validator'     => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'     => 'col-12 col-md-6',
                                     ],
@@ -189,7 +192,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                     ],
                                     'media_file_upload'     => [
                                         'visible'      => $defaultSettings['can_edit'],
-                                        'html_element' => 'website-base::file_upload',
+                                        'html_element' => 'website-base::media_item_file_upload_images',
                                         'label'        => __('Media Upload'),
                                         'description'  => __('Media Upload'),
                                         'css_group'    => 'col-12 col-md-6',
@@ -256,7 +259,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -287,7 +290,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -317,7 +320,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -347,7 +350,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -373,7 +376,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -399,7 +402,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -425,7 +428,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -448,7 +451,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],

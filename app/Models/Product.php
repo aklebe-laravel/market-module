@@ -111,7 +111,7 @@ class Product extends Model
      */
     public function getContentImages(string $contentCode = '', bool $forceAny = true): BelongsToMany
     {
-        $images = $this->images()->where('object_type', MediaItem::OBJECT_TYPE_PRODUCT_IMAGE);
+        $images = $this->images()->productImages();
 
         if ($contentCode) {
             $images->where(function (Builder $b) use ($contentCode, $forceAny) {
@@ -136,7 +136,7 @@ class Product extends Model
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(static::class);
     }
 
     /**

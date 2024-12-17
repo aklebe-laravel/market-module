@@ -14,7 +14,7 @@ return [
 
     'deployments' => [
         // Identifier to remember this deployment was already done.
-        '0001'                   => [
+        '0001' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
@@ -68,7 +68,7 @@ return [
                 ],
             ],
         ],
-        '0003'                   => [
+        '0003' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
@@ -76,7 +76,7 @@ return [
                 ],
             ],
         ],
-        '0004'                   => [
+        '0004' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
@@ -86,7 +86,7 @@ return [
                 ],
             ],
         ],
-        '0005'                   => [
+        '0005' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
@@ -94,7 +94,7 @@ return [
                 ],
             ],
         ],
-        '0007'                   => [
+        '0007' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
@@ -103,11 +103,19 @@ return [
                 ],
             ],
         ],
-        '0008'                   => [
+        '0008' => [
             [
                 'cmd'     => 'models',
                 'sources' => [
                     'core-config.php',
+                ],
+            ],
+        ],
+        '0009' => [
+            [
+                'cmd'     => 'models',
+                'sources' => [
+                    'navigations.php',
                 ],
             ],
         ],

@@ -2,7 +2,9 @@
 
 namespace Modules\Market\app\Listeners;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\Product;
 use Modules\Market\app\Models\User;
@@ -53,8 +55,7 @@ class ModelWithAttributesDeleting
 
             // Unset Offer product_id ...
 
-        }
-        // Delete user specific relations ...
+        } // Delete user specific relations ...
         elseif ($model instanceof User) {
             Log::info(sprintf("Deleting User and relations %s", $model->getKey()), [__METHOD__]);
             /** @var MediaService $mediaService */
@@ -100,8 +101,7 @@ class ModelWithAttributesDeleting
             // Delete Parent Reputations ...
             $model->parentReputations()->detach();
 
-        }
-        // Delete user specific relations ...
+        } // Delete store specific relations ...
         elseif ($model instanceof Store) {
             Log::info(sprintf("Deleting Store and relations %s", $model->getKey()), [__METHOD__]);
         }

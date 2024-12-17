@@ -13,11 +13,11 @@ return [
     "relations" => [
         "view_template" => [
             // relation method which have to exists
-            "method" => "viewTemplate",
+            "method"  => "viewTemplate",
             // column(s) to find specific #sync_relations items below
             "columns" => "code",
             // delete items if not listed here (default: false)
-            "delete" => false,
+            "delete"  => false,
         ],
     ],
     // data rows itself
@@ -31,7 +31,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "email_market_offer_created",
-                ]
+                ],
             ],
         ],
         [
@@ -43,7 +43,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "email_market_offer_rejected",
-                ]
+                ],
             ],
         ],
         [
@@ -55,7 +55,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "email_market_offer_completed",
-                ]
+                ],
             ],
         ],
         [
@@ -67,7 +67,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "email_market_user_assigned_to_trader",
-                ]
+                ],
             ],
         ],
         [
@@ -79,7 +79,19 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "email_market_user_assigned_to_acl_group",
-                ]
+                ],
+            ],
+        ],
+        [
+            "is_enabled"           => true,
+            "code"                 => "market_media_item_import",
+            "notification_channel" => "email",
+            "subject"              => 'Import completed: {{ config("app.name") }}',
+            "description"          => "Import completed.",
+            "#sync_relations"      => [
+                "view_template" => [
+                    "email_market_media_item_import",
+                ],
             ],
         ],
         [
@@ -91,7 +103,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "telegram_market_offer_created",
-                ]
+                ],
             ],
         ],
         [
@@ -103,7 +115,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "telegram_market_offer_rejected",
-                ]
+                ],
             ],
         ],
         [
@@ -115,7 +127,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "telegram_market_offer_completed",
-                ]
+                ],
             ],
         ],
         [
@@ -127,7 +139,7 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "telegram_market_user_assigned_to_trader",
-                ]
+                ],
             ],
         ],
         [
@@ -139,7 +151,19 @@ return [
             "#sync_relations"      => [
                 "view_template" => [
                     "telegram_market_user_assigned_to_acl_group",
-                ]
+                ],
+            ],
+        ],
+        [
+            "is_enabled"           => true,
+            "code"                 => "market_media_item_import",
+            "notification_channel" => "telegram",
+            "subject"              => 'Import completed: {{ config("app.name") }}',
+            "description"          => "Import completed.",
+            "#sync_relations"      => [
+                "view_template" => [
+                    "telegram_market_media_item_import",
+                ],
             ],
         ],
     ],

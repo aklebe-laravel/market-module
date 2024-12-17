@@ -3,16 +3,24 @@
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Market\app\Models\Category as CategoryModel;
 
 
 class CategorySearch extends Category
 {
-    public string $modelName = 'Category';
+    /**
+     * @var string
+     */
+    public string $eloquentModelName = CategoryModel::class;
 
+    /**
+     * @var string
+     */
     public string $searchStringLike = '';
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -30,7 +38,7 @@ class CategorySearch extends Category
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
-        $builder = \Modules\Market\app\Models\Category::getBuilderFrontendItems();
+        $builder = CategoryModel::getBuilderFrontendItems();
 
         if ($this->searchStringLike) {
             $builder->where(function (Builder $b) {

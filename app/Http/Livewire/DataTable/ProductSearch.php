@@ -3,15 +3,24 @@
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Market\app\Models\Product as ProductModel;
 
 
 class ProductSearch extends Product
 {
-    public string $modelName = 'Product';
+    /**
+     * @var string
+     */
+    public string $eloquentModelName = ProductModel::class;
+
+    /**
+     * @var string
+     */
     public string $searchStringLike = '';
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -21,7 +30,7 @@ class ProductSearch extends Product
 
     /**
      * The base builder before all filter manipulations.
-     * Usually used for all collections (default, selected, unselected), but can overwritten.
+     * Usually used for all collections (default, selected, unselected), but can be overwritten.
      *
      * @param  string  $collectionName
      *
@@ -29,7 +38,7 @@ class ProductSearch extends Product
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
-        $builder = \Modules\Market\app\Models\Product::getBuilderFrontendItems();
+        $builder = ProductModel::getBuilderFrontendItems();
 
         if ($this->searchStringLike) {
             $builder->where(function (Builder $b) {

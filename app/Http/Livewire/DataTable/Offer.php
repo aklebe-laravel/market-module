@@ -10,6 +10,8 @@ use Modules\Market\app\Services\OfferService;
 
 class Offer extends BaseDataTable
 {
+    use BaseMarketDataTable;
+
     /**
      * Restrictions to allow this component.
      */

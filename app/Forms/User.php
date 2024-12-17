@@ -22,7 +22,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
     protected array $objectRelations = [
         'mediaItems',
         'aclGroups',
-        'products'
+        'products',
     ];
 
     /**
@@ -56,7 +56,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'label'        => __('ID'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'is_enabled'            => [
@@ -65,7 +65,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'description'  => __('Disable to lock this user, prevent him from login and log him out if he is already online.'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-6 col-lg-3',
                                     ],
@@ -82,7 +82,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'description'  => __('Deletion step 2/3: Soft delete. User becomes invalid and is unable to login.'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-6 col-lg-3',
                                     ],
@@ -91,7 +91,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'label'        => __('User deleted'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-6 col-lg-3',
                                     ],
@@ -102,7 +102,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'validator'    => [
                                             'required',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -113,7 +113,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'validator'    => [
                                             'required',
                                             'email',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -124,7 +124,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -135,7 +135,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -146,7 +146,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12',
                                     ],
@@ -157,7 +157,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'media_file_upload'     => [
-                                        'html_element' => 'website-base::file_upload',
+                                        'html_element' => 'website-base::media_item_file_upload_images',
                                         'label'        => __('Media Upload'),
                                         'description'  => __('Media Upload'),
                                         'css_group'    => 'col-12 col-md-6',
@@ -229,7 +229,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -261,7 +261,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -291,7 +291,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -321,7 +321,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -344,7 +344,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -373,7 +373,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -385,5 +385,4 @@ class User extends \Modules\WebsiteBase\app\Forms\User
             ],
         ];
     }
-
 }

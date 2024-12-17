@@ -31,6 +31,8 @@ class ImportRowCategory extends ImportRowMarket
      */
     public function handle(ImportRow $event): bool
     {
+        parent::handle($event);
+
         if (!$this->isRequiredType($event->importContentEvent->type)) {
             return false;
         }

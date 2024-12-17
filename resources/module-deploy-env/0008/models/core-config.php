@@ -14,9 +14,10 @@ return [
         [
             'store_id'    => null,
             "path"        => "product.force_public.enabled",
+            "form_input"  => "switch",
             "value"       => "1",
             "description" => "Enables linking products to public, even store is not public",
         ],
-    ]
+    ],
 ];
 

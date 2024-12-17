@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Providers;
 
 use Illuminate\Support\Facades\Config;
+use Modules\Market\app\Console\Maintenance;
 use Modules\Market\app\Console\MarketManager;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\User;
@@ -85,6 +86,7 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
 
         $this->commands([
             MarketManager::class,
+            Maintenance::class,
         ]);
     }
 }

@@ -54,7 +54,7 @@ class Offer extends Model implements Attachable
      */
     public function prevOffer(): BelongsTo
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(static::class);
     }
 
     /**
@@ -62,7 +62,7 @@ class Offer extends Model implements Attachable
      */
     public function nextOffers(): HasMany
     {
-        return $this->hasMany(self::class, 'prev_offer_id', 'id');
+        return $this->hasMany(static::class, 'prev_offer_id', 'id');
     }
 
     /**

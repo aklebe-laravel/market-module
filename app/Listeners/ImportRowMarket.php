@@ -101,6 +101,10 @@ class ImportRowMarket extends ImportRowBase
      */
     protected function getCalculatedUserColumnAsId(array &$row, string $sourceColumn = 'user'): string|int|null
     {
+        if ($this->event->importContentEvent->forceUserId !== null) {
+            return $this->event->importContentEvent->forceUserId;
+        }
+
         $userId = data_get($row, $sourceColumn);
         if (!$userId) {
             return null;
@@ -186,7 +190,7 @@ class ImportRowMarket extends ImportRowBase
 
             /** @var MediaItem $mediaItemFound */
             if ($mediaItemFound = MediaItem::with([])
-                                           ->where('media_type', \Modules\WebsiteBase\app\Models\MediaItem::MEDIA_TYPE_IMAGE)
+                                           ->images()
                                            ->where('extern_url', $imageFilename)
                                            ->where('user_id', $userId)
                                            ->first()

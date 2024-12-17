@@ -68,7 +68,8 @@ class DatabaseSeeder extends BaseModelSeeder
         // -------------------------------------------------
         $this->AggregateRatings($timestamp);
 
-
+        //
+        app('system_base')->logExecutionTime("Seeded ".__METHOD__);
     }
 
     /**
@@ -82,7 +83,7 @@ class DatabaseSeeder extends BaseModelSeeder
             // -------------------------------------------------
             // Assign media items to products
             // -------------------------------------------------
-            $mediaItems = MediaItem::where('user_id', $userId)->where('object_type', '=', MediaItem::OBJECT_TYPE_PRODUCT_IMAGE)->get();
+            $mediaItems = MediaItem::where('user_id', $userId)->productImages()->get();
             if ($mediaItems->count()) {
                 // Populate the pivot table
                 Product::where('user_id', $userId)->each(function ($product) use ($mediaItems) {
@@ -95,7 +96,7 @@ class DatabaseSeeder extends BaseModelSeeder
             // -------------------------------------------------
             // Assign media items to user
             // -------------------------------------------------
-            $mediaItems = MediaItem::where('user_id', $userId)->where('object_type', '=', MediaItem::OBJECT_TYPE_USER_AVATAR)->get();
+            $mediaItems = MediaItem::where('user_id', $userId)->userAvatars()->get();
             if ($mediaItems->count()) {
                 // syncWithoutDetaching() better than attach() to avoid errors if items already exists
                 /** @var User $user */
