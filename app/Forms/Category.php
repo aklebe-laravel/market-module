@@ -30,17 +30,19 @@ class Category extends ModelBaseExtraAttributes
      */
     protected array $objectRelations = [
         'mediaItems',
-        'userProducts'
+        'userProducts',
     ];
 
     /**
      * Singular
+     *
      * @var string
      */
     protected string $objectFrontendLabel = 'Category';
 
     /**
      * Plural
+     *
      * @var string
      */
     protected string $objectsFrontendLabel = 'Categories';
@@ -89,7 +91,7 @@ class Category extends ModelBaseExtraAttributes
                                         'label'        => __('ID'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'is_enabled'           => [
@@ -98,7 +100,7 @@ class Category extends ModelBaseExtraAttributes
                                         'description'  => __('enabled_categories'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -108,7 +110,7 @@ class Category extends ModelBaseExtraAttributes
                                         'description'  => __('public_categories'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -119,7 +121,7 @@ class Category extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'required',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12',
                                     ],
@@ -129,12 +131,12 @@ class Category extends ModelBaseExtraAttributes
                                         'options'      => app('system_base')->toHtmlSelectOptions(\Modules\Market\app\Models\Category::orderBy('name',
                                             'ASC')->get(), [
                                             'id',
-                                            'name'
+                                            'name',
                                         ], 'id', [self::UNSELECT_RELATION_IDENT => __('No choice')]),
                                         'description'  => __('Parent category'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                         'css_group'    => 'col-6',
                                     ],
@@ -144,12 +146,12 @@ class Category extends ModelBaseExtraAttributes
                                         'options'      => app('system_base')->toHtmlSelectOptions(Store::orderBy('code',
                                             'ASC')->get(), [
                                             'id',
-                                            'code'
+                                            'code',
                                         ], 'id', [self::UNSELECT_RELATION_IDENT => __('No choice')]),
                                         'description'  => __('The Store assigned to the category'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                         'css_group'    => 'col-6',
                                     ],
@@ -160,7 +162,7 @@ class Category extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'required',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12',
                                     ],
@@ -171,7 +173,7 @@ class Category extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'media_file_upload'    => [
-                                        'html_element' => 'website-base::file_upload',
+                                        'html_element' => 'website-base::media_item_file_upload_images',
                                         'label'        => __('Media Upload'),
                                         'description'  => __('Media Upload'),
                                         'css_group'    => 'col-12 col-md-6',
@@ -192,7 +194,7 @@ class Category extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:30000'
+                                            'Max:30000',
                                         ],
                                         'css_group'    => 'col-12',
                                     ],
@@ -203,7 +205,7 @@ class Category extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-6',
                                     ],
@@ -230,7 +232,7 @@ class Category extends ModelBaseExtraAttributes
                                         ],
                                         'validator'     => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],

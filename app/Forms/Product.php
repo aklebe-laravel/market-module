@@ -34,7 +34,7 @@ class Product extends ModelBaseExtraAttributes
      */
     protected array $objectRelations = [
         'categories',
-        'mediaItems'
+        'mediaItems',
     ];
 
     /**
@@ -57,6 +57,7 @@ class Product extends ModelBaseExtraAttributes
     public function makeObjectInstanceDefaultValues(): array
     {
         $settings = app('market_settings');
+
         return array_merge(parent::makeObjectInstanceDefaultValues(), [
             'is_enabled'         => true,
             'is_public'          => false,
@@ -104,21 +105,21 @@ class Product extends ModelBaseExtraAttributes
                                         'label'        => __('ID'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'user_id'                => [
                                         'html_element' => 'hidden',
                                         'validator'    => [
                                             'required',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'store_id'               => [
                                         'html_element' => 'hidden',
                                         'validator'    => [
                                             'required',
-                                            'integer'
+                                            'integer',
                                         ],
                                     ],
                                     'web_uri'                => [
@@ -126,7 +127,7 @@ class Product extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                     ],
                                     '_tmp123'                => [
@@ -140,7 +141,7 @@ class Product extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'required',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12',
                                         'dusk'         => 'product-name',
@@ -151,7 +152,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('enabled_products'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
@@ -161,7 +162,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('public_products'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
@@ -171,7 +172,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('test_products'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
@@ -182,20 +183,21 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('individual_products'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
                                     'force_public'           => [
                                         'disabled'     => $websiteBaseConfig->get('site.public',
-                                                false) || !$websiteBaseConfig->get('product.force_public.enabled',
+                                                false)
+                                                          || !$websiteBaseConfig->get('product.force_public.enabled',
                                                 false),
                                         'html_element' => 'switch',
                                         'label'        => __('Force Public'),
                                         'description'  => __('force_public_products'),
                                         'validator'    => [
                                             'nullable',
-                                            'bool'
+                                            'bool',
                                         ],
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
@@ -206,7 +208,7 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'media_file_upload'      => [
-                                        'html_element' => 'website-base::file_upload',
+                                        'html_element' => 'website-base::media_item_file_upload_images',
                                         'label'        => __('Media Upload'),
                                         'description'  => __('Media Upload'),
                                         'css_group'    => 'col-12 col-md-6',
@@ -217,7 +219,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('Payment Method'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -227,7 +229,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('Shipping Method'),
                                         'validator'    => [
                                             'nullable',
-                                            'integer'
+                                            'integer',
                                         ],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
@@ -294,7 +296,7 @@ class Product extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:30000'
+                                            'Max:30000',
                                         ],
                                         'css_group'    => 'col-12',
                                     ],
@@ -305,7 +307,7 @@ class Product extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-lg-6',
                                     ],
@@ -316,7 +318,7 @@ class Product extends ModelBaseExtraAttributes
                                         'validator'    => [
                                             'nullable',
                                             'string',
-                                            'Max:255'
+                                            'Max:255',
                                         ],
                                         'css_group'    => 'col-12 col-lg-6',
                                     ],
@@ -345,7 +347,7 @@ class Product extends ModelBaseExtraAttributes
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],
@@ -365,11 +367,11 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('Images assigned to this product'),
                                         'css_group'    => 'col-12',
                                         'options'      => [
-                                            'table' => 'website-base::data-table.media-item-image-product',
+                                            'table' => 'market::data-table.media-item-image-product',
                                         ],
                                         'validator'    => [
                                             'nullable',
-                                            'array'
+                                            'array',
                                         ],
                                     ],
                                 ],

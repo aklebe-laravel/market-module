@@ -1,15 +1,16 @@
 @php
     /**
-     * @var \Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable $this
-     * @var \Illuminate\Database\Eloquent\Model $item
+     * @var BaseDataTable $this
+     * @var Model $item
      * @var string $name
      * @var mixed $value
      **/
 
+    use Illuminate\Database\Eloquent\Model;
+    use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
+
     // path for messageBox.config
-    $jsMessageBoxClaimItemPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.data-table.claim';
-    // $jsMessageBoxDeleteItemPath = \Modules\SystemBase\Helpers\ModelHelper::getSnakeName($this->getModelName()) . '.data-table.delete';
-    // $fullJsVarName = 'messageBox.config.' . $jsMessageBoxDeleteItemPath;
+    $jsMessageBoxClaimItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.data-table.claim';
 
     $userHasAlreadyRated = $item->hasCurrentUserAlreadyRated();
     $userRatingVisible = Auth::user()->hasAclResource('rating.user.visible');

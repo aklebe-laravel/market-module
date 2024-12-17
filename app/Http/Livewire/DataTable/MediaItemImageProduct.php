@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\WebsiteBase\app\Http\Livewire\DataTable\MediaItemImage;
 
-class MediaItemImageProductImage extends MediaItemImage
+class MediaItemImageProduct extends MediaItemImage
 {
     /**
      * The base builder before all filter manipulations.
@@ -20,10 +20,7 @@ class MediaItemImageProductImage extends MediaItemImage
     public function getBaseBuilder(string $collectionName): ?Builder
     {
         $builder = parent::getBaseBuilder($collectionName);
-        $builder->productImages();
 
-        return $builder;
+        return $builder->productImages();
     }
-
-
 }

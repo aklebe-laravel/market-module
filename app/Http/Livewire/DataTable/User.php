@@ -3,10 +3,16 @@
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Modules\WebsiteBase\app\Http\Livewire\DataTable\User as WebsiteBaseDataTableUser;
+use Modules\Market\app\Models\User as UserModel;
 
 class User extends WebsiteBaseDataTableUser
 {
     use BaseMarketDataTable;
+
+    /**
+     * @var string
+     */
+    public string $eloquentModelName = UserModel::class;
 
     /**
      * @return void

@@ -3,12 +3,14 @@
 namespace Modules\Market\app\Jobs;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Modules\Market\app\Models\AggregatedRating;
 use Modules\Market\app\Models\Product;
 use Modules\Market\app\Models\Rating;
@@ -106,52 +108,50 @@ class AggregateRatingProcess implements ShouldQueue
      */
     public function handle(): void
     {
-        $latestAggregatedRating = null;
-        if (!$this->forceAllRatings) {
-            $latestAggregatedRating = AggregatedRating::with([])->orderByDesc('updated_at')->first();
-        }
-        $latestAggregatedRatingAt = $latestAggregatedRating->updated_at ?? '0000-00-00 00:00:00';
-
-        if ((!$this->ratingClassName) || ($this->ratingClassName === Product::class)) {
-            $startTime = microtime(true);
-
-            $products = Product::with([])
-                               ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
-                                   return $query->where('updated_at', '>', $latestAggregatedRatingAt)
-                                                ->orWhereNull('updated_at');
-                               })
-                               ->pluck('id');
-
-            if ($products->count()) {
-                // Log::debug(sprintf("Rated products found: %d. Aggregating ...", $products->count()));
-                foreach ($products as $productId) {
-                    $this->aggregateModelRating(Product::class, $productId);
-                }
+        try {
+            $latestAggregatedRating = null;
+            if (!$this->forceAllRatings) {
+                $latestAggregatedRating = AggregatedRating::with([])->orderByDesc('updated_at')->first();
             }
-            app('system_base')->logExecutionTime('aggregate product rating', $startTime);
-        }
+            $latestAggregatedRatingAt = $latestAggregatedRating->updated_at ?? '0000-00-00 00:00:00';
 
-        if ((!$this->ratingClassName) || ($this->ratingClassName === User::class)) {
-            $startTime = microtime(true);
+            if ((!$this->ratingClassName) || ($this->ratingClassName === Product::class)) {
+                $products = Product::with([])
+                                   ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
+                                       return $query->where('updated_at', '>', $latestAggregatedRatingAt)
+                                                    ->orWhereNull('updated_at');
+                                   })
+                                   ->pluck('id');
 
-            $users = app(User::class)
-                ->with([])
-                ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
-                    return $query->where('updated_at', '>', $latestAggregatedRatingAt)
-                                 ->orWhereNull('updated_at');
-                })
-                ->pluck('id');
-
-            if ($users->count()) {
-                // Log::debug(sprintf("Rated users found: %d. Aggregating ...", $users->count()));
-                foreach ($users as $userId) {
-                    $this->aggregateModelRating(User::class, $userId);
+                if ($products->count()) {
+                    // Log::debug(sprintf("Rated products found: %d. Aggregating ...", $products->count()));
+                    foreach ($products as $productId) {
+                        $this->aggregateModelRating(Product::class, $productId);
+                    }
                 }
+                app('system_base')->logExecutionTime('Aggregated product rating');
             }
-            app('system_base')->logExecutionTime('aggregate user rating', $startTime);
+
+            if ((!$this->ratingClassName) || ($this->ratingClassName === User::class)) {
+                $users = app(User::class)
+                    ->with([])
+                    ->whereHas('ratings', function (Builder $query) use ($latestAggregatedRatingAt) {
+                        return $query->where('updated_at', '>', $latestAggregatedRatingAt)
+                                     ->orWhereNull('updated_at');
+                    })
+                    ->pluck('id');
+
+                if ($users->count()) {
+                    // Log::debug(sprintf("Rated users found: %d. Aggregating ...", $users->count()));
+                    foreach ($users as $userId) {
+                        $this->aggregateModelRating(User::class, $userId);
+                    }
+                }
+                app('system_base')->logExecutionTime('Aggregated user rating');
+            }
+        } catch (Exception $e) {
+            Log::error("Failed to aggregate ratings!");
+            Log::error($e->getMessage(), [__METHOD__]);
         }
-
-
     }
-
 }

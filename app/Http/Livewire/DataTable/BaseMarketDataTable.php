@@ -2,31 +2,24 @@
 
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
-use Illuminate\Database\Eloquent\Builder;
+use Modules\WebsiteBase\app\Http\Livewire\DataTable\BaseWebsiteBaseDataTable;
 
 trait BaseMarketDataTable
 {
+    use BaseWebsiteBaseDataTable;
+
     /**
-     * @return array[]
+     * Add stuff like messagebox buttons here
+     *
+     * @return void
      */
-    protected function getFilterOptionsForImages(): array
+    protected function initBeforeRender(): void
     {
-        return [
-            'images'    => [
-                'label' => 'With Images',
-                'builder' => function(Builder $builder, string $filterElementKey, string $filterValue) {
-                    $builder->whereHas('images');
-                    //Log::debug("Builder added to product filter '$filterElementKey' to '$filterValue'");
-                },
-            ],
-            'no_images'    => [
-                'label' => 'Without Images',
-                'builder' => function(Builder $builder, string $filterElementKey, string $filterValue) {
-                    $builder->whereDoesntHave('images');
-                    //Log::debug("Builder added to product filter '$filterElementKey' to '$filterValue'");
-                },
-            ],
-        ];
+        $this->addMessageBoxButton('accept-offer', 'market');
+        $this->addMessageBoxButton('create-offer-binding', 'market');
+        $this->addMessageBoxButton('offer-suspend', 'market');
+        $this->addMessageBoxButton('re-offer', 'market');
+        $this->addMessageBoxButton('reject-offer', 'market');
     }
 
 

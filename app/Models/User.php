@@ -115,7 +115,7 @@ class User extends \Modules\WebsiteBase\app\Models\User
      */
     public function parentReputations(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'user_parent_reputations', 'user_id', 'parent_id')->withTimestamps()->withPivot('created_at');
+        return $this->belongsToMany(static::class, 'user_parent_reputations', 'user_id', 'parent_id')->withTimestamps()->withPivot('created_at');
     }
 
     /**

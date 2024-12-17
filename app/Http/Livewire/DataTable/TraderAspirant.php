@@ -14,6 +14,7 @@ class TraderAspirant extends Trader
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -89,9 +90,9 @@ class TraderAspirant extends Trader
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
-        $moduleClass = app('system_base')->getEloquentModel($this->getModelName());
-        $builder = $moduleClass->withNoAclResources(['trader'])->frontendItems();
-        return $builder;
+        $moduleClass = app('system_base')->getEloquentModel($this->getEloquentModelName());
+
+        return $moduleClass->withNoAclResources(['trader'])->frontendItems();
     }
 
 }

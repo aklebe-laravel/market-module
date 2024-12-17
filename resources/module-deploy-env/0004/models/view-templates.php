@@ -55,6 +55,14 @@ return [
         ],
         [
             "is_enabled"        => true,
+            "code"              => "email_market_media_item_import",
+            "content"           => '',
+            "view_file"         => "notifications.emails.market-media-item-import",
+            "parameter_variant" => ViewTemplate::PARAMETER_VARIANT_DEFAULT,
+            "description"       => "Import completed.",
+        ],
+        [
+            "is_enabled"        => true,
             "code"              => "telegram_market_offer_created",
             "content"           => '',
             "view_file"         => "notifications.telegram.offers.created-html",
@@ -93,5 +101,13 @@ return [
             "parameter_variant" => ViewTemplate::PARAMETER_VARIANT_DEFAULT,
             "description"       => "User assigned to acl group.",
         ],
-    ]
+        [
+            "is_enabled"        => true,
+            "code"              => "telegram_market_media_item_import",
+            "content"           => '',
+            "view_file"         => "notifications.telegram.market-media-item-import",
+            "parameter_variant" => ViewTemplate::PARAMETER_VARIANT_DEFAULT,
+            "description"       => "Import completed.",
+        ],
+    ],
 ];

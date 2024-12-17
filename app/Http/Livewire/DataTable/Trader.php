@@ -14,6 +14,7 @@ class Trader extends User
 
     /**
      * Determine whether command has buttons like "add new row" in header.
+     *
      * @var bool
      */
     public bool $canAddRow = false;
@@ -27,6 +28,7 @@ class Trader extends User
 
     /**
      * Overwrite to init your sort orders before session exists
+     *
      * @return void
      */
     protected function initSort(): void
@@ -45,7 +47,7 @@ class Trader extends User
 
         $this->rowCommands = [
             'rate_user' => 'market::livewire.js-dt.tables.columns.buttons.rate-user',
-            ...$this->rowCommands
+            ...$this->rowCommands,
         ];
     }
 
@@ -104,9 +106,9 @@ class Trader extends User
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
-        $moduleClass = app('system_base')->getEloquentModel($this->getModelName());
-        $builder = $moduleClass->withAclResources(['trader'])->frontendItems();
-        return $builder;
+        $moduleClass = app('system_base')->getEloquentModel($this->getEloquentModelName());
+
+        return $moduleClass->withAclResources(['trader'])->frontendItems();
     }
 
 }

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
+use Modules\Market\app\Models\ShoppingCartItem as ShoppingCartItemModel;
 use Modules\Market\app\Services\OfferService;
 use Throwable;
 
@@ -17,7 +18,7 @@ class OfferByShoppingCartItem extends ShoppingCartItem
      *
      * @var string
      */
-    public string $modelName = 'ShoppingCartItem';
+    public string $eloquentModelName = ShoppingCartItemModel::class;
 
     /**
      * @var string

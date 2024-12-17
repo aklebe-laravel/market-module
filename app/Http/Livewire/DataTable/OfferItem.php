@@ -8,6 +8,8 @@ use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
 
 class OfferItem extends BaseDataTable
 {
+    use BaseMarketDataTable;
+
     /**
      * Minimum restrictions to allow this component.
      */
