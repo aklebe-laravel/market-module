@@ -1,5 +1,6 @@
 {
   "private": true,
+  "description": "Provides an online marketplace specially developed for the flea market.",
   "scripts": {
     "dev": "vite",
     "build": "vite build"

@@ -1,6 +1,9 @@
 @php
+    use Modules\Form\app\Forms\Base\NativeObjectBase;
+    use Modules\Market\app\Models\PaymentMethod;
+
     $list = [];
-    $collection = \Modules\Market\app\Models\PaymentMethod::orderBy('code', 'ASC')->get();
+    $collection = PaymentMethod::orderBy('code', 'ASC')->get();
     foreach ($collection as $item) {
         $list[] = [
             'id' => $item->id,
@@ -9,5 +12,5 @@
     }
 @endphp
 @include('form::components.form.select', [
-    'options' => app('system_base')->toHtmlSelectOptions($list, ['label'], 'id', [\Modules\Form\app\Forms\Base\ModelBase::UNSELECT_RELATION_IDENT => __('No choice')]),
+    'options' => app('system_base')->toHtmlSelectOptions($list, ['label'], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', NativeObjectBase::UNSELECT_RELATION_IDENT)),
     ])

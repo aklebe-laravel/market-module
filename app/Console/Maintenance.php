@@ -14,7 +14,7 @@ class Maintenance extends Command
      *
      * @var string
      */
-    protected $signature = 'market:maintenance';
+    protected $signature = 'market:maintenance {--simulate}';
 
     /**
      * The console command description.
@@ -30,11 +30,22 @@ class Maintenance extends Command
      */
     public function handle(): int
     {
+        $simulate = $this->option('simulate');
+
         $mediaService = app(MediaService::class);
+
+        if (!app('system_base')->isEnvGroupImportant()) {
+            if (!$this->confirm("Its not recommend to delete unused media files on this stage. Delete anyway?")) {
+                $this->warn("Skipping this stage!");
+
+                return CommandResult::SUCCESS;
+            }
+        }
 
         // for all valid media types ...
         foreach (WebsiteBaseMediaItem::MEDIA_TYPES as $mediaType => $data) {
-            $mediaService->deleteUnusedMediaFiles($mediaType);
+            $result = $mediaService->deleteUnusedMediaFiles($mediaType, $simulate);
+            $this->comment(json_encode($result, JSON_PRETTY_PRINT));
         }
 
         //

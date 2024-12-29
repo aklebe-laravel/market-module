@@ -132,7 +132,7 @@ class Category extends ModelBaseExtraAttributes
                                             'ASC')->get(), [
                                             'id',
                                             'name',
-                                        ], 'id', [self::UNSELECT_RELATION_IDENT => __('No choice')]),
+                                        ], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', self::UNSELECT_RELATION_IDENT)),
                                         'description'  => __('Parent category'),
                                         'validator'    => [
                                             'nullable',
@@ -147,7 +147,7 @@ class Category extends ModelBaseExtraAttributes
                                             'ASC')->get(), [
                                             'id',
                                             'code',
-                                        ], 'id', [self::UNSELECT_RELATION_IDENT => __('No choice')]),
+                                        ], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', self::UNSELECT_RELATION_IDENT)),
                                         'description'  => __('The Store assigned to the category'),
                                         'validator'    => [
                                             'nullable',

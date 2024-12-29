@@ -25,9 +25,9 @@ class ProductFactory extends Factory
         return [
             'name'              => 'Product '.$name,
             'sku'               => config('seeders.users.products.sku_prefix', '').Str::uuid(),
-            'short_description' => implode(' ', fake()->words(10)),
-            'description'       => implode(' ', fake()->words(20)),
-            'meta_description'  => implode(' ', fake()->words(10)),
+            'short_description' => implode(' ', fake()->words(30)),
+            'description'       => implode(' ', fake()->words(300)),
+            'meta_description'  => implode(' ', fake()->words(15)),
             'web_uri'           => app('system_base_file')->sanitize($name).'_'.uniqid('product_'),
         ];
     }

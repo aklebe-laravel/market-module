@@ -1,7 +1,7 @@
 {
   "name": "aklebe-laravel/market-module",
   "type": "laravel-module",
-  "description": "",
+  "description": "Provides an online marketplace specially developed for the flea market.",
   "authors": [
     {
       "name": "Andreas Klebe",

@@ -8,24 +8,24 @@ return [
         'count' => 5,
     ],
     'users'       => [
-        'count'       => 3,
+        'count'       => 50,
         // max addresses per user to add
         'addresses'   => [
             'count'         => 10,
             'chance_to_add' => 75, // in percent
         ],
         'media_items' => [
-            'image_storage_source_path'            => 'app/seeder/images/samples/products', // empty or invalid path = no image creation
-            'count_product_images'                 => 20, // total media items per user
+            'image_storage_source_path'            => 'app/seeder/images/samples/products', // (like '/resources/images/samples/products') empty or invalid path = no image creation
+            'count_product_images'                 => 30, // total media items per user
             'count_avatar_images'                  => 5, // total media items per user
-            'count_min_product_images_per_product' => 3,
-            'count_max_product_images_per_product' => 12,
+            'count_min_product_images_per_product' => 6,
+            'count_max_product_images_per_product' => 15,
         ],
         // products per user
         'products'    => [
             'sku_prefix' => 'seeder-',
-            'min_count' => 2,
-            'max_count' => 5,
+            'min_count' => 5,
+            'max_count' => 20,
         ],
     ],
     'categories'  => [
