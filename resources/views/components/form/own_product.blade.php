@@ -1,5 +1,7 @@
 @php
-    use Modules\Form\app\Forms\Base\ModelBase;use Modules\Market\app\Models\Product;
+    use Modules\Form\app\Forms\Base\NativeObjectBase;
+    use Modules\Form\app\Forms\Base\ModelBase;
+    use Modules\Market\app\Models\Product;
 
         /**
      * default input text element
@@ -27,7 +29,7 @@
 
 @endphp
 @include('form::components.form.select', [
-    'options' => app('system_base')->toHtmlSelectOptions(Product::with([])->where('user_id', $form_instance->getOwnerUserId())->orderBy('name', 'ASC')->get(), ['name'], 'id', [-1 => __('No choice')]),
+    'options' => app('system_base')->toHtmlSelectOptions(Product::with([])->where('user_id', $form_instance->getOwnerUserId())->orderBy('name', 'ASC')->get(), ['name'], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', NativeObjectBase::UNSELECT_RELATION_IDENT)),
     ])
 
 

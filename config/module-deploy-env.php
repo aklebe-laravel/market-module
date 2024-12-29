@@ -25,15 +25,6 @@ return [
             ],
             [
                 'cmd'        => 'models',
-                // conditions no needed, because 'payments-methods.php' will check every entry by 'models'
-                'conditions' => [
-                    [
-                        'function' => function ($code) {
-                            // payment methods have to be empty
-                            return (bool) (!PaymentMethod::first());
-                        },
-                    ],
-                ],
                 'sources'    => [
                     'payment-methods.php',
                     'shipping-methods.php',
@@ -41,16 +32,6 @@ return [
             ],
             [
                 'cmd'        => 'models',
-                // conditions no needed, because 'core-config.php' will check every entry by 'models'
-                'conditions' => [
-                    [
-                        'function' => function ($code) {
-                            // specific config should not exist
-                            return (bool) (!CoreConfig::where('path',
-                                'catalog.product.image.width')->first());
-                        },
-                    ],
-                ],
                 'sources'    => [
                     'core-config.php',
                 ],
@@ -116,6 +97,15 @@ return [
                 'cmd'     => 'models',
                 'sources' => [
                     'navigations.php',
+                ],
+            ],
+        ],
+        '0010' => [
+            [
+                'cmd'     => 'models',
+                'sources' => [
+                    'core-config-from-0001.php',
+                    'core-config-from-0008.php',
                 ],
             ],
         ],

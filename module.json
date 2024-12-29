@@ -1,7 +1,7 @@
 {
     "name": "Market",
     "alias": "market",
-    "description": "",
+    "description": "Provides an online marketplace specially developed for the flea market.",
     "keywords": [],
     "priority": 5000,
     "providers": [

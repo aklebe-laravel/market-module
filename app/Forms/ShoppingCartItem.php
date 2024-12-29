@@ -81,7 +81,7 @@ class ShoppingCartItem extends ModelBase
                                         'label'        => __('Currency'),
                                         'options'      => app('system_base')->toHtmlSelectOptions(Currency::orderBy('code',
                                             'ASC')->get(), ['code', 'name'], 'code',
-                                            [self::UNSELECT_RELATION_IDENT => '['.__('No choice').']']),
+                                            app('system_base')->getHtmlSelectOptionNoValue('No choice', self::UNSELECT_RELATION_IDENT)),
                                         'description'  => __('Currency'),
                                         'validator'    => ['nullable', 'string'],
                                         'css_group'    => 'col-12 col-md-6',

@@ -4,53 +4,53 @@ use Modules\Market\app\Models\Category;
 
 return [
     // class of eloquent model
-    "model"     => Category::class,
+    'model'     => Category::class,
     // update data if exists and data differ (default false)
-    "update"    => false,
+    'update'    => false,
     // columns to check if data already exists (AND WHERE)
-    "uniques"   => ["code"],
+    'uniques'   => ['code'],
     // relations to update/create
-    "relations" => [
-        "res" => [
+    'relations' => [
+        'res' => [
             // relation method which have to exists
-            "method"  => "parents",
+            'method'  => 'parents',
             // column(s) to find specific #sync_relations items below
-            "columns" => "code",
+            'columns' => 'code',
             // delete items if not listed here (default: false)
-            "delete"  => false,
+            'delete'  => false,
         ],
     ],
     // data rows itself
-    "data"      => [
+    'data'      => [
         [
-            "code"        => "computer",
-            "name"        => "Computer",
-            "store_id"    => 1,
-            "description" => "Computer and Accessoires",
+            'code'        => 'computer',
+            'name'        => 'Computer',
+            'store_id'    => 1,
+            'description' => 'Computer and Accessoires',
         ],
         [
-            "code"            => "laptop",
-            "name"            => "Laptops",
-            "store_id"        => 1,
-            "description"     => "Laptops and Notebooks",
-            "#sync_relations" => [
-                "res" => [
-                    "computer",
-                    "electronic"
-                ]
-            ]
+            'code'            => 'laptop',
+            'name'            => 'Laptops',
+            'store_id'        => 1,
+            'description'     => 'Laptops and Notebooks',
+            '#sync_relations' => [
+                'res' => [
+                    'computer',
+                    'electronic',
+                ],
+            ],
         ],
         [
-            "code"            => "network",
-            "name"            => "Network",
-            "store_id"        => 1,
-            "description"     => "Network device and adapters",
-            "#sync_relations" => [
-                "res" => [
-                    "computer",
-                ]
-            ]
+            'code'            => 'network',
+            'name'            => 'Network',
+            'store_id'        => 1,
+            'description'     => 'Network device and adapters',
+            '#sync_relations' => [
+                'res' => [
+                    'computer',
+                ],
+            ],
         ],
-    ]
+    ],
 ];
 
