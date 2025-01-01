@@ -1,7 +1,9 @@
 @php
+    use Illuminate\Http\Resources\Json\JsonResource;
     use Modules\Form\app\Forms\Base\NativeObjectBase;
     use Modules\Form\app\Forms\Base\ModelBase;
     use Modules\Market\app\Models\Product;
+    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
 
         /**
      * default input text element
@@ -23,8 +25,9 @@
      * @var array $html_data data attributes
      * @var array $x_data
      * @var int $element_index
-     * @var Illuminate\Http\Resources\Json\JsonResource $object
+     * @var JsonResource $object
      * @var ModelBase $form_instance
+     * @var NativeObjectBaseLivewire $form_livewire
      */
 
 @endphp

@@ -39,9 +39,7 @@ class ShoppingCartItem extends ModelBase
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'product_name'),
-            'css_classes'  => 'form-edit',
-            'livewire'     => 'formObjectAsArray',
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'product_name'),
             'tab_controls' => [
                 'base_item' => [
                     'tab_pages' => [

@@ -13,7 +13,7 @@ class Category extends ModelBaseExtraAttributes
     const string PARENT_RELATION_METHOD_NAME = 'categories';
 
     /**
-     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in getJsonResource().
+     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in initDataSource().
      * Model have to be trait by TraitBaseModel to become loadByFrontEnd()
      *
      * @var string
@@ -70,13 +70,11 @@ class Category extends ModelBaseExtraAttributes
 
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
-        $extraAttributeTab = $this->getTabExtraAttributes($this->jsonResource);
+        $extraAttributeTab = $this->getTabExtraAttributes($this->getDataSource());
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'name'),
-            'css_classes'  => 'form-edit',
-            'livewire'     => 'formObjectAsArray',
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'name'),
             'tab_controls' => [
                 'base_item' => [
                     'tab_pages' => [
@@ -213,7 +211,7 @@ class Category extends ModelBaseExtraAttributes
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
                             ],

@@ -55,7 +55,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
      */
     public function getOwnerUserId(): mixed
     {
-        return $this->jsonResource->getKey();
+        return $this->getDataSource()->getKey();
     }
 
     /**
@@ -63,7 +63,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
      */
     public function isOwnUser(): bool
     {
-        return $this->jsonResource && ($this->getOwnerUserId() == Auth::id());
+        return $this->getDataSource() && ($this->getOwnerUserId() == Auth::id());
     }
 
     /**
@@ -100,7 +100,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
         if ($defaultSettings['can_edit']) {
-            $extraAttributeTab = $this->getTabExtraAttributes($this->jsonResource);
+            $extraAttributeTab = $this->getTabExtraAttributes($this->getDataSource());
         } else {
             $extraAttributeTab = [];
         }
@@ -109,7 +109,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'name'),
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'name'),
             'tab_controls' => [
                 'base_item' => [
                     'disabled'  => $defaultSettings['disabled'],
@@ -237,7 +237,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Avatars'),
                             ],
@@ -267,7 +267,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                         ],
                         [
                             'visible'  => $defaultSettings['can_edit'],
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Addresses'),
                             ],
@@ -298,7 +298,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                         ],
                         [
                             'visible'  => app('website_base_config')->get('users.profiles.media.enabled', false),
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
                             ],
@@ -328,7 +328,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                         ],
                         [
                             'visible'  => app('website_base_config')->get('users.profiles.products.enabled', false),
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Products'),
                             ],
@@ -357,8 +357,8 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         [
-                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->jsonResource->aclGroups->count() > 0),
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Groups'),
                             ],
@@ -383,8 +383,8 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         [
-                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->jsonResource->aclGroups->count() > 0),
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Resources'),
                             ],
@@ -410,7 +410,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                         ],
                         [
                             'visible'  => $defaultSettings['can_edit'],
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Tokens'),
                             ],
@@ -436,7 +436,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                         ],
                         [
                             'visible'  => true, // everyone should see this
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Surety'),
                             ],

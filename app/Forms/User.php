@@ -35,13 +35,13 @@ class User extends \Modules\WebsiteBase\app\Forms\User
 
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
-        $extraAttributeTab = $this->getTabExtraAttributes($this->jsonResource);
+        $extraAttributeTab = $this->getTabExtraAttributes($this->getDataSource());
 
         $userRatingVisible = Auth::user()->hasAclResource('rating.user.visible');
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'name'),
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'name'),
             'tab_controls' => [
                 'base_item' => [
                     'tab_pages' => [
@@ -203,7 +203,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                         ],
                         [
                             'visible'  => $defaultSettings['can_edit'],
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Addresses'),
                             ],
@@ -236,7 +236,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
                             ],
@@ -268,7 +268,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Products'),
                             ],
@@ -298,7 +298,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Groups'),
                             ],
@@ -328,7 +328,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Resources'),
                             ],
@@ -351,7 +351,7 @@ class User extends \Modules\WebsiteBase\app\Forms\User
                             ],
                         ],
                         [
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Tokens'),
                             ],

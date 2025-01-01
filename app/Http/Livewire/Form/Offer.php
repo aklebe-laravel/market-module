@@ -36,10 +36,10 @@ class Offer extends ModelBase
     {
         $result = [];
 
-        $status = data_get($this->formObjectAsArray, 'status', '');
+        $status = data_get($this->dataTransfer, 'status', '');
 
         foreach ($this->offerService::statusActionMap as $property => $statusActions) {
-            if ($this->_form->jsonResource->$property == Auth::id()) {
+            if ($this->dataSource->$property == Auth::id()) {
                 foreach ($statusActions as $formActionStatus => $formActions) {
                     if ($status == $formActionStatus) {
                         foreach ($formActions['form_actions'] as $k => $formAction) {
@@ -174,7 +174,7 @@ class Offer extends ModelBase
      */
     protected function switchStatusByFormAction(string $status): void
     {
-        $this->formObjectAsArray['status'] = $status;
+        $this->dataTransfer['status'] = $status;
 
         // save form data
         $res = $this->saveFormData();

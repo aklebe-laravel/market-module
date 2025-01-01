@@ -112,6 +112,9 @@ Route::group(['middleware' => $defaultMiddleware], function () {
             app()->abort(404);
         }
 
+        // because there is no parent livewire we can define the message bo button 'accept-rating' in addMessageBoxButton() ...
+        app('php_to_js')->addData('messageBoxes.accept-rating', view('website-base::inc.message-box.buttons.accept-rating')->render());
+
         return view('website-base::page', [
             'title'       => $product->name,
             'contentView' => 'market::product',

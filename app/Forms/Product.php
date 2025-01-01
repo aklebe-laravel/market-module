@@ -17,7 +17,7 @@ class Product extends ModelBaseExtraAttributes
     const string PARENT_RELATION_METHOD_NAME = 'products';
 
     /**
-     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in getJsonResource().
+     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in initDataSource().
      * Model have to be trait by TraitBaseModel to become loadByFrontEnd()
      *
      * @var string
@@ -80,7 +80,7 @@ class Product extends ModelBaseExtraAttributes
 
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
-        $extraAttributeTab = $this->getTabExtraAttributes($this->jsonResource);
+        $extraAttributeTab = $this->getTabExtraAttributes($this->getDataSource());
 
         $productRatingVisible = Auth::user()->hasAclResource('rating.product.visible');
 
@@ -89,7 +89,7 @@ class Product extends ModelBaseExtraAttributes
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'name'),
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'name'),
             'tab_controls' => [
                 'base_item' => [
                     //                    'disabled'  => true, // works for all elements
@@ -327,7 +327,7 @@ class Product extends ModelBaseExtraAttributes
                         ],
                         [
                             // don't show if creating a new object ...
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             // works for all elements
                             'tab'      => [
                                 'label' => __('Categories'),
@@ -355,7 +355,7 @@ class Product extends ModelBaseExtraAttributes
                         ],
                         [
                             // don't show if creating a new object ...
-                            'disabled' => !$this->jsonResource->getKey(),
+                            'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
                             ],

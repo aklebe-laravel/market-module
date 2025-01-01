@@ -9,7 +9,7 @@ use Modules\Market\app\Services\OfferService;
 class Offer extends ModelBase
 {
     /**
-     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in getJsonResource().
+     * Set for example 'web_uri' or 'shared_id' to try load from this if is not numeric in initDataSource().
      * Model have to be trait by TraitBaseModel to become loadByFrontEnd()
      *
      * @var string
@@ -45,14 +45,14 @@ class Offer extends ModelBase
 
     public function isOwnUser(): bool
     {
-        return ($this->jsonResource && (($this->jsonResource->created_by_user_id == Auth::id() || ($this->jsonResource->addressed_to_user_id == Auth::id()))));
+        return ($this->getDataSource() && (($this->getDataSource()->created_by_user_id == Auth::id() || ($this->getDataSource()->addressed_to_user_id == Auth::id()))));
     }
 
     protected function canEditStatus(): bool
     {
         /** @var OfferService $offerService */
         $offerService = app(OfferService::class);
-        $status = data_get($this->jsonResource, 'status', '');
+        $status = data_get($this->getDataSource(), 'status', '');
         // Is current offer status allowed to be edited?
         return $offerService->canEditStatus($status);
     }
@@ -80,7 +80,7 @@ class Offer extends ModelBase
 
         return [
             ... $parentFormData,
-            'title'        => $this->makeFormTitle($this->jsonResource, 'shared_id'),
+            'title'        => $this->makeFormTitle($this->getDataSource(), 'shared_id'),
             'tab_controls' => [
                 'main' => [
                     'tab_pages' => [
@@ -137,7 +137,7 @@ class Offer extends ModelBase
                                         'description'  => __('Prev Offer Description'),
                                         'css_group'    => 'col-12',
                                         'visible'      => function () {
-                                            return !!$this->jsonResource->prevOffer()->count();
+                                            return !!$this->getDataSource()->prevOffer()->count();
                                         },
                                     ],
                                     'next_offers'     => [
@@ -146,7 +146,7 @@ class Offer extends ModelBase
                                         'description'  => __('Following Offers Description'),
                                         'css_group'    => 'col-12',
                                         'visible'      => function () {
-                                            return !!$this->jsonResource->nextOffers()->count();
+                                            return !!$this->getDataSource()->nextOffers()->count();
                                         },
                                     ],
                                     'description'     => [

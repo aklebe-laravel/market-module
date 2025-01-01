@@ -27,6 +27,16 @@ class Trader extends User
     public bool $selectable = false;
 
     /**
+     * Add stuff like messagebox buttons here
+     *
+     * @return void
+     */
+    protected function initBeforeRender(): void
+    {
+        $this->addMessageBoxButton('accept-rating', 'website-base');
+    }
+
+    /**
      * Overwrite to init your sort orders before session exists
      *
      * @return void
