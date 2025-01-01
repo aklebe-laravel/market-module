@@ -1,9 +1,12 @@
 @php
-    /**
-     * @var \Modules\Market\app\Models\Product $product
-     */
-
+    use Illuminate\Support\Carbon;
+    use Modules\Acl\app\Models\AclResource;
     use Modules\Acl\app\Services\UserService;
+    use Modules\Market\app\Models\Product;
+
+    /**
+     * @var Product $product
+     */
 
     if (!$product) {
         return;
@@ -11,13 +14,12 @@
 
     $price = $product->getExtraAttribute('price');
     $userHasAlreadyRated = $product->hasCurrentUserAlreadyRated();
-    $timeLocaleStartedAt = $product->started_at ? \Illuminate\Support\Carbon::parse($product->started_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAt = $product->expired_at ? \Illuminate\Support\Carbon::parse($product->expired_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAtDiff = $product->expired_at ? \Illuminate\Support\Carbon::parse($product->expired_at)->locale('de')->shortRelativeToNowDiffForHumans() : null;
+    $timeLocaleStartedAt = $product->started_at ? Carbon::parse($product->started_at)->locale('de')->toDateString() : null;
+    $timeLocaleExpiredAt = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->toDateString() : null;
+    $timeLocaleExpiredAtDiff = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->shortRelativeToNowDiffForHumans() : null;
 
     /** @var UserService $userService */
     $userService = app(UserService::class);
-
 @endphp
 
 <div class="container-fluid product-box {{ $product->is_test ? 'opacity-75' : '' }}">
@@ -32,7 +34,7 @@
 
                 @include('market::components.carousel-one-item', [
                     'carouselId' => 'productImageMakerCarousel',
-                    'mediaItems' => $product->getContentImages(\Modules\Market\app\Models\Product::IMAGE_MAKER)->get(),
+                    'mediaItems' => $product->getContentImages(Product::IMAGE_MAKER)->get(),
                 ])
 
             </div>
@@ -43,7 +45,7 @@
                             <h2>
                                 {!! $product->is_test ? '<span class="text-danger">[TEST]</span> ' : '' !!}
                                 {{ $product->name }}
-                                @if($userService->hasUserResource(\Illuminate\Support\Facades\Auth::user(), \Modules\Acl\app\Models\AclResource::RES_DEVELOPER))
+                                @if($userService->hasUserResource(\Illuminate\Support\Facades\Auth::user(), AclResource::RES_DEVELOPER))
                                     <span class="text-sm decent">(ID:{{ $product->id }})</span>
                                 @endif
                             </h2>

@@ -1,4 +1,8 @@
 @php
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Modules\Form\app\Forms\Base\ModelBase;
+    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
+
     /**
      * default input text element
      *
@@ -20,14 +24,15 @@
      * @var array $html_data data attributes
      * @var array $x_data
      * @var int $element_index
-     * @var Illuminate\Http\Resources\Json\JsonResource $object
-     * @var \Modules\Form\app\Forms\Base\ModelBase $form_instance
+     * @var JsonResource $object
+     * @var ModelBase $form_instance
+     * @var NativeObjectBaseLivewire $form_livewire
      */
 
     $ratingContainerName = 'ratingContainer';
 @endphp
 {{--force form_data here for rating--}}
-<div x-data="{ form_data:$wire.formObjectAsArray, {{ $ratingContainerName }} : { clickable: {{ $disabled ? 'false' : 'true' }} }}"
+<div x-data="{ form_data:$wire.dataTransfer, {{ $ratingContainerName }} : { clickable: {{ $disabled ? 'false' : 'true' }} }}"
      class="mb-3">
 
     @include('form::components.form.hidden', ['x_model' => $ratingContainerName])

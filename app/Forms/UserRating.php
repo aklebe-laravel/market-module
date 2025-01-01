@@ -22,7 +22,7 @@ class UserRating extends NativeObjectBase
      */
     protected string $objectsFrontendLabel = 'User Ratings';
 
-    public function getJsonResource(mixed $id = null): JsonResource
+    public function initDataSource(mixed $id = null): JsonResource
     {
         // @todo: where to define/load?
         $object = [
@@ -56,8 +56,8 @@ class UserRating extends NativeObjectBase
             ];
         }
 
-        $this->jsonResource = new JsonResource($object);
-        return $this->jsonResource;
+        $this->setDataSource(new JsonResource($object));
+        return $this->getDataSource();
     }
 
     /**

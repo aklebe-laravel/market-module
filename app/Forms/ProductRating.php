@@ -25,7 +25,7 @@ class ProductRating extends NativeObjectBase
      * @param  mixed|null  $id
      * @return JsonResource
      */
-    public function getJsonResource(mixed $id = null): JsonResource
+    public function initDataSource(mixed $id = null): JsonResource
     {
         // @todo: where to define/load?
         $object = [
@@ -51,8 +51,8 @@ class ProductRating extends NativeObjectBase
             ];
         }
 
-        $this->jsonResource = new JsonResource($object);
-        return $this->jsonResource;
+        $this->setDataSource(new JsonResource($object));
+        return $this->getDataSource();
     }
 
     /**

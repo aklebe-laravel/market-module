@@ -31,12 +31,11 @@ class UserRating extends NativeObjectBase
     public array $formActionButtons = [];
 
     /**
-     * @param  mixed  $livewireId
      * @param  mixed  $itemId
      * @return void
      */
     #[On('accept-rating')]
-    public function acceptRating(mixed $livewireId, mixed $itemId): void
+    public function acceptRating(mixed $itemId): void
     {
         $sourceUserId = Auth::id();
 

@@ -1,5 +1,8 @@
-@php use Modules\Form\app\Forms\Base\ModelBase; @endphp
 @php
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Modules\Form\app\Forms\Base\ModelBase;
+    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
+
     /**
      *
      * @var bool $visible maybe always true because we are here
@@ -19,8 +22,9 @@
      * @var array $html_data data attributes
      * @var array $x_data
      * @var int $element_index
-     * @var Illuminate\Http\Resources\Json\JsonResource $object
+     * @var JsonResource $object
      * @var ModelBase $form_instance
+     * @var NativeObjectBaseLivewire $form_livewire
      */
 @endphp
 <div class="form-group form-label-group {{ $css_group }} mb-3">
