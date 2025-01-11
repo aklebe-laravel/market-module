@@ -17,8 +17,7 @@ class RatingService extends BaseService
      * @param  float  $value
      * @return Rating
      */
-    public function saveRating(string $modelClass, string $modelSubCode, int $userId, int $modelId,
-        float $value): Rating
+    public function saveRating(string $modelClass, string $modelSubCode, int $userId, int $modelId, float $value): Rating
     {
         $rating = Rating::updateOrCreate([
             'model'          => $modelClass,
