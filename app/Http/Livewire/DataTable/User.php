@@ -15,6 +15,20 @@ class User extends WebsiteBaseDataTableUser
     public string $eloquentModelName = UserModel::class;
 
     /**
+     * Add stuff like messagebox buttons here
+     *
+     * @return void
+     */
+    protected function initBooted(): void
+    {
+        parent::initBooted();
+
+        $this->addBaseMarketMessageBoxes();
+
+        $this->addMessageBoxButton('accept-rating', 'website-base');
+    }
+
+    /**
      * @return void
      */
     protected function initFilters(): void

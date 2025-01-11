@@ -20,6 +20,14 @@
 
     /** @var UserService $userService */
     $userService = app(UserService::class);
+
+    $messageBoxParams1 = [
+        'accept-rating' => [
+            'name' => 'market::form.product-rating',
+            'itemId' => $product->getKey(),
+        ],
+        'item' => $product->toArray()
+    ];
 @endphp
 
 <div class="container-fluid product-box {{ $product->is_test ? 'opacity-75' : '' }}">
@@ -54,7 +62,7 @@
                             <div class="col-12 col-md-3 text-center text-md-end"
                                  x-data="{ratingContainer:{rating5:{{ $product->rating5 }}, show_value: false, user_has_rated: {{ json_encode($userHasAlreadyRated) }} }}">
                                 <span class="btn"
-                                      x-on:click="messageBox.show('product.default.rating', {'accept-rating': {name: 'market::form.product-rating', item_id: '{{ $product->getKey() }}' }, product: {{ $product->toJson() }} })"
+                                      x-on:click="messageBox.show('product.default.rating', {{ json_encode($messageBoxParams1) }} )"
                                 >
                                     @include('form::components.alpine.rating')
                                 </span>

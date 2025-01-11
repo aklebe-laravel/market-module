@@ -21,7 +21,7 @@ class ScheduleServiceProvider extends ScheduleBaseServiceProvider
             // -------------------------------------
             /** @var ProductService $productService */
             $productService = app(ProductService::class);
-            $productService->aggregateRatings(false);  // dont use queue because we are already in background by schedule
+            $productService->aggregateRatings(false);  // don't use queue because we are already in background by schedule
         })->everyThirtyMinutes();
 
         /**
@@ -33,14 +33,13 @@ class ScheduleServiceProvider extends ScheduleBaseServiceProvider
             // -------------------------------------
             /** @var UserService $userService */
             $userService = app(UserService::class);
-            $userService->aggregateRatings(false); // dont use queue because we are already in background by schedule
+            $userService->aggregateRatings(false); // don't use queue because we are already in background by schedule
         })->everyThirtyMinutes();
 
         /**
          * Scheduling user activation (trader)
          */
         $schedule->call(function () {
-            // Log::debug('Scheduling user activation (trader) ...');
             // -------------------------------------
             // new traders
             // -------------------------------------
@@ -59,12 +58,9 @@ class ScheduleServiceProvider extends ScheduleBaseServiceProvider
             CleanupRatingProcess::dispatch();
         })->dailyAt('02:45');
 
-
-        // @todo: remove unused (product-) images
-
         // @todo: generate (product) flat tables
 
-        // @todo: disable suspect users (also 0 rated users since at least 3 weeks)
+        // @todo: disable suspect users (also 0 rated users since at least x weeks)
 
     }
 

@@ -1,6 +1,10 @@
 @php
+    use Illuminate\Database\Query\Builder;
+    use Modules\Market\app\Models\Product;
+    use Modules\SystemBase\app\Services\LivewireService;
+
     /**
-      * @var \Illuminate\Database\Query\Builder $productsBuilder
+      * @var Builder $productsBuilder
       * @var int $productsCount
       */
 
@@ -8,9 +12,8 @@
         return;
     }
 
-    use Modules\Market\app\Models\Product;
-    $livewireKey1 = \Modules\SystemBase\app\Services\LivewireService::getKey('products-pagination-01');
-    $livewireKey2 = \Modules\SystemBase\app\Services\LivewireService::getKey('products-pagination-02');
+    $livewireKey1 = LivewireService::getKey('products-pagination-01');
+    $livewireKey2 = LivewireService::getKey('products-pagination-02');
 @endphp
 {{--Pagination--}}
 @livewire('system-base::pagination', $paginationData, key($livewireKey1))

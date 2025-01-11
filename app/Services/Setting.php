@@ -150,7 +150,7 @@ class Setting
         /** @var \Modules\Market\app\Services\UserService $userService */
         $userService = app(UserService::class);
 
-        if (app('website_base_config')->get('site.rating.enabled', true)
+        if (app('website_base_config')->getValue('site.rating.enabled', true)
             && $userService->hasUserResource(Auth::user(),
                 'rating.visible')
         ) {
@@ -171,7 +171,7 @@ class Setting
         $userService = app(UserService::class);
 
         if ($this->canShowRating()
-            && app('website_base_config')->get('product.rating.enabled',
+            && app('website_base_config')->getValue('product.rating.enabled',
                 true)
             && $userService->hasUserResource(Auth::user(), 'rating.product.visible')
         ) {
@@ -188,7 +188,7 @@ class Setting
      */
     public function canShowUserRating(): bool
     {
-        if ($this->canShowRating() && app('website_base_config')->get('user.rating.enabled', true)
+        if ($this->canShowRating() && app('website_base_config')->getValue('user.rating.enabled', true)
             && Auth::user()
                    ->hasAclResource('rating.user.visible')
         ) {

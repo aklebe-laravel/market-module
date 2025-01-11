@@ -8,7 +8,7 @@ return [
     // update data if exists and data differ (default false)
     'update'  => true,
     // columns to check if data already exists (AND WHERE)
-    'uniques' => [],
+    'uniques' => ['code'], // Not ['module','code'] in this version!
     // data rows itself
     'data'    => [],
 ];

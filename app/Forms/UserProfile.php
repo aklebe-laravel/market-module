@@ -114,7 +114,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                 'base_item' => [
                     'disabled'  => $defaultSettings['disabled'],
                     'tab_pages' => [
-                        [
+                        'common' => [
                             'tab'     => [
                                 'label' => __('Common'),
                             ],
@@ -236,7 +236,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'avatars' => [
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Avatars'),
@@ -297,7 +297,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         [
-                            'visible'  => app('website_base_config')->get('users.profiles.media.enabled', false),
+                            'visible'  => app('website_base_config')->getValue('users.profiles.media.enabled', false),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
@@ -327,7 +327,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         [
-                            'visible'  => app('website_base_config')->get('users.profiles.products.enabled', false),
+                            'visible'  => app('website_base_config')->getValue('users.profiles.products.enabled', false),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Products'),

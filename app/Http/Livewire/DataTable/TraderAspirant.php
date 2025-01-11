@@ -55,7 +55,7 @@ class TraderAspirant extends Trader
                     'str_limit'     => 30,
                 ],
                 'css_all'    => 'w-50',
-                'view'       => 'market::livewire.js-dt.tables.columns.default-with-rating',
+                'view'       => 'market::livewire.js-dt.tables.columns.default-with-user-rating',
                 'icon'       => 'person',
             ],
             [

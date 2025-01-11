@@ -1,10 +1,17 @@
 @php
     $messageBoxReOfferPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.form.re-offer';
+
+    $messageBoxParams1 = [
+        're-offer' => [
+            'livewireId' => $this->getId(),
+            'name' => $this->getName(),
+            'itemId' => data_get($editFormModelObject, 'id'),
+        ],
+    ];
 @endphp
 <button
         class="btn btn-secondary"
-        {{--        wire:click="createOfferBinding" type="button" --}}
-        x-on:click="messageBox.show('{{ $messageBoxReOfferPath }}', {'re-offer': {livewire_id: '{{ $this->getId() }}', name: '{{ $this->getName() }}', item_id: {{ data_get($editFormModelObject, 'id') }}}})"
+        x-on:click="messageBox.show('{{ $messageBoxReOfferPath }}', {{ json_encode($messageBoxParams1) }} )"
 >
     {{ __("Create New Offer") }}
 </button>

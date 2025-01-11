@@ -188,9 +188,9 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-4',
                                     ],
                                     'force_public'           => [
-                                        'disabled'     => $websiteBaseConfig->get('site.public',
+                                        'disabled'     => $websiteBaseConfig->getValue('site.public',
                                                 false)
-                                                          || !$websiteBaseConfig->get('product.force_public.enabled',
+                                                          || !$websiteBaseConfig->getValue('product.force_public.enabled',
                                                 false),
                                         'html_element' => 'switch',
                                         'label'        => __('Force Public'),

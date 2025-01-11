@@ -4,6 +4,7 @@ namespace Modules\Market\app\Http\Livewire\Form;
 
 use App\Models\User as AppUserModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\Market\app\Models\User as MarketUserModel;
@@ -32,12 +33,20 @@ class UserRating extends NativeObjectBase
 
     /**
      * @param  mixed  $itemId
+     *
      * @return void
      */
     #[On('accept-rating')]
     public function acceptRating(mixed $itemId): void
     {
         $sourceUserId = Auth::id();
+        if ((int)$sourceUserId === (int)$itemId) { // no rating for yourself
+            $this->addErrorMessage("No user ratings for yourself.");
+            Log::warning("User tried to rate himself: $sourceUserId. Remove frontend buttons if any.");
+            $this->closeForm();
+
+            return;
+        }
 
         if ($validatedData = $this->validateForm()) {
             /** @var RatingService $userService */

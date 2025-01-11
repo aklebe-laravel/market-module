@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Modules\WebsiteBase\app\Services\SendNotificationService;
 
 class UserAssignedToTrader extends Mailable
 {
@@ -39,7 +40,8 @@ class UserAssignedToTrader extends Mailable
     public function envelope(): Envelope
     {
         $toAddress = new Address($this->user->email, $this->user->name);
-        $fromAddress = new Address(config('mail.from.address'), config('mail.from.name'));
+        $sendNotificationService = app(SendNotificationService::class);
+        $fromAddress = $sendNotificationService->getSenderEmailAddress();
 
         return new Envelope(from: $fromAddress, to: $toAddress->address, // object not allowed
             subject: __('Welcome as trader.'), tags: [
