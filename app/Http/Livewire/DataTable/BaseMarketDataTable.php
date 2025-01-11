@@ -9,11 +9,11 @@ trait BaseMarketDataTable
     use BaseWebsiteBaseDataTable;
 
     /**
-     * Add stuff like messagebox buttons here
+     * Add messagebox buttons and call it in initBooted()
      *
      * @return void
      */
-    protected function initBeforeRender(): void
+    protected function addBaseMarketMessageBoxes(): void
     {
         $this->addMessageBoxButton('accept-offer', 'market');
         $this->addMessageBoxButton('create-offer-binding', 'market');

@@ -11,8 +11,10 @@ class Product extends ModelBase
      *
      * @return void
      */
-    protected function initBeforeRender(): void
+    protected function initBooted(): void
     {
+        parent::initBooted();
+
         $this->addMessageBoxButton('accept-rating', 'website-base');
     }
 

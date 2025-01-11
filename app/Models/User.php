@@ -133,7 +133,7 @@ class User extends \Modules\WebsiteBase\app\Models\User
      */
     public function crossSellingProducts(): mixed
     {
-        return $this->frontendProducts()->take(app('website_base_config')->get('product.cross_selling.max_items', 12))->inRandomOrder();
+        return $this->frontendProducts()->take(app('website_base_config')->getValue('product.cross_selling.max_items', 12))->inRandomOrder();
     }
 
     /**

@@ -22,6 +22,18 @@ class Product extends BaseDataTable
     public string $description = 'dt_own_product_description';
 
     /**
+     * Runs on every request, after the component is mounted or hydrated, but before any update methods are called
+     *
+     * @return void
+     */
+    protected function initBooted(): void
+    {
+        parent::initBooted();
+
+        $this->addBaseMarketMessageBoxes();
+    }
+
+    /**
      * @return void
      */
     protected function initFilters(): void
@@ -118,7 +130,7 @@ class Product extends BaseDataTable
                     'str_limit'     => 30,
                 ],
                 'css_all'    => '',
-                'view'       => 'market::livewire.js-dt.tables.columns.default-with-rating',
+                'view'       => 'market::livewire.js-dt.tables.columns.default-with-product-rating',
                 'icon'       => 'tag',
             ],
             [

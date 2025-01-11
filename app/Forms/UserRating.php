@@ -74,11 +74,6 @@ class UserRating extends NativeObjectBase
             ... $parentFormData,
             'title'         => '',//__('Submit Product Rating'),
             'form_elements' => [
-                'product_id'            => [
-                    'html_element' => 'hidden',
-                    'label'        => __('ID'),
-                    'validator'    => ['nullable', 'integer'],
-                ],
                 'rating5_trust'         => [
                     'html_element' => 'market::rating5',
                     'value'        => 5,

@@ -8,12 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Modules\Acl\app\Models\AclGroup;
 use Modules\Market\app\Jobs\AggregateRatingProcess;
-use Modules\Market\app\Models\NotificationConcern as NotificationConcernAlias;
 use Modules\Market\app\Models\User as MarketUserModel;
 use Modules\SystemBase\app\Services\Base\BaseService;
-use Modules\WebsiteBase\app\Services\SendNotificationService;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class UserService extends BaseService
 {
@@ -39,8 +35,6 @@ class UserService extends BaseService
      * 3)
      *
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function calculateTraders(): void
     {
@@ -63,7 +57,7 @@ class UserService extends BaseService
                 return $query->whereIn('name', [AclGroup::GROUP_TRADERS]);
             })->whereHas('ratings', function (Builder $query) {
                 return $query->where('model_sub_code', '=', MarketUserModel::RATING_SUB_CODE_TRUST)
-                             ->where('value', '>=', 100);
+                    ->where('value', '>=', 100);
             }, count: 2)->whereNotNull('shared_id');
 
             // chunk to avoid memory overflow
@@ -93,12 +87,8 @@ class UserService extends BaseService
                             $user->parentReputations()->attach([$userRating->user_id]);
                         }
 
-                        // Sending user an email
-                        /** @var SendNotificationService $sendNotificationService */
-                        $sendNotificationService = app(SendNotificationService::class);
-                        $sendNotificationService->sendNotificationConcern(NotificationConcernAlias::REASON_CODE_USER_ASSIGNED_TO_TRADER,
-                            $user, ['user' => $user]);
-
+                        // No notifications from here.
+                        // Trader notification is handled by belongsToManyAttached() in UserTrait !!!
 
                     } else {
                         $this->error("AclGroup not found: ", [AclGroup::GROUP_TRADERS, __METHOD__]);

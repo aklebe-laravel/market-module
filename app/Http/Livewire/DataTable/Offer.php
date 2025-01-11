@@ -77,6 +77,8 @@ class Offer extends BaseDataTable
     {
         parent::initBooted();
 
+        $this->addBaseMarketMessageBoxes();
+
         $this->rowCommands = [
             'edit'   => 'data-table::livewire.js-dt.tables.columns.buttons.edit',
             'delete' => 'data-table::livewire.js-dt.tables.columns.buttons.delete',

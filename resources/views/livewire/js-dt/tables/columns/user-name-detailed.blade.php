@@ -13,9 +13,8 @@
     $aclGroupStr = implode(', ', $item->aclGroups->pluck('name')->toArray());
     if ($aclGroupStr) {
         data_set($column, 'options.popups.0.title', __('Acl Groups'));
-        // data_set($column, 'options.popups.0.label', __('Acl Groups'));
         data_set($column, 'options.popups.0.content', $aclGroupStr);
     }
 @endphp
-@include("market::livewire.js-dt.tables.columns.default-with-rating")
+@include("market::livewire.js-dt.tables.columns.default-with-user-rating")
 
