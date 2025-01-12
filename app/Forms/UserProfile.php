@@ -114,7 +114,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                 'base_item' => [
                     'disabled'  => $defaultSettings['disabled'],
                     'tab_pages' => [
-                        'common' => [
+                        'common'  => [
                             'tab'     => [
                                 'label' => __('Common'),
                             ],
@@ -398,7 +398,10 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'options'      => [
                                             'form'          => 'acl::form.acl-resource',
                                             'table'         => 'acl::data-table.acl-resource',
-                                            'table_options' => [],
+                                            'table_options' => [
+                                                'description'         => 'All acl resources find of all groups by this user.',
+                                                'filterByParentOwner' => false,
+                                            ],
                                         ],
                                         'validator'    => [
                                             'nullable',

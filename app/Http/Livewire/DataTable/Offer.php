@@ -52,7 +52,7 @@ class Offer extends BaseDataTable
 
         // force hide "add new row" button and selectables
         // but not for 'manage-data-all'
-        if ($this->useCollectionUserFilter) {
+        if ($this->filterByParentOwner) {
             $this->canAddRow = false;
             $this->selectable = false;
         }
@@ -171,7 +171,7 @@ class Offer extends BaseDataTable
 
     /**
      * The base builder before all filter manipulations.
-     * Usually used for all collections (default, selected, unselected), but can overwritten.
+     * Usually used for all collections (default, selected, unselected), but can be overwritten.
      *
      * @param  string  $collectionName
      *
@@ -188,7 +188,7 @@ class Offer extends BaseDataTable
         // filter user offers only
         $builder->where(function (Builder $b) {
             $b->where('created_by_user_id', '=', $this->getUserId())
-              ->orWhere('addressed_to_user_id', '=', $this->getUserId());
+                ->orWhere('addressed_to_user_id', '=', $this->getUserId());
         });
 
         return $builder;
