@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
 use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
+use Modules\Market\app\Models\Product as ProductModel;
 
 class Product extends BaseDataTable
 {
@@ -196,7 +197,7 @@ class Product extends BaseDataTable
      */
     protected function isItemValid($item): bool
     {
-        /** @var \Modules\Market\app\Models\Product $item */
+        /** @var ProductModel $item */
         return $item->salable;
     }
 
@@ -207,7 +208,7 @@ class Product extends BaseDataTable
      */
     protected function isItemWarn($item): bool
     {
-        /** @var \Modules\Market\app\Models\Product $item */
+        /** @var ProductModel $item */
         return $item->is_test;
     }
 
@@ -223,7 +224,7 @@ class Product extends BaseDataTable
     public function getBaseBuilder(string $collectionName): ?Builder
     {
         $builder = parent::getBaseBuilder($collectionName);
-        if ($this->useCollectionUserFilter) {
+        if ($this->filterByParentOwner) {
             $builder = $builder->whereUserId($this->getUserId());
         }
 
