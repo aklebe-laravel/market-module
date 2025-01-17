@@ -86,7 +86,7 @@ class User extends WebsiteBaseDataTableUser
             'css_group'  => 'col-12 col-md-3 text-start',
             'css_item'   => '',
             'options'    => [
-                ''                       => '[No Filter]',
+                '' => '[No Filter]',
                 ... $this->getFilterOptionsForImages(),
             ],
             'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
