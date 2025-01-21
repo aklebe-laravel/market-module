@@ -49,10 +49,10 @@ class User extends WebsiteBaseDataTableUser
                 'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
                     switch ($filterValue) {
                         case NativeObjectBase::switch3No:
-                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources(['puppet']));
+                            $builder->mergeConstraintsFrom(UserModel::withAclResources(['puppet']));
                             break;
                         case NativeObjectBase::switch3Yes:
-                            $builder->mergeConstraintsFrom(UserModel::withAclResources(['puppet']));
+                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources(['puppet']));
                             break;
                     }
                 },
