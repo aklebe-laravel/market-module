@@ -188,13 +188,9 @@ class ImportRowMarket extends ImportRowBase
 
             $position += 10;
 
+            // check same user has same origin image to avoid generate duplicates and waste disk space
             /** @var MediaItem $mediaItemFound */
-            if ($mediaItemFound = MediaItem::with([])
-                                           ->images()
-                                           ->where('extern_url', $imageFilename)
-                                           ->where('user_id', $userId)
-                                           ->first()
-            ) {
+            if ($mediaItemFound = $mediaService->findUserImageByOrigin($userId, $imageFilename)) {
                 // Image already found. Skipping download and media item creation
                 $mediaIds[] = $mediaItemFound->getKey();
                 if ($mediaItemFound->position > $position) {

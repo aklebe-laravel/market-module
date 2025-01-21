@@ -21,13 +21,23 @@ Including the following features:
 
 ```php artisan market:manage {subject} {sub_command?} {--ids=} {--since-created=} {--last-seed}```
 
-**subject**: Can be a model like ```model-product``` or ```model-user```. 
+**subject**: Can be a model like ```model-product``` or ```model-user```.
 
 **sub_command**: one of these: ```info,status,repair,delete```. In case of delete all media items will also be removed if there are no linked objects left (happens in event/listener). Use status to check what's going on.
 
 **ids** (optional): Comma separated ids to filter results. Also, a range (x-y) is accepted. Every id will be checked before deleting.
 
 **since_created** (optional): Timestamp like "1973-03-27 17:00" to filter results.
+
+### Seeder
+
+To start the module market use the following
+
+To create media images while seeding, adjust your config paths in ```seeders.users.media_items.image_storage_source_path``` (default ```app/seeder/images/samples/products```)
+
+```
+php artisan module:seed Market
+```
 
 ### Examples
 
@@ -65,7 +75,7 @@ Show info for all Models created since 2073-03-27 17:00
 php artisan market:manage model-* info --since-created="2073-03-27 17:00"
 ```
 
-Delete all Models created since 2073-03-27 17:00
+Delete all Models created since 2073-03-27 17:00. Useful to undo imports or seedings.
 ```
 php artisan market:manage model-* delete --since-created="2073-03-27 17:00"
 ```
@@ -85,8 +95,8 @@ Every column not listed below is matter and will not be ignored.
 
 ### Examples
 
-Import all files containing "test", but processing products only. 
-This also means in this case the files must have product data. 
+Import all files containing "test", but processing products only.
+This also means in this case the files must have product data.
 Every file and row will be processed, but if no product data were found, nothing happens.
 
 ```
