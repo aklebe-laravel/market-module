@@ -61,7 +61,9 @@ class Product extends ModelBaseExtraAttributes
         return array_merge(parent::makeObjectInstanceDefaultValues(), [
             'is_enabled'         => true,
             'is_public'          => false,
+            'is_test'            => false,
             'is_individual'      => true, // default true for jumble sales
+            'force_public'       => false,
             'user_id'            => $this->getOwnerUserId(),
             'store_id'           => app('website_base_settings')->getStore()->getKey() ?? null,
             'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
