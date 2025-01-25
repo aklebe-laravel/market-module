@@ -112,21 +112,7 @@ class Product extends Model
     public function getContentImages(string $contentCode = '', bool $forceAny = true): BelongsToMany
     {
         $images = $this->images()->productImages();
-
-        if ($contentCode) {
-            $images->where(function (Builder $b) use ($contentCode, $forceAny) {
-                $b->where('media_item_product.content_code', '=',
-                    $contentCode); // @todo: content_code is pivot column but pivot_content_code is not working
-                if ($forceAny) {
-                    // also list no marked items
-                    $b->orWhereNull('media_item_product.content_code'); // @todo: content_code is pivot column but pivot_content_code is not working
-                }
-            });
-            if ($forceAny) {
-                // order by content_code at top to get the proper items by first()
-                $images->orderByPivot('content_code', 'desc');
-            }
-        }
+        $this->prepareContentImagesBuilder($images, $contentCode, 'media_item_product', $forceAny);
 
         return $images;
     }

@@ -211,8 +211,8 @@ class Product extends ModelBaseExtraAttributes
                                     ],
                                     'media_file_upload'      => [
                                         'html_element' => 'website-base::media_item_file_upload_images',
-                                        'label'        => __('Media Upload'),
-                                        'description'  => __('Media Upload'),
+                                        'label'        => __('Image Upload'),
+                                        'description'  => __('media_product_upload_description'),
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'payment_method_id'      => [
