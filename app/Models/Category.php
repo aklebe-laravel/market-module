@@ -121,5 +121,24 @@ class Category extends Model
         });
     }
 
+    /**
+     * Overwrite this to get proper images by specific class!
+     * Pivot tables can differ by class objects.
+     *
+     * @param  string  $contentCode
+     * @param  bool    $forceAny  If true: Also select nullable pivots but order by pivots exists
+     *
+     * @return BelongsToMany
+     * @todo: caching?
+     *
+     */
+    public function getContentImages(string $contentCode = '', bool $forceAny = true): BelongsToMany
+    {
+        $images = $this->images()->categoryImages();
+        //$this->prepareContentImagesBuilder($images, $contentCode, 'media_item_category', $forceAny);
+
+        return $images;
+    }
+
 
 }
