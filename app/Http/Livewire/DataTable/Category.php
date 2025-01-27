@@ -2,11 +2,10 @@
 
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
-use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
-use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
+use Modules\WebsiteBase\app\Http\Livewire\DataTable\WebsiteBase;
 
-class Category extends BaseDataTable
+class Category extends WebsiteBase
 {
     /**
      *
@@ -25,6 +24,16 @@ class Category extends BaseDataTable
     protected function initSort(): void
     {
         $this->setSortAllCollections('name', 'asc');
+    }
+
+    /**
+     * @return void
+     */
+    protected function initFilters(): void
+    {
+        parent::initFilters();
+
+        $this->addStoreFilter();
     }
 
     /**
@@ -54,6 +63,13 @@ class Category extends BaseDataTable
                 'label'      => __('Public'),
                 'view'       => 'data-table::livewire.js-dt.tables.columns.bool-red-green',
                 'css_all'    => 'hide-mobile-show-md text-center w-5',
+                'searchable' => true,
+                'sortable'   => true,
+            ],
+            [
+                'name'       => 'store_id',
+                'label'      => 'Store',
+                'css_all'    => 'small w-5',
                 'searchable' => true,
                 'sortable'   => true,
             ],
@@ -90,22 +106,6 @@ class Category extends BaseDataTable
                 'searchable' => true,
             ],
         ];
-    }
-
-    /**
-     * Overwrite this to add filters
-     *
-     * @param  Builder  $builder
-     * @param  string   $collectionName
-     *
-     * @return void
-     */
-    protected function extendBuilderByFilters(Builder $builder, string $collectionName): void
-    {
-        parent::extendBuilderByFilters($builder, $collectionName);
-
-        // filter current store
-        $builder->where('store_id', '=', app('website_base_settings')->getStore()->getKey());
     }
 
 }

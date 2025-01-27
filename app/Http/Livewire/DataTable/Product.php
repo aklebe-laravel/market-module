@@ -43,15 +43,12 @@ class Product extends BaseDataTable
 
         $this->addFilterElement('product_filter1', [
             'label'      => 'Filter',
-            'default'    => '',
+            'default'    => app('system_base')::selectValueNoChoice,
             'position'   => 1700, // between elements rows and search
             'soft_reset' => true,
             'css_group'  => 'col-12 col-md-3 text-start',
             'css_item'   => '',
-            'options'    => [
-                '' => '[All]',
-                ... $this->getFilterOptionsForImages(),
-            ],
+            'options'    => $this->getFilterOptionsForImages(),
             'view'       => 'data-table::livewire.js-dt.filters.default-elements.select',
         ]);
     }
@@ -185,9 +182,7 @@ class Product extends BaseDataTable
         parent::extendBuilderByFilters($builder, $collectionName);
 
         // filter current store
-        $builder->where('store_id', '=', app('website_base_settings')
-            ->getStore()
-            ->getKey());
+        $builder->where('store_id', '=', app('website_base_settings')->getStoreId());
     }
 
     /**

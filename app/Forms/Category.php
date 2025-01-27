@@ -55,7 +55,7 @@ class Category extends ModelBaseExtraAttributes
         return array_merge(parent::makeObjectInstanceDefaultValues(), [
             'is_enabled' => true,
             'is_public'  => true,
-            'store_id'   => app('website_base_settings')->getStore()->getKey() ?? null,
+            'store_id'   => app('website_base_settings')->getStoreId(),
             'web_uri'    => uniqid('category_'),
         ]);
     }
@@ -130,7 +130,7 @@ class Category extends ModelBaseExtraAttributes
                                             'ASC')->get(), [
                                             'id',
                                             'name',
-                                        ], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', self::UNSELECT_RELATION_IDENT)),
+                                        ], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
                                         'description'  => __('Parent category'),
                                         'validator'    => [
                                             'nullable',
@@ -145,7 +145,7 @@ class Category extends ModelBaseExtraAttributes
                                             'ASC')->get(), [
                                             'id',
                                             'code',
-                                        ], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', self::UNSELECT_RELATION_IDENT)),
+                                        ], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
                                         'description'  => __('The Store assigned to the category'),
                                         'validator'    => [
                                             'nullable',
@@ -210,32 +210,32 @@ class Category extends ModelBaseExtraAttributes
                                 ],
                             ],
                         ],
-                        [
-                            'disabled' => !$this->getDataSource()->getKey(),
-                            'tab'      => [
-                                'label' => __('Images'),
-                            ],
-                            'content'  => [
-                                'form_elements' => [
-                                    'mediaItems' => [
-                                        'html_element'  => 'element-dt-split-default',
-                                        'label'         => __('Images'),
-                                        'description'   => __('Images assigned to this product'),
-                                        'css_group'     => 'col-12',
-                                        'options'       => [
-                                            'table' => 'website-base::data-table.media-item-image-category',
-                                        ],
-                                        'table_options' => [
-                                            'hasCommands' => $defaultSettings['can_manage'],
-                                        ],
-                                        'validator'     => [
-                                            'nullable',
-                                            'array',
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
+                        //[
+                        //    'disabled' => !$this->getDataSource()->getKey(),
+                        //    'tab'      => [
+                        //        'label' => __('Images'),
+                        //    ],
+                        //    'content'  => [
+                        //        'form_elements' => [
+                        //            'mediaItems' => [
+                        //                'html_element'  => 'element-dt-split-default',
+                        //                'label'         => __('Images'),
+                        //                'description'   => __('Images assigned to this product'),
+                        //                'css_group'     => 'col-12',
+                        //                'options'       => [
+                        //                    'table' => 'website-base::data-table.media-item-image-category',
+                        //                ],
+                        //                'table_options' => [
+                        //                    'hasCommands' => $defaultSettings['can_manage'],
+                        //                ],
+                        //                'validator'     => [
+                        //                    'nullable',
+                        //                    'array',
+                        //                ],
+                        //            ],
+                        //        ],
+                        //    ],
+                        //],
                         $extraAttributeTab,
                     ],
                 ],

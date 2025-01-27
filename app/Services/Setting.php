@@ -63,7 +63,7 @@ class Setting
 
                 $this->shoppingCart = ShoppingCart::make([
                     'session_token' => session()->getId(),
-                    'store_id'      => $this->websiteBaseSetting->getStore()->id,
+                    'store_id'      => $this->websiteBaseSetting->getStoreId(),
                     'user_id'       => Auth::id(),
                 ]);
 
@@ -118,7 +118,7 @@ class Setting
         $navigationCategories = Category::with([]);
         $navigationCategories->where(function (Builder $b) {
             $b->whereDoesntHave('parents');
-        })->where('store_id', '=', $this->websiteBaseSetting->getStore()->id)->orderBy('name');
+        })->where('store_id', '=', $this->websiteBaseSetting->getStoreId())->orderBy('name');
         $navigationCategories = $navigationCategories->get();
 
         foreach ($navigationCategories as $category) {
@@ -190,7 +190,7 @@ class Setting
     {
         if ($this->canShowRating() && app('website_base_config')->getValue('user.rating.enabled', true)
             && Auth::user()
-                   ->hasAclResource('rating.user.visible')
+                ->hasAclResource('rating.user.visible')
         ) {
             return true;
         }
@@ -205,8 +205,8 @@ class Setting
     {
         if (!$this->defaultPaymentMethod) {
             $this->defaultPaymentMethod = PaymentMethod::with([])
-                                                       ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
-                                                       ->first();
+                ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
+                ->first();
         }
 
         return $this->defaultPaymentMethod;
@@ -219,8 +219,8 @@ class Setting
     {
         if (!$this->defaultShippingMethod) {
             $this->defaultShippingMethod = ShippingMethod::with([])
-                                                         ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
-                                                         ->first();
+                ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
+                ->first();
         }
 
         return $this->defaultShippingMethod;

@@ -117,7 +117,7 @@ class Category extends Model
         return $query->where(function ($q) {
             $q->where('is_enabled', true);
             $q->where('is_public', true);
-            $q->where('store_id', app('website_base_settings')->getStore()->getKey());
+            $q->where('store_id', app('website_base_settings')->getStoreId());
         });
     }
 

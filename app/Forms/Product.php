@@ -65,7 +65,7 @@ class Product extends ModelBaseExtraAttributes
             'is_individual'      => true, // default true for jumble sales
             'force_public'       => false,
             'user_id'            => $this->getOwnerUserId(),
-            'store_id'           => app('website_base_settings')->getStore()->getKey() ?? null,
+            'store_id'           => app('website_base_settings')->getStoreId(),
             'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
             'shipping_method_id' => $settings->getDefaultShippingMethod()->getKey(),
             'web_uri'            => uniqid('product_'),

@@ -1,5 +1,4 @@
 @php
-    use Modules\Form\app\Forms\Base\NativeObjectBase;
     use Modules\Market\app\Models\PaymentMethod;
 
     $list = [];
@@ -12,5 +11,5 @@
     }
 @endphp
 @include('form::components.form.select', [
-    'options' => app('system_base')->toHtmlSelectOptions($list, ['label'], 'id', app('system_base')->getHtmlSelectOptionNoValue('No choice', NativeObjectBase::UNSELECT_RELATION_IDENT)),
+    'options' => app('system_base')->toHtmlSelectOptions($list, ['label'], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
     ])

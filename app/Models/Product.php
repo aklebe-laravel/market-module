@@ -230,7 +230,7 @@ class Product extends Model
             }
 
             // store_id
-            if (!($this->store_id == app('website_base_settings')->getStore()->getKey())) {
+            if (!($this->store_id == app('website_base_settings')->getStoreId())) {
                 return false;
             }
 
@@ -278,7 +278,7 @@ class Product extends Model
             $q->where('is_locked', false);
             $q->where('is_enabled', true);
             $q->where('is_public', true);
-            $q->where('store_id', app('website_base_settings')->getStore()->getKey());
+            $q->where('store_id', app('website_base_settings')->getStoreId());
             $now = date(SystemService::dateIsoFormat8601);
             $q->where(function (Builder $q2) use ($now) {
                 $q2->whereNull('started_at')->orWhere('started_at', '<=', $now);
