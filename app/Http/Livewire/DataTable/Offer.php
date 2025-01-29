@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
 use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
+use Modules\Form\app\Forms\Base\NativeObjectBase;
+use Modules\Market\app\Models\Offer as OfferModel;
 use Modules\Market\app\Services\OfferService;
 
 class Offer extends BaseDataTable
@@ -56,6 +58,75 @@ class Offer extends BaseDataTable
             $this->canAddRow = false;
             $this->selectable = false;
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function initFilters(): void
+    {
+        parent::initFilters();
+
+        $this->addFilterElement('offer_filter_switch_completed', [
+            'label'      => __('OFFER_STATUS_COMPLETED'),
+            'default'    => NativeObjectBase::switch3Unused,
+            'position'   => 1650, // between elements rows and search
+            'soft_reset' => true,
+            'css_group'  => 'col text-center',
+            'css_item'   => '',
+            'view'       => 'data-table::livewire.js-dt.filters.default-elements.3-switch',
+            'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
+                switch ($filterValue) {
+                    case NativeObjectBase::switch3No:
+                        $builder->where('status', '!=', OfferModel::STATUS_COMPLETED);
+                        break;
+                    case NativeObjectBase::switch3Yes:
+                        $builder->where('status', '=', OfferModel::STATUS_COMPLETED);
+                        break;
+                }
+            },
+        ]);
+
+        $this->addFilterElement('offer_filter_switch_closed', [
+            'label'      => __('OFFER_STATUS_CLOSED'),
+            'default'    => NativeObjectBase::switch3No,
+            'position'   => 1660, // between elements rows and search
+            'soft_reset' => true,
+            'css_group'  => 'col text-center',
+            'css_item'   => '',
+            'view'       => 'data-table::livewire.js-dt.filters.default-elements.3-switch',
+            'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
+                switch ($filterValue) {
+                    case NativeObjectBase::switch3No:
+                        $builder->where('status', '!=', OfferModel::STATUS_CLOSED);
+                        break;
+                    case NativeObjectBase::switch3Yes:
+                        $builder->where('status', '=', OfferModel::STATUS_CLOSED);
+                        break;
+                }
+            },
+        ]);
+
+        $this->addFilterElement('offer_filter_switch_applied', [
+            'label'      => __('OFFER_STATUS_APPLIED'),
+            'default'    => NativeObjectBase::switch3Unused,
+            'position'   => 1670, // between elements rows and search
+            'soft_reset' => true,
+            'css_group'  => 'col text-center',
+            'css_item'   => '',
+            'view'       => 'data-table::livewire.js-dt.filters.default-elements.3-switch',
+            'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
+                switch ($filterValue) {
+                    case NativeObjectBase::switch3No:
+                        $builder->where('status', '!=', OfferModel::STATUS_APPLIED);
+                        break;
+                    case NativeObjectBase::switch3Yes:
+                        $builder->where('status', '=', OfferModel::STATUS_APPLIED);
+                        break;
+                }
+            },
+        ]);
+
     }
 
     /**
@@ -182,13 +253,13 @@ class Offer extends BaseDataTable
     {
         $builder = parent::getBaseBuilder($collectionName);
 
-        // blacklist history items
-        $builder->withCount(['nextOffers'])->having('next_offers_count', '<', '1');
-
         // filter user offers only
         $builder->where(function (Builder $b) {
             $b->where('created_by_user_id', '=', $this->getUserId())
-                ->orWhere('addressed_to_user_id', '=', $this->getUserId());
+                ->orWhere(function (Builder $b2) {
+                    $b2->where('addressed_to_user_id', '=', $this->getUserId()) // offer to me
+                        ->where('status', '!=', OfferModel::STATUS_APPLIED); // but not the prepared ones
+                });
         });
 
         return $builder;

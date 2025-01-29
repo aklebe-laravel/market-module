@@ -196,7 +196,6 @@ class OfferService extends BaseService
             return true;
         }
 
-
         return false;
     }
 

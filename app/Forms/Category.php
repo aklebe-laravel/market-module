@@ -18,7 +18,7 @@ class Category extends ModelBaseExtraAttributes
      *
      * @var string
      */
-    public string $frontendKey = 'web_uri';
+    public const string frontendKey = 'web_uri';
 
     /**
      * Relations commonly built in with(...)

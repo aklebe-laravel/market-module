@@ -1,11 +1,17 @@
 @php
-    $messageBoxReOfferPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.form.re-offer';
+    use Modules\Market\app\Http\Livewire\Form\Offer;
+
+    /**
+     * @var Offer $this
+     */
+
+    $messageBoxReOfferPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.re-offer';
 
     $messageBoxParams1 = [
         're-offer' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'itemId' => data_get($editFormModelObject, 'id'),
+            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
         ],
     ];
 @endphp

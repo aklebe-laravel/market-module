@@ -3,16 +3,9 @@
 namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
 {
-    /**
-     * Relation method if parent form exists.
-     */
-    const string PARENT_RELATION_METHOD_NAME = 'users';
-
     /**
      * Needed in Userprofile because the Classname differ
      *
@@ -21,77 +14,8 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
     protected ?string $objectEloquentModelName = \Modules\Market\app\Models\User::class;
 
     /**
-     * Relations for using in with().
-     * Don't add fake relations or relations should not be updated!
-     *
-     * Will be used as:
-     * - Blacklist of properties, to save the plain model
-     * - onAfterUpdateItem() to sync() the relations
-     *
-     * @var array[]
-     */
-    protected array $objectRelations = [
-        'mediaItems',
-        'avatars',
-        'aclGroups',
-    ];
-
-    /**
-     * Singular
-     *
-     * @var string
-     */
-    protected string $objectFrontendLabel = 'User';
-
-    /**
-     * Plural
-     *
-     * @var string
-     */
-    protected string $objectsFrontendLabel = 'Users';
-
-    /**
-     * @return mixed
-     */
-    public function getOwnerUserId(): mixed
-    {
-        return $this->getDataSource()->getKey();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOwnUser(): bool
-    {
-        return $this->getDataSource() && ($this->getOwnerUserId() == Auth::id());
-    }
-
-    /**
-     * Should be overwritten to decide the current object is owned by user
-     * canEdit() can call canManage() but don't call canEdit() in canManage()!
-     *
-     * @return bool
-     */
-    public function canEdit(): bool
-    {
-        return ($this->isOwnUser() || $this->canManage());
-    }
-
-    /**
-     * @return array
-     */
-    public function makeObjectInstanceDefaultValues(): array
-    {
-        return array_merge(parent::makeObjectInstanceDefaultValues(), [
-            'shared_id' => uniqid('js_suid_'),
-        ]);
-    }
-
-    /**
      *
      * @return array
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function getFormElements(): array
     {
@@ -114,7 +38,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                 'base_item' => [
                     'disabled'  => $defaultSettings['disabled'],
                     'tab_pages' => [
-                        'common'  => [
+                        'common'        => [
                             'tab'     => [
                                 'label' => __('Common'),
                             ],
@@ -236,7 +160,8 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        'avatars' => [
+                        'avatars'       => [
+                            'visible'  => $defaultSettings['can_edit'],
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Avatars'),
@@ -265,7 +190,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'addresses'     => [
                             'visible'  => $defaultSettings['can_edit'],
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
@@ -279,8 +204,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'css_group'    => 'col-12',
                                         'options'      => [
                                             'form'          => 'website-base::form.address',
-                                            'form_options'  => [
-                                            ],
+                                            'form_options'  => [],
                                             'table'         => 'website-base::data-table.address',
                                             'table_options' => [
                                                 'hasCommands' => $defaultSettings['can_manage'],
@@ -296,7 +220,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'images'        => [
                             'visible'  => app('website_base_config')->getValue('users.profiles.media.enabled', false),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
@@ -326,7 +250,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'products'      => [
                             'visible'  => app('website_base_config')->getValue('users.profiles.products.enabled', false),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
@@ -356,7 +280,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'acl_groups'    => [
                             'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
@@ -382,8 +306,8 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
-                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0),
+                        'acl_resources' => [
+                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclResources->count() > 0),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Resources'),
@@ -411,7 +335,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'tokens'        => [
                             'visible'  => $defaultSettings['can_edit'],
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
@@ -437,7 +361,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                 ],
                             ],
                         ],
-                        [
+                        'surety'        => [
                             'visible'  => true, // everyone should see this
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [

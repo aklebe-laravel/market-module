@@ -14,7 +14,7 @@ class Offer extends ModelBase
      *
      * @var string
      */
-    public string $frontendKey = 'shared_id';
+    public const string frontendKey = 'shared_id';
 
     /**
      * Relations commonly built in with(...)

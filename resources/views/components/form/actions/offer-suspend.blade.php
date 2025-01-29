@@ -1,11 +1,16 @@
 @php
-    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.form.offer-suspend';
+    use Modules\Market\app\Http\Livewire\Form\Offer;
+
+    /**
+     * @var Offer $this
+     */
+    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.offer-suspend';
 
     $messageBoxParams1 = [
         'offer-suspend' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'itemId' => data_get($editFormModelObject, 'shared_id'),
+            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
         ],
     ];
 

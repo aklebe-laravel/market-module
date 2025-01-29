@@ -1,11 +1,17 @@
 @php
-    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.form.reject-offer';
+    use Modules\Market\app\Http\Livewire\Form\Offer;
+
+    /**
+     * @var Offer $this
+     */
+
+    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.reject-offer';
 
     $messageBoxParams1 = [
         'reject-offer' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'itemId' => data_get($editFormModelObject, 'id'),
+            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
         ],
     ];
 @endphp

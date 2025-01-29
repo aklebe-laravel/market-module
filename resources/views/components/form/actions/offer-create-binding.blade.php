@@ -1,11 +1,17 @@
 @php
-    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName($this->getModelName()) . '.form.create-offer-binding';
+    use Modules\Market\app\Http\Livewire\Form\Offer;
+
+    /**
+     * @var Offer $this
+     */
+
+    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.create-offer-binding';
 
     $messageBoxParams1 = [
         'create-offer-binding' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'itemId' => data_get($editFormModelObject, 'id'),
+            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
         ],
     ];
 @endphp

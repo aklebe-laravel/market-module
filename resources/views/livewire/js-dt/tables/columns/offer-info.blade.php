@@ -12,7 +12,7 @@
 <div class="">
     <button
             class="btn-link link-primary"
-            wire:click="$dispatchTo('{{ $this->relatedLivewireForm }}', 'open-form', '{id: '{{ data_get($item, $this->columnNameId, 0) }}' }')"
+            wire:click="$dispatchTo('{{ $this->relatedLivewireForm }}', 'open-form', {id: '{{ data_get($item, $this->columnNameId, 0) }}' })"
     >
         {{ data_get($item, 'createdByUser.name', '???') }} <span
                 class="bi bi-arrow-right"></span> {{ data_get($item, 'addressedToUser.name', '???') }}

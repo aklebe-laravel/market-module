@@ -7,11 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Modules\Market\app\Models\Offer;
 use Modules\WebsiteBase\app\Services\SendNotificationService;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class OfferStatusProcess implements ShouldQueue
 {
@@ -23,26 +21,29 @@ class OfferStatusProcess implements ShouldQueue
     public Offer $offer;
 
     /**
+     * @var string
+     */
+    public string $previousStatus = '';
+
+    /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Offer $offer)
+    public function __construct(Offer $offer, string $previousStatus = '')
     {
         $this->offer = $offer->withoutRelations();
+        $this->previousStatus = $previousStatus;
     }
 
     /**
      * Execute the job.
      *
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws TelegramSDKException
      */
     public function handle(): void
     {
-        // Log::debug(sprintf("Handle offer (%s), status: %s.", $this->offer->id, $this->offer->status), [__METHOD__]);
+        Log::debug(sprintf("Handle offer (%s), status: %s.", $this->offer->id, $this->offer->status), [__METHOD__]);
 
         // Checking the new status ...
         switch ($this->offer->status) {
@@ -81,6 +82,17 @@ class OfferStatusProcess implements ShouldQueue
                         $this->offer->createdByUser, ['offer' => $this->offer]);
                 }
                 break;
+
+            //case Offer::STATUS_CLOSED:
+            //    {
+            //        if ($this->previousStatus == Offer::STATUS_NEGOTIATION) {
+            //            /** @var SendNotificationService $sendNotificationService */
+            //            $sendNotificationService = app(SendNotificationService::class);
+            //            $sendNotificationService->sendNotificationConcern('market_offer_rejected',
+            //                $this->offer->createdByUser, ['offer' => $this->offer]);
+            //        }
+            //    }
+            //    break;
 
         }
 

@@ -5,6 +5,7 @@ namespace Modules\Market\app\Http\Livewire\Form;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Modules\Form\app\Http\Livewire\Form\Base\ModelBase;
+use Modules\Market\app\Models\Offer as OfferModel;
 use Modules\Market\app\Services\OfferService;
 
 class Offer extends ModelBase
@@ -71,7 +72,7 @@ class Offer extends ModelBase
         }
 
         if ($offerSharedId) {
-            if ($offer = \Modules\Market\app\Models\Offer::with([])->where('shared_id', '=', $offerSharedId)->first()) {
+            if ($offer = OfferModel::with([])->where('shared_id', '=', $offerSharedId)->first()) {
                 if ($this->offerService->disbandOfferToCartItems($offer)) {
                     //            $this->redirectRoute('manage-data', ['modelName' => 'Offer']);
                 } else {
@@ -90,18 +91,17 @@ class Offer extends ModelBase
      * Dispatch: Create Offer
      *
      * @param  mixed  $livewireId
-     * @param  mixed  $itemId
+     * @param  mixed  $offerSharedId
      *
      * @return void
      */
     #[On('create-offer-binding')]
-    public function createOfferBinding(mixed $livewireId, mixed $itemId): void
+    public function createOfferBinding(mixed $livewireId, mixed $offerSharedId): void
     {
         if (!$this->checkLivewireId($livewireId)) {
             return;
         }
-
-        $this->switchStatusByFormAction(\Modules\Market\app\Models\Offer::STATUS_NEGOTIATION);
+        $this->switchStatusByFormAction(OfferModel::STATUS_NEGOTIATION, $offerSharedId);
     }
 
     /**
@@ -119,7 +119,7 @@ class Offer extends ModelBase
             return;
         }
 
-        $this->switchStatusByFormAction(\Modules\Market\app\Models\Offer::STATUS_REJECTED);
+        $this->switchStatusByFormAction(OfferModel::STATUS_REJECTED, $offerSharedId);
     }
 
     /**
@@ -137,7 +137,7 @@ class Offer extends ModelBase
             return;
         }
 
-        $this->switchStatusByFormAction(\Modules\Market\app\Models\Offer::STATUS_COMPLETED);
+        $this->switchStatusByFormAction(OfferModel::STATUS_COMPLETED, $offerSharedId);
     }
 
 
@@ -157,7 +157,10 @@ class Offer extends ModelBase
             return;
         }
 
-        if ($offer = \Modules\Market\app\Models\Offer::with([])->whereId($this->formObjectId)->first()) {
+        if ($offer = OfferModel::with([])
+            ->where($this->getFormInstance()::frontendKey, $offerSharedId)
+            ->first()
+        ) {
             $this->offerService->reOffer($offer);
         }
 
@@ -169,19 +172,33 @@ class Offer extends ModelBase
      * Switch status and dispatch the switch service if exists.
      *
      * @param  string  $status
+     * @param  string  $sharedId
      *
      * @return void
      */
-    protected function switchStatusByFormAction(string $status): void
+    protected function switchStatusByFormAction(string $status, string $sharedId): void
     {
-        $this->dataTransfer['status'] = $status;
+        // maybe do not assign this before switchStatus() ...
+        //$this->dataTransfer['status'] = $status;
 
         // save form data
         $res = $this->saveFormData();
         if (!$res->hasErrors()) {
 
-            if ($offer = \Modules\Market\app\Models\Offer::with([])->whereId($this->formObjectId)->first()) {
-                $this->offerService->switchStatus($offer, $status, false);
+            //Log::debug(__METHOD__, [$sharedId, $this->getFormInstance()::frontendKey]);
+            if ($offer = OfferModel::with([])
+                ->where($this->getFormInstance()::frontendKey, $sharedId)
+                ->first()
+            ) {
+                if (!$this->offerService->switchStatus($offer, $status, false)) {
+                    $this->addErrorMessage(__('Unable to switch offer status.'));
+
+                    return;
+                }
+            } else {
+                $this->addErrorMessage(__('Unable to load offer.'));
+
+                return;
             }
 
             $this->closeFormAndRefreshDatatable();

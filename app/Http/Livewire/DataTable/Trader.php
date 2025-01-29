@@ -4,9 +4,15 @@ namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Acl\app\Models\AclResource;
 
 class Trader extends User
 {
+    /**
+     * Minimum restrictions to allow this component.
+     */
+    public const array aclResources = [AclResource::RES_DEVELOPER, AclResource::RES_ADMIN, AclResource::RES_TRADER];
+
     /**
      * @var string
      */
