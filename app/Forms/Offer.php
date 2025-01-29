@@ -43,11 +43,17 @@ class Offer extends ModelBase
      */
     protected string $objectsFrontendLabel = 'Offers';
 
+    /**
+     * @return bool
+     */
     public function isOwnUser(): bool
     {
         return ($this->getDataSource() && (($this->getDataSource()->created_by_user_id == Auth::id() || ($this->getDataSource()->addressed_to_user_id == Auth::id()))));
     }
 
+    /**
+     * @return bool
+     */
     protected function canEditStatus(): bool
     {
         /** @var OfferService $offerService */

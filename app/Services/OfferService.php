@@ -14,11 +14,17 @@ use Throwable;
 
 class OfferService extends BaseService
 {
+    /**
+     *
+     */
     const array canEditStatusWhiteList = [
         Offer::STATUS_APPLIED,
-        Offer::STATUS_REJECTED,
+        //Offer::STATUS_NEGOTIATION,
     ];
 
+    /**
+     *
+     */
     const array statusActionMap = [
         'created_by_user_id'   => [
             Offer::STATUS_APPLIED  => [
