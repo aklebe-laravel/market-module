@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Acl\app\Models\AclResource;
 use Modules\Form\app\Forms\Base\NativeObjectBase;
 use Modules\WebsiteBase\app\Http\Livewire\DataTable\User as WebsiteBaseDataTableUser;
 use Modules\Market\app\Models\User as UserModel;
@@ -47,10 +48,10 @@ class User extends WebsiteBaseDataTableUser
                 'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
                     switch ($filterValue) {
                         case NativeObjectBase::switch3No:
-                            $builder->mergeConstraintsFrom(UserModel::withAclResources(['puppet']));
+                            $builder->mergeConstraintsFrom(UserModel::withAclResources([AclResource::RES_PUPPET]));
                             break;
                         case NativeObjectBase::switch3Yes:
-                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources(['puppet']));
+                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources([AclResource::RES_PUPPET]));
                             break;
                     }
                 },
@@ -66,10 +67,10 @@ class User extends WebsiteBaseDataTableUser
                 'builder'    => function (Builder $builder, string $filterElementKey, string $filterValue) {
                     switch ($filterValue) {
                         case NativeObjectBase::switch3No:
-                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources(['trader']));
+                            $builder->mergeConstraintsFrom(UserModel::withNoAclResources([AclResource::RES_TRADER]));
                             break;
                         case NativeObjectBase::switch3Yes:
-                            $builder->mergeConstraintsFrom(UserModel::withAclResources(['trader']));
+                            $builder->mergeConstraintsFrom(UserModel::withAclResources([AclResource::RES_TRADER]));
                             break;
                     }
                 },

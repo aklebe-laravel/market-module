@@ -98,7 +98,7 @@ class TraderAspirant extends Trader
     {
         $moduleClass = app('system_base')->getEloquentModel($this->getEloquentModelName());
 
-        return $moduleClass->withNoAclResources(['trader'])->frontendItems();
+        return $moduleClass->withNoAclResources([AclResource::RES_TRADER])->frontendItems();
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Acl\app\Models\AclResource;
+
 return [
     // class of eloquent model
     'model'     => \Modules\WebsiteBase\app\Models\Navigation::class,
@@ -32,7 +34,7 @@ return [
             'code'            => 'Admin-Market-Place-Menu-L2',
             'route'           => 'manage-data-all',
             'route_params'    => ['Product'],
-            'acl_resources'   => ['manage_content'],
+            'acl_resources'   => [AclResource::RES_MANAGE_CONTENT],
             'icon_class'      => 'bi bi-bank',
             'position'        => 7000,
             '#sync_relations' => [
@@ -86,7 +88,7 @@ return [
             'route'         => 'content-pages-overview',
             'icon_class'    => 'bi bi-bank',
             'position'      => 3000,
-            'acl_resources' => ['trader'],
+            'acl_resources' => [AclResource::RES_TRADER],
         ],
         [
             'label'           => 'Trading',

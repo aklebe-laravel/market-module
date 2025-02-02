@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Acl\app\Models\AclGroup;
+use Modules\Acl\app\Models\AclResource;
 
 return [
     // class of eloquent model
@@ -27,7 +28,7 @@ return [
             'description'     => 'Traders',
             '#sync_relations' => [
                 'res' => [
-                    'trader',
+                    AclResource::RES_TRADER,
                 ],
             ],
         ],
@@ -36,9 +37,9 @@ return [
             'description'     => 'Allowed to manage products',
             '#sync_relations' => [
                 'res' => [
-                    'trader',
-                    'staff',
-                    'manage_products',
+                    AclResource::RES_TRADER,
+                    AclResource::RES_STAFF,
+                    AclResource::RES_MANAGE_PRODUCTS,
                 ],
             ],
         ],

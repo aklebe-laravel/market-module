@@ -114,7 +114,7 @@ class Trader extends User
     {
         $moduleClass = app('system_base')->getEloquentModel($this->getEloquentModelName());
 
-        return $moduleClass->withAclResources(['trader'])->frontendItems();
+        return $moduleClass->withAclResources([AclResource::RES_TRADER])->frontendItems();
     }
 
 }
