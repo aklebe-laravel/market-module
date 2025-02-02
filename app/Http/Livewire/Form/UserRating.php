@@ -40,7 +40,7 @@ class UserRating extends NativeObjectBase
     public function acceptRating(mixed $itemId): void
     {
         $sourceUserId = Auth::id();
-        if ((int)$sourceUserId === (int)$itemId) { // no rating for yourself
+        if ((int) $sourceUserId === (int) $itemId) { // no rating for yourself
             $this->addErrorMessage("No user ratings for yourself.");
             Log::warning("User tried to rate himself: $sourceUserId. Remove frontend buttons if any.");
             $this->closeForm();
@@ -52,12 +52,21 @@ class UserRating extends NativeObjectBase
             /** @var RatingService $userService */
             $userService = app(RatingService::class);
 
-            $rating1 = $userService->saveRating(AppUserModel::class, MarketUserModel::RATING_SUB_CODE_TRUST,
-                $sourceUserId, $itemId, (int) $validatedData['rating5_trust'] * 20);
-            $rating2 = $userService->saveRating(AppUserModel::class, MarketUserModel::RATING_SUB_CODE_WELL_KNOWN,
-                $sourceUserId, $itemId, (int) $validatedData['rating5_well_known'] * 20);
-            $rating3 = $userService->saveRating(AppUserModel::class, MarketUserModel::RATING_SUB_CODE_OFFER_SUCCESS,
-                $sourceUserId, $itemId, (int) $validatedData['rating5_offer_success'] * 20);
+            $rating1 = $userService->saveRating(AppUserModel::class,
+                MarketUserModel::RATING_SUB_CODE_TRUST,
+                $sourceUserId,
+                $itemId,
+                (int) $validatedData['rating5_trust'] * 20);
+            $rating2 = $userService->saveRating(AppUserModel::class,
+                MarketUserModel::RATING_SUB_CODE_WELL_KNOWN,
+                $sourceUserId,
+                $itemId,
+                (int) $validatedData['rating5_well_known'] * 20);
+            $rating3 = $userService->saveRating(AppUserModel::class,
+                MarketUserModel::RATING_SUB_CODE_OFFER_SUCCESS,
+                $sourceUserId,
+                $itemId,
+                (int) $validatedData['rating5_offer_success'] * 20);
 
         }
 

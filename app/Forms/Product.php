@@ -4,7 +4,7 @@ namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
-use Modules\WebsiteBase\app\Services\ConfigService;
+use Modules\WebsiteBase\app\Services\CoreConfigService;
 
 /**
  *
@@ -86,7 +86,7 @@ class Product extends ModelBaseExtraAttributes
 
         $productRatingVisible = Auth::user()->hasAclResource('rating.product.visible');
 
-        /** @var ConfigService $websiteBaseConfig */
+        /** @var CoreConfigService $websiteBaseConfig */
         $websiteBaseConfig = app('website_base_config');
 
         return [

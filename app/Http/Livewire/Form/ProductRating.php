@@ -31,6 +31,7 @@ class ProductRating extends NativeObjectBase
 
     /**
      * @param  mixed  $itemId
+     *
      * @return void
      */
     #[On('accept-rating')]

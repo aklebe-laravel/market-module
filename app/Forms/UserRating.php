@@ -22,6 +22,11 @@ class UserRating extends NativeObjectBase
      */
     protected string $objectsFrontendLabel = 'User Ratings';
 
+    /**
+     * @param  mixed|null  $id
+     *
+     * @return JsonResource
+     */
     public function initDataSource(mixed $id = null): JsonResource
     {
         // @todo: where to define/load?

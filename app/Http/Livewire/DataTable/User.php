@@ -26,8 +26,6 @@ class User extends WebsiteBaseDataTableUser
         parent::initBooted();
 
         $this->addBaseMarketMessageBoxes();
-
-        $this->addMessageBoxButton('accept-rating', 'website-base');
     }
 
     /**

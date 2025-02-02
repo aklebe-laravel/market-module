@@ -2,7 +2,7 @@
     use Illuminate\Support\Carbon;
     use Modules\Acl\app\Models\AclResource;
     use Modules\Acl\app\Services\UserService;
-    use Modules\Market\app\Models\Product;
+    use Modules\Market\app\Models\Product;use Modules\WebsiteBase\app\Services\WebsiteService;
 
     /**
      * @var Product $product
@@ -61,9 +61,7 @@
                         @if (app('market_settings')->canShowProductRating())
                             <div class="col-12 col-md-3 text-center text-md-end"
                                  x-data="{ratingContainer:{rating5:{{ $product->rating5 }}, show_value: false, user_has_rated: {{ json_encode($userHasAlreadyRated) }} }}">
-                                <span class="btn"
-                                      x-on:click="messageBox.show('product.default.rating', {{ json_encode($messageBoxParams1) }} )"
-                                >
+                                <span class="btn" x-on:click="messageBox.show('product.default.rating', {{ json_encode($messageBoxParams1) }} )">
                                     @include('form::components.alpine.rating')
                                 </span>
                             </div>
