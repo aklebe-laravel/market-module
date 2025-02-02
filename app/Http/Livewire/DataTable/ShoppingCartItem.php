@@ -11,6 +11,8 @@ use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
 
 class ShoppingCartItem extends BaseDataTable
 {
+    use BaseMarketDataTable;
+
     /**
      * Minimum restrictions to allow this component.
      */
@@ -47,9 +49,12 @@ class ShoppingCartItem extends BaseDataTable
     {
         parent::initBooted();
 
+        // reset commands to delete duplicate and use only delete button
         $this->rowCommands = [
             'delete' => 'data-table::livewire.js-dt.tables.columns.buttons.delete',
         ];
+
+        $this->addBaseMarketMessageBoxes();
     }
 
     /**
