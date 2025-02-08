@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
+use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 
 class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
 {
@@ -36,7 +37,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
             'title'        => $this->makeFormTitle($this->getDataSource(), 'name'),
             'tab_controls' => [
                 'base_item' => [
-                    'disabled'  => $defaultSettings['disabled'],
+                    //'disabled'  => $defaultSettings['disabled'],
                     'tab_pages' => [
                         'common'        => [
                             'tab'     => [
@@ -123,7 +124,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                     ],
                                     'rating5'               => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $userRatingVisible,
+                                        'visible'      => $userRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'disabled'     => true,
                                         'label'        => __('User Total Rating'),
                                         'description'  => __('User Total Rating Description'),
@@ -132,7 +133,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                     ],
                                     'rating5_trust'         => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $userRatingVisible,
+                                        'visible'      => $userRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'disabled'     => true,
                                         'label'        => __('User Trust Rating'),
                                         'description'  => __('User Trust Rating Description'),
@@ -141,7 +142,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                     ],
                                     'rating5_well_known'    => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $userRatingVisible,
+                                        'visible'      => $userRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'disabled'     => true,
                                         'label'        => __('User Well Known Rating'),
                                         'description'  => __('User Well Known Rating Description'),
@@ -150,7 +151,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                     ],
                                     'rating5_offer_success' => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $userRatingVisible,
+                                        'visible'      => $userRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'disabled'     => true,
                                         'label'        => __('User Offer Rating'),
                                         'description'  => __('User Offer Rating Description'),
@@ -161,7 +162,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'avatars'       => [
-                            'visible'  => $defaultSettings['can_edit'],
+                            'visible'  => $defaultSettings['can_edit'] && $this->formLivewire->viewModeAtLeast(),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Avatars'),
@@ -191,7 +192,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'addresses'     => [
-                            'visible'  => $defaultSettings['can_edit'],
+                            'visible'  => $defaultSettings['can_edit'] && $this->formLivewire->viewModeAtLeast(),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Addresses'),
@@ -221,7 +222,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'images'        => [
-                            'visible'  => app('website_base_config')->getValue('users.profiles.media.enabled', false),
+                            'visible'  => app('website_base_config')->getValue('users.profiles.media.enabled', false) && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
@@ -251,7 +252,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'products'      => [
-                            'visible'  => app('website_base_config')->getValue('users.profiles.products.enabled', false),
+                            'visible'  => app('website_base_config')->getValue('users.profiles.products.enabled', false) && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Products'),
@@ -281,7 +282,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'acl_groups'    => [
-                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0),
+                            'visible'  => ($defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclGroups->count() > 0)) && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Groups'),
@@ -307,7 +308,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'acl_resources' => [
-                            'visible'  => $defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclResources->count() > 0),
+                            'visible'  => ($defaultSettings['can_manage'] || ($defaultSettings['can_edit'] && $this->getDataSource()->aclResources->count() > 0)) && $this->formLivewire->viewModeAtLeast(),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Acl Resources'),
@@ -336,7 +337,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'tokens'        => [
-                            'visible'  => $defaultSettings['can_edit'],
+                            'visible'  => $defaultSettings['can_edit'] && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Tokens'),
@@ -350,8 +351,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                         'options'      => [
                                             'form'          => 'website-base::form.token',
                                             'table'         => 'website-base::data-table.token',
-                                            'table_options' => [
-                                            ],
+                                            'table_options' => [],
                                         ],
                                         'validator'    => [
                                             'nullable',
@@ -362,7 +362,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                             ],
                         ],
                         'surety'        => [
-                            'visible'  => true, // everyone should see this
+                            'visible'  => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended), // everyone should be allowed to see this
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Surety'),

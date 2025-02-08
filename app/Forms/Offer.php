@@ -28,17 +28,19 @@ class Offer extends ModelBase
         'offerItems',
         'prevOffer',
         'nextOffers.createdByUser',
-        'nextOffers.addressedToUser'
+        'nextOffers.addressedToUser',
     ];
 
     /**
      * Singular
+     *
      * @var string
      */
     protected string $objectFrontendLabel = 'Offer';
 
     /**
      * Plural
+     *
      * @var string
      */
     protected string $objectsFrontendLabel = 'Offers';
@@ -59,6 +61,7 @@ class Offer extends ModelBase
         /** @var OfferService $offerService */
         $offerService = app(OfferService::class);
         $status = data_get($this->getDataSource(), 'status', '');
+
         // Is current offer status allowed to be edited?
         return $offerService->canEditStatus($status);
     }
@@ -97,30 +100,30 @@ class Offer extends ModelBase
                             ],
                             'content'  => [
                                 'form_elements' => [
-                                    'id'              => [
+                                    'id'                     => [
                                         'html_element' => 'hidden',
                                         'label'        => __('ID'),
                                         'validator'    => ['nullable', 'integer'],
                                     ],
-                                    'status'          => [
+                                    'status'                 => [
                                         'html_element' => 'market::offer-status',
                                         'label'        => __('Status'),
                                         'validator'    => ['nullable', 'string', 'Max:100'],
                                         'css_group'    => 'col-12 col-md-6 pt-4 pb-4',
                                     ],
-                                    'createdByUser'   => [
-                                        'html_element' => 'user_info',
+                                    'createdByUser.avatar'   => [
+                                        'html_element' => 'image',
                                         'label'        => __('Creator'),
                                         'description'  => __('User created this offer'),
                                         'css_group'    => 'text-center col-6 col-md-3',
                                     ],
-                                    'addressedToUser' => [
-                                        'html_element' => 'user_info',
+                                    'addressedToUser.avatar' => [
+                                        'html_element' => 'image',
                                         'label'        => __('Product Owner'),
                                         'description'  => __('User addressed this offer'),
                                         'css_group'    => 'text-center col-6 col-md-3',
                                     ],
-                                    'offerItems'      => [
+                                    'offerItems'             => [
                                         'html_element' => 'element-dt-selected-with-form',
                                         'label'        => __('Offer Items'),
                                         'description'  => __('Offer Items'),
@@ -137,7 +140,7 @@ class Offer extends ModelBase
                                             ],
                                         ],
                                     ],
-                                    'prev_offer'      => [
+                                    'prev_offer'             => [
                                         'html_element' => 'market::offer-prev-offer',
                                         'label'        => __('Prev Offer'),
                                         'description'  => __('Prev Offer Description'),
@@ -146,7 +149,7 @@ class Offer extends ModelBase
                                             return !!$this->getDataSource()->prevOffer()->count();
                                         },
                                     ],
-                                    'next_offers'     => [
+                                    'next_offers'            => [
                                         'html_element' => 'market::offer-next-offers',
                                         'label'        => __('Following Offers'),
                                         'description'  => __('Following Offers Description'),
@@ -155,14 +158,14 @@ class Offer extends ModelBase
                                             return !!$this->getDataSource()->nextOffers()->count();
                                         },
                                     ],
-                                    'description'     => [
+                                    'description'            => [
                                         'html_element' => 'textarea',
                                         'label'        => __('Offer Information'),
                                         'description'  => __('Offer Information Description'),
                                         'validator'    => ['nullable', 'string', 'Max:30000'],
                                         'css_group'    => 'col-12',
                                     ],
-                                    'expired_at'      => [
+                                    'expired_at'             => [
                                         'html_element' => 'datetime-local',
                                         'label'        => __('Expired At'),
                                         'description'  => __('Offer Expired At Description'),

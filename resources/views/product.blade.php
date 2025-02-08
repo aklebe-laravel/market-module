@@ -147,7 +147,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 short-description">
-                            <h3>{{ nl2br('Item Information') }}</h3>
+                            <h3>{{ __('Item Information') }}</h3>
                             {!! ($product->short_description) !!}
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 meta-description">
-                        <h3>{{ __('Meta Description') }}</h3>
+                        <h3>{{ __('Meta description') }}</h3>
                         {!! nl2br($product->meta_description) !!}
                     </div>
                 </div>

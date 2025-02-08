@@ -3,6 +3,7 @@
 namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
+use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Services\CoreConfigService;
 
@@ -83,6 +84,8 @@ class Product extends ModelBaseExtraAttributes
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
         $extraAttributeTab = $this->getTabExtraAttributes($this->getDataSource());
+        $extraAttributeTab['visible'] = $this->formLivewire->viewModeAtLeast();
+
 
         $productRatingVisible = Auth::user()->hasAclResource('rating.product.visible');
 
@@ -96,7 +99,98 @@ class Product extends ModelBaseExtraAttributes
                 'base_item' => [
                     //                    'disabled'  => true, // works for all elements
                     'tab_pages' => [
-                        [
+                        'common_simple' => [
+                            'visible' => $this->formLivewire->viewModeAtMaximum(NativeObjectBase::viewModeSimple),
+                            'tab'     => [
+                                'label' => __('Common'),
+                            ],
+                            'content' => [
+                                'form_elements' => [
+                                    'id'                        => [
+                                        'html_element' => 'hidden',
+                                        'label'        => __('ID'),
+                                        'validator'    => [
+                                            'nullable',
+                                            'integer',
+                                        ],
+                                    ],
+                                    'user_id'                   => [
+                                        'html_element' => 'hidden',
+                                        'validator'    => [
+                                            'required',
+                                            'integer',
+                                        ],
+                                    ],
+                                    'store_id'                  => [
+                                        'html_element' => 'hidden',
+                                        'validator'    => [
+                                            'required',
+                                            'integer',
+                                        ],
+                                    ],
+                                    'web_uri'                   => [
+                                        'html_element' => 'hidden',
+                                        'validator'    => [
+                                            'nullable',
+                                            'string',
+                                            'Max:255',
+                                        ],
+                                    ],
+                                    '_tmp123'                   => [
+                                        'html_element' => 'market::product_valid_info',
+                                        'css_group'    => 'col-12',
+                                    ],
+                                    'name'                      => [
+                                        'html_element' => 'text',
+                                        'label'        => __('Name'),
+                                        'description'  => __('Product name'),
+                                        'validator'    => [
+                                            'required',
+                                            'string',
+                                            'Max:255',
+                                        ],
+                                        'css_group'    => 'col-12',
+                                        'dusk'         => 'product-name',
+                                    ],
+                                    'extra_attributes.price'    => $this->getExtraAttributeElement($this->getDataSource()->getModelAttributeAssigmentCollection()->where('modelAttribute.code', 'price')->first()),
+                                    'extra_attributes.currency' => $this->getExtraAttributeElement($this->getDataSource()->getModelAttributeAssigmentCollection()->where('modelAttribute.code', 'currency')->first()),
+                                    'imageMaker.final_url'      => [
+                                        'html_element' => 'image',
+                                        'label'        => __('Current Maker Image'),
+                                        'description'  => __('Current Maker Image'),
+                                        'css_group'    => 'col-12 col-md-6',
+                                    ],
+                                    'media_file_upload'         => [
+                                        'html_element' => 'website-base::media_item_file_upload_images',
+                                        'label'        => __('Image Upload'),
+                                        'description'  => __('media_product_upload_description'),
+                                        'css_group'    => 'col-12 col-md-6',
+                                    ],
+                                    'payment_method_id'         => [
+                                        'html_element' => 'market::payment_method',
+                                        'label'        => __('Payment Method'),
+                                        'description'  => __('Payment Method'),
+                                        'validator'    => [
+                                            'nullable',
+                                            'integer',
+                                        ],
+                                        'css_group'    => 'col-12 col-md-6',
+                                    ],
+                                    'shipping_method_id'        => [
+                                        'html_element' => 'market::shipping_method',
+                                        'label'        => __('Shipping Method'),
+                                        'description'  => __('Shipping Method'),
+                                        'validator'    => [
+                                            'nullable',
+                                            'integer',
+                                        ],
+                                        'css_group'    => 'col-12 col-md-6',
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'common'        => [
+                            'visible' => $this->formLivewire->viewModeAtLeast(),
                             'tab'     => [
                                 'label' => __('Common'),
                             ],
@@ -235,6 +329,7 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'started_at'             => [
+                                        'visible'      => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'html_element' => 'datetime-local',
                                         'label'        => __('Started At'),
                                         'description'  => __('Product Started At Description'),
@@ -242,22 +337,23 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
                                     'expired_at'             => [
+                                        'visible'      => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'html_element' => 'datetime-local',
                                         'label'        => __('Expired At'),
                                         'description'  => __('Product Expired At Description'),
                                         'validator'    => ['nullable', 'date'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'user'                   => [
-                                        'html_element' => 'user_info',
+                                    'user.avatar'            => [
+                                        'visible'      => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
+                                        'html_element' => 'image',
                                         'label'        => __('Owner'),
                                         'description'  => __('Owner'),
                                         'css_group'    => 'col-12 col-sm-6 col-md-4',
                                     ],
                                     'rating5'                => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $productRatingVisible,
-                                        'disabled'     => true,
+                                        'visible'      => $productRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'label'        => __('Product Total Rating'),
                                         'description'  => __('Product Total Rating Description'),
                                         'validator'    => ['nullable', 'numeric', 'Max:5'],
@@ -265,8 +361,7 @@ class Product extends ModelBaseExtraAttributes
                                     ],
                                     'rating5_condition'      => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $productRatingVisible,
-                                        'disabled'     => true,
+                                        'visible'      => $productRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'label'        => __('Product Condition Rating'),
                                         'description'  => __('Product Condition Rating Description'),
                                         'validator'    => ['nullable', 'numeric', 'Max:5'],
@@ -274,8 +369,7 @@ class Product extends ModelBaseExtraAttributes
                                     ],
                                     'rating5_public_product' => [
                                         'html_element' => 'market::rating5',
-                                        'visible'      => $productRatingVisible,
-                                        'disabled'     => true,
+                                        'visible'      => $productRatingVisible && $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'label'        => __('Product Public Rating'),
                                         'description'  => __('Product Public Rating Description'),
                                         'validator'    => ['nullable', 'numeric', 'Max:5'],
@@ -284,7 +378,8 @@ class Product extends ModelBaseExtraAttributes
                                 ],
                             ],
                         ],
-                        [
+                        'texts'         => [
+                            'visible' => $this->formLivewire->viewModeAtLeast(),
                             'tab'     => [
                                 'label' => __('Texts'),
                             ],
@@ -326,8 +421,9 @@ class Product extends ModelBaseExtraAttributes
                                 ],
                             ],
                         ],
-                        [
+                        'categories'    => [
                             // don't show if creating a new object ...
+                            'visible'  => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                             'disabled' => !$this->getDataSource()->getKey(),
                             // works for all elements
                             'tab'      => [
@@ -354,8 +450,9 @@ class Product extends ModelBaseExtraAttributes
                                 ],
                             ],
                         ],
-                        [
+                        'images'        => [
                             // don't show if creating a new object ...
+                            'visible'  => $this->formLivewire->viewModeAtLeast(),
                             'disabled' => !$this->getDataSource()->getKey(),
                             'tab'      => [
                                 'label' => __('Images'),
