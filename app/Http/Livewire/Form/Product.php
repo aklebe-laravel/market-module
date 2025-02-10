@@ -9,8 +9,12 @@ class Product extends ModelBase
     /**
      * @return void
      */
-    protected function initLiveFilters(): void
+    protected function initLiveCommands(): void
     {
-        $this->addViewModeFilter();
+        // add reload button
+        $this->addReloadCommand();
+
+        // add select to change the view mode
+        $this->addViewModeCommand(self::viewModeSimple);
     }
 }
