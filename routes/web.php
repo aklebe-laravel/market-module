@@ -149,6 +149,7 @@ Route::group(['middleware' => $defaultMiddleware], function () {
     // Search
     // ------------------------------------------------------------------------------
     Route::post('/search', [SearchController::class, 'find'])->name('search');
+    Route::get('/search-results', [SearchController::class, 'searchResults'])->name('search-results');
 
 
     // ------------------------------------------------------------------------------

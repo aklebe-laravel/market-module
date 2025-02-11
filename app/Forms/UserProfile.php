@@ -208,9 +208,10 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                             'form_options'  => [],
                                             'table'         => 'website-base::data-table.address',
                                             'table_options' => [
-                                                'hasCommands' => $defaultSettings['can_manage'],
-                                                'editable'    => $defaultSettings['can_manage'],
-                                                'canAddRow'   => $defaultSettings['can_manage'],
+                                                'hasCommands' => $defaultSettings['can_edit'],
+                                                'editable'    => $defaultSettings['can_edit'],
+                                                'canAddRow'   => $defaultSettings['can_edit'],
+                                                'removable'   => $defaultSettings['can_edit'],
                                             ],
                                         ],
                                         'validator'    => [
@@ -238,9 +239,10 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                             'form'          => 'website-base::form.media-item',
                                             'table'         => 'website-base::data-table.media-item-image-user-avatar',
                                             'table_options' => [
-                                                'hasCommands' => $defaultSettings['can_manage'],
-                                                'editable'    => $defaultSettings['can_manage'],
-                                                'canAddRow'   => $defaultSettings['can_manage'],
+                                                'hasCommands' => $defaultSettings['can_edit'],
+                                                'editable'    => $defaultSettings['can_edit'],
+                                                'canAddRow'   => $defaultSettings['can_edit'],
+                                                'removable'   => $defaultSettings['can_edit'],
                                             ],
                                         ],
                                         'validator'    => [
@@ -268,9 +270,10 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                             'form'          => 'market::form.product',
                                             'table'         => 'market::data-table.product',
                                             'table_options' => [
-                                                'hasCommands' => $defaultSettings['can_manage'],
-                                                'editable'    => $defaultSettings['can_manage'],
-                                                'canAddRow'   => $defaultSettings['can_manage'],
+                                                'hasCommands' => $defaultSettings['can_edit'],
+                                                'editable'    => $defaultSettings['can_edit'],
+                                                'canAddRow'   => $defaultSettings['can_edit'],
+                                                'removable'   => $defaultSettings['can_edit'],
                                             ],
                                         ],
                                         'validator'    => [
@@ -324,7 +327,7 @@ class UserProfile extends \Modules\WebsiteBase\app\Forms\UserProfile
                                             'form'          => 'acl::form.acl-resource',
                                             'table'         => 'acl::data-table.acl-resource',
                                             'table_options' => [
-                                                'description'         => 'All acl resources find of all groups by this user.',
+                                                'description'         => __('All acl resources found for all groups by this user.'),
                                                 'filterByParentOwner' => false,
                                             ],
                                         ],

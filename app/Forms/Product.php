@@ -440,6 +440,9 @@ class Product extends ModelBaseExtraAttributes
                                             'table'         => 'market::data-table.category',
                                             'table_options' => [
                                                 'hasCommands' => $defaultSettings['can_manage'],
+                                                'editable'    => $defaultSettings['can_manage'],
+                                                'canAddRow'   => $defaultSettings['can_manage'],
+                                                'removable'   => $defaultSettings['can_manage'],
                                             ],
                                         ],
                                         'validator'    => [
@@ -466,6 +469,12 @@ class Product extends ModelBaseExtraAttributes
                                         'css_group'    => 'col-12',
                                         'options'      => [
                                             'table' => 'market::data-table.media-item-image-product',
+                                            'table_options' => [
+                                                'hasCommands' => $defaultSettings['can_manage'],
+                                                'editable'    => $defaultSettings['can_manage'],
+                                                'canAddRow'   => $defaultSettings['can_manage'],
+                                                'removable'   => $defaultSettings['can_manage'],
+                                            ],
                                         ],
                                         'validator'    => [
                                             'nullable',

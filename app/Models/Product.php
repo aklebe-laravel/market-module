@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
 use Modules\Market\database\factories\ProductFactory;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
@@ -27,7 +28,7 @@ use Modules\WebsiteBase\app\Models\Store;
  */
 class Product extends Model
 {
-    use TraitAttributeAssignment, TraitBaseMedia, HasFactory, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta;
+    use TraitAttributeAssignment, TraitBaseMedia, HasFactory, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta, Searchable;
 
     /**
      * Default media type. Should be overwritten by delivered class.
@@ -340,6 +341,19 @@ class Product extends Model
         // }
 
         return $changed;
+    }
+
+    /**
+     * @return array
+     * @todo: just prepared ...
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id'          => (int) $this->id,
+            'name'        => $this->name,
+            'description' => (float) $this->description,
+        ];
     }
 
 }
