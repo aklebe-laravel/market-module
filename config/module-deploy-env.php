@@ -24,15 +24,15 @@ return [
                 ],
             ],
             [
-                'cmd'        => 'models',
-                'sources'    => [
+                'cmd'     => 'models',
+                'sources' => [
                     'payment-methods.php',
                     'shipping-methods.php',
                 ],
             ],
             [
-                'cmd'        => 'models',
-                'sources'    => [
+                'cmd'     => 'models',
+                'sources' => [
                     'core-config.php',
                 ],
             ],
@@ -106,6 +106,14 @@ return [
                 'sources' => [
                     'core-config-from-0001.php',
                     'core-config-from-0008.php',
+                ],
+            ],
+        ],
+        '0011' => [
+            [
+                'cmd'     => 'models',
+                'sources' => [
+                    'model-attribute-assignments.php',
                 ],
             ],
         ],

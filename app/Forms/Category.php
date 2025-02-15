@@ -2,6 +2,7 @@
 
 namespace Modules\Market\app\Forms;
 
+use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Models\Store;
 
@@ -53,8 +54,8 @@ class Category extends ModelBaseExtraAttributes
     public function makeObjectInstanceDefaultValues(): array
     {
         return array_merge(parent::makeObjectInstanceDefaultValues(), [
-            'is_enabled' => true,
-            'is_public'  => true,
+            'is_enabled' => 1,
+            'is_public'  => 1,
             'store_id'   => app('website_base_settings')->getStoreId(),
             'web_uri'    => uniqid('category_'),
         ]);
@@ -67,6 +68,9 @@ class Category extends ModelBaseExtraAttributes
     public function getFormElements(): array
     {
         $parentFormData = parent::getFormElements();
+
+        /** @var SystemService $systemService */
+        $systemService = app('system_base');
 
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
@@ -126,11 +130,14 @@ class Category extends ModelBaseExtraAttributes
                                     'parent_id'            => [
                                         'html_element' => 'select',
                                         'label'        => __('Parent'),
-                                        'options'      => app('system_base')->toHtmlSelectOptions(\Modules\Market\app\Models\Category::orderBy('name',
-                                            'ASC')->get(), [
+                                        'options'      => $systemService->toHtmlSelectOptions(\Modules\Market\app\Models\Category::orderBy('name',
+                                            'ASC')->get(),
+                                            [
+                                                'id',
+                                                'name',
+                                            ],
                                             'id',
-                                            'name',
-                                        ], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
+                                            $systemService->selectOptionsSimple[$systemService::selectValueNoChoice]),
                                         'description'  => __('Parent category'),
                                         'validator'    => [
                                             'nullable',
@@ -141,11 +148,14 @@ class Category extends ModelBaseExtraAttributes
                                     'store_id'             => [
                                         'html_element' => 'select',
                                         'label'        => __('Store'),
-                                        'options'      => app('system_base')->toHtmlSelectOptions(Store::orderBy('code',
-                                            'ASC')->get(), [
+                                        'options'      => $systemService->toHtmlSelectOptions(Store::orderBy('code',
+                                            'ASC')->get(),
+                                            [
+                                                'id',
+                                                'code',
+                                            ],
                                             'id',
-                                            'code',
-                                        ], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
+                                            $systemService->selectOptionsSimple[$systemService::selectValueNoChoice]),
                                         'description'  => __('The Store assigned to the category'),
                                         'validator'    => [
                                             'nullable',

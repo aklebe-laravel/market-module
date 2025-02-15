@@ -3,6 +3,8 @@
 namespace Modules\Market\app\Forms;
 
 use Modules\Form\app\Forms\Base\ModelBase;
+use Modules\Market\app\Services\MarketFormService;
+use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Models\Currency;
 
 class OfferItem extends ModelBase
@@ -38,6 +40,12 @@ class OfferItem extends ModelBase
     public function getFormElements(): array
     {
         $parentFormData = parent::getFormElements();
+
+        /** @var SystemService $systemService */
+        $systemService = app('system_base');
+
+        /** @var MarketFormService $formService */
+        $formService = app(MarketFormService::class);
 
         return [
             ... $parentFormData,
@@ -79,27 +87,17 @@ class OfferItem extends ModelBase
                                     'currency_code'                 => [
                                         'html_element' => 'select',
                                         'label'        => __('Currency'),
-                                        'options'      => app('system_base')->toHtmlSelectOptions(Currency::orderBy('code',
-                                            'ASC')->get(), ['code', 'name'], 'code',
-                                            app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
+                                        'options'      => $systemService->toHtmlSelectOptions(Currency::orderBy('code',
+                                            'ASC')->get(),
+                                            ['code', 'name'],
+                                            'code',
+                                            $systemService->selectOptionsSimple[$systemService::selectValueNoChoice]),
                                         'description'  => __('Currency'),
                                         'validator'    => ['nullable', 'string'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'             => [
-                                        'html_element' => 'market::payment_method',
-                                        'label'        => __('Payment Method'),
-                                        'description'  => __('Payment Method'),
-                                        'validator'    => ['nullable', 'integer'],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
-                                    'shipping_method_id'            => [
-                                        'html_element' => 'market::shipping_method',
-                                        'label'        => __('Shipping Method'),
-                                        'description'  => __('Shipping Method'),
-                                        'validator'    => ['nullable', 'integer'],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
+                                    'payment_method_id'             => $formService::getFormElementPaymentMethod(),
+                                    'shipping_method_id'            => $formService::getFormElementShippingMethod(),
                                     'description'                   => [
                                         'html_element' => 'textarea',
                                         'label'        => __('Item Information'),

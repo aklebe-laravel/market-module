@@ -52,7 +52,7 @@ class ShoppingCartController extends Controller
         $cartItem = $cart->addProduct($request->get('product_id'));
         $jsonResponse = $this->getShoppingCartResponse(true);
         if (!$cartItem) {
-            $jsonResponse->setErrorMessage('Product not found.');
+            $jsonResponse->setErrorMessage(__('Product not found.'));
         }
 
         return $jsonResponse->go();
@@ -71,7 +71,7 @@ class ShoppingCartController extends Controller
         $removed = $cart->removeProduct($request->get('product_id'));
         $jsonResponse = $this->getShoppingCartResponse(true);
         if (!$removed) {
-            $jsonResponse->setErrorMessage('Product not found.');
+            $jsonResponse->setErrorMessage(__('Product not found.'));
         }
 
         return $jsonResponse->go();

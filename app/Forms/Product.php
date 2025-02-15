@@ -4,6 +4,9 @@ namespace Modules\Market\app\Forms;
 
 use Illuminate\Support\Facades\Auth;
 use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
+use Modules\Form\app\Services\FormService;
+use Modules\Market\app\Services\MarketFormService;
+use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Services\CoreConfigService;
 
@@ -60,11 +63,11 @@ class Product extends ModelBaseExtraAttributes
         $settings = app('market_settings');
 
         return array_merge(parent::makeObjectInstanceDefaultValues(), [
-            'is_enabled'         => true,
-            'is_public'          => false,
-            'is_test'            => false,
-            'is_individual'      => true, // default true for jumble sales
-            'force_public'       => false,
+            'is_enabled'         => 1,
+            'is_public'          => 0,
+            'is_test'            => 0,
+            'is_individual'      => 1, // default true for jumble sales
+            'force_public'       => 0,
             'user_id'            => $this->getOwnerUserId(),
             'store_id'           => app('website_base_settings')->getStoreId(),
             'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
@@ -80,6 +83,9 @@ class Product extends ModelBaseExtraAttributes
     public function getFormElements(): array
     {
         $parentFormData = parent::getFormElements();
+
+        /** @var FormService $formService */
+        $formService = app(FormService::class);
 
         $defaultSettings = $this->getDefaultFormSettingsByPermission();
 
@@ -166,26 +172,8 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('media_product_upload_description'),
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'         => [
-                                        'html_element' => 'market::payment_method',
-                                        'label'        => __('Payment Method'),
-                                        'description'  => __('Payment Method'),
-                                        'validator'    => [
-                                            'nullable',
-                                            'integer',
-                                        ],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
-                                    'shipping_method_id'        => [
-                                        'html_element' => 'market::shipping_method',
-                                        'label'        => __('Shipping Method'),
-                                        'description'  => __('Shipping Method'),
-                                        'validator'    => [
-                                            'nullable',
-                                            'integer',
-                                        ],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
+                                    'payment_method_id'         => $formService->getFormElement('payment_method'),
+                                    'shipping_method_id'        => $formService->getFormElement('shipping_method'),
                                 ],
                             ],
                         ],
@@ -308,26 +296,8 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('media_product_upload_description'),
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'      => [
-                                        'html_element' => 'market::payment_method',
-                                        'label'        => __('Payment Method'),
-                                        'description'  => __('Payment Method'),
-                                        'validator'    => [
-                                            'nullable',
-                                            'integer',
-                                        ],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
-                                    'shipping_method_id'     => [
-                                        'html_element' => 'market::shipping_method',
-                                        'label'        => __('Shipping Method'),
-                                        'description'  => __('Shipping Method'),
-                                        'validator'    => [
-                                            'nullable',
-                                            'integer',
-                                        ],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
+                                    'payment_method_id'      => $formService->getFormElement('payment_method'),
+                                    'shipping_method_id'     => $formService->getFormElement('shipping_method'),
                                     'started_at'             => [
                                         'visible'      => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'html_element' => 'datetime-local',
@@ -468,7 +438,7 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('Images assigned to this product'),
                                         'css_group'    => 'col-12',
                                         'options'      => [
-                                            'table' => 'market::data-table.media-item-image-product',
+                                            'table'         => 'market::data-table.media-item-image-product',
                                             'table_options' => [
                                                 'hasCommands' => $defaultSettings['can_manage'],
                                                 'editable'    => $defaultSettings['can_manage'],
