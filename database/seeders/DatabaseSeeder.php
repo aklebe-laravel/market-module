@@ -81,16 +81,16 @@ class DatabaseSeeder extends BaseModelSeeder
             // Assign media items to products
             // -------------------------------------------------
             $productMediaItems = MediaItem::where('user_id', $userId)->productImages()->get();
-            if ($productMediaItems->count()) {
+            if ($count = $productMediaItems->count()) {
                 // Populate the pivot table
-                Product::where('user_id', $userId)->each(function ($product) use ($productMediaItems) {
+                Product::where('user_id', $userId)->each(function ($product) use ($productMediaItems, $count) {
                     $min = config('seeders.users.media_items.count_min_product_images_per_product', 2);
-                    if ($min > $productMediaItems->count()) {
-                        $min = $productMediaItems->count();
+                    if ($min > $count) {
+                        $min = $count;
                     }
                     $max = config('seeders.users.media_items.count_max_product_images_per_product', 2);
-                    if ($max > $productMediaItems->count()) {
-                        $max = $productMediaItems->count();
+                    if ($max > $count) {
+                        $max = $count;
                     }
                     $imagesPerProduct = rand($min, $max);
                     if ($imagesPerProduct) {
