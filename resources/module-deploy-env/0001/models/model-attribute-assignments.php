@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Market\app\Models\Base\ExtraAttributeModel;
 use Modules\WebsiteBase\app\Models\ModelAttribute;
 use Modules\WebsiteBase\app\Models\ModelAttributeAssignment;
 
@@ -41,7 +42,7 @@ return [
         ],
         [
             'model'              => 'App\Models\User',
-            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', 'payment_method')->first()->getKey(),
+            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_PAYMENT_METHOD)->first()->getKey(),
             'attribute_type'     => 'integer',
             'attribute_input'    => 'market::payment_method',
             'description'        => 'Preferred Payment Method',
@@ -50,7 +51,7 @@ return [
         ],
         [
             'model'              => 'App\Models\User',
-            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', 'shipping_method')->first()->getKey(),
+            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_PAYMENT_METHOD)->first()->getKey(),
             'attribute_type'     => 'integer',
             'attribute_input'    => 'market::shipping_method',
             'description'        => 'Preferred Shipping Method',

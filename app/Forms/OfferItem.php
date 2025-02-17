@@ -3,9 +3,9 @@
 namespace Modules\Market\app\Forms;
 
 use Modules\Form\app\Forms\Base\ModelBase;
-use Modules\Market\app\Services\MarketFormService;
+use Modules\Form\app\Services\FormService;
+use Modules\Market\app\Models\Base\ExtraAttributeModel;
 use Modules\SystemBase\app\Services\SystemService;
-use Modules\WebsiteBase\app\Models\Currency;
 
 class OfferItem extends ModelBase
 {
@@ -44,8 +44,8 @@ class OfferItem extends ModelBase
         /** @var SystemService $systemService */
         $systemService = app('system_base');
 
-        /** @var MarketFormService $formService */
-        $formService = app(MarketFormService::class);
+        /** @var FormService $formService */
+        $formService = app(FormService::class);
 
         return [
             ... $parentFormData,
@@ -84,20 +84,9 @@ class OfferItem extends ModelBase
                                         'validator'    => ['nullable', 'numeric'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'currency_code'                 => [
-                                        'html_element' => 'select',
-                                        'label'        => __('Currency'),
-                                        'options'      => $systemService->toHtmlSelectOptions(Currency::orderBy('code',
-                                            'ASC')->get(),
-                                            ['code', 'name'],
-                                            'code',
-                                            $systemService->selectOptionsSimple[$systemService::selectValueNoChoice]),
-                                        'description'  => __('Currency'),
-                                        'validator'    => ['nullable', 'string'],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
-                                    'payment_method_id'             => $formService::getFormElementPaymentMethod(),
-                                    'shipping_method_id'            => $formService::getFormElementShippingMethod(),
+                                    'currency_code'                 => $formService->getFormElement(ExtraAttributeModel::ATTR_CURRENCY),
+                                    'payment_method_id'             => $formService->getFormElement(ExtraAttributeModel::ATTR_PAYMENT_METHOD),
+                                    'shipping_method_id'            => $formService->getFormElement(ExtraAttributeModel::ATTR_SHIPPING_METHOD),
                                     'description'                   => [
                                         'html_element' => 'textarea',
                                         'label'        => __('Item Information'),

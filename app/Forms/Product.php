@@ -5,8 +5,7 @@ namespace Modules\Market\app\Forms;
 use Illuminate\Support\Facades\Auth;
 use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\Form\app\Services\FormService;
-use Modules\Market\app\Services\MarketFormService;
-use Modules\SystemBase\app\Services\SystemService;
+use Modules\Market\app\Models\Base\ExtraAttributeModel;
 use Modules\WebsiteBase\app\Forms\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Services\CoreConfigService;
 
@@ -159,7 +158,7 @@ class Product extends ModelBaseExtraAttributes
                                         'dusk'         => 'product-name',
                                     ],
                                     'extra_attributes.price'    => $this->getExtraAttributeElement($this->getDataSource()->getModelAttributeAssigmentCollection()->where('modelAttribute.code', 'price')->first()),
-                                    'extra_attributes.currency' => $this->getExtraAttributeElement($this->getDataSource()->getModelAttributeAssigmentCollection()->where('modelAttribute.code', 'currency')->first()),
+                                    'extra_attributes.currency' => $formService->getFormElement(ExtraAttributeModel::ATTR_CURRENCY),
                                     'imageMaker.final_url'      => [
                                         'html_element' => 'image',
                                         'label'        => __('Current Maker Image'),
@@ -172,8 +171,8 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('media_product_upload_description'),
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'         => $formService->getFormElement('payment_method'),
-                                    'shipping_method_id'        => $formService->getFormElement('shipping_method'),
+                                    'payment_method_id'         => $formService->getFormElement(ExtraAttributeModel::ATTR_PAYMENT_METHOD),
+                                    'shipping_method_id'        => $formService->getFormElement(ExtraAttributeModel::ATTR_SHIPPING_METHOD),
                                 ],
                             ],
                         ],
@@ -296,8 +295,8 @@ class Product extends ModelBaseExtraAttributes
                                         'description'  => __('media_product_upload_description'),
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'      => $formService->getFormElement('payment_method'),
-                                    'shipping_method_id'     => $formService->getFormElement('shipping_method'),
+                                    'payment_method_id'      => $formService->getFormElement(ExtraAttributeModel::ATTR_PAYMENT_METHOD),
+                                    'shipping_method_id'     => $formService->getFormElement(ExtraAttributeModel::ATTR_SHIPPING_METHOD),
                                     'started_at'             => [
                                         'visible'      => $this->formLivewire->viewModeAtLeast(NativeObjectBase::viewModeExtended),
                                         'html_element' => 'datetime-local',

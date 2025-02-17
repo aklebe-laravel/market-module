@@ -4,6 +4,7 @@ namespace Modules\Market\app\Forms;
 
 use Modules\Form\app\Forms\Base\ModelBase;
 use Modules\Form\app\Services\FormService;
+use Modules\Market\app\Models\Base\ExtraAttributeModel;
 use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Models\Currency;
 
@@ -95,8 +96,8 @@ class ShoppingCartItem extends ModelBase
                                         'validator'    => ['nullable', 'string'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'payment_method_id'             => $formService->getFormElement('payment_method'),
-                                    'shipping_method_id'            => $formService->getFormElement('shipping_method'),
+                                    'payment_method_id'             => $formService->getFormElement(ExtraAttributeModel::ATTR_PAYMENT_METHOD),
+                                    'shipping_method_id'            => $formService->getFormElement(ExtraAttributeModel::ATTR_SHIPPING_METHOD),
                                     'description'                   => [
                                         'html_element' => 'textarea',
                                         'label'        => __('Item Information'),

@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Market\app\Models\Base\ExtraAttributeModel;
 use Modules\WebsiteBase\app\Models\ModelAttribute;
 use Modules\WebsiteBase\app\Models\ModelAttributeAssignment;
 
@@ -20,12 +21,12 @@ return [
         ],
         [
             'model'              => 'App\Models\User',
-            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', 'payment_method')->first()->getKey(),
+            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_PAYMENT_METHOD)->first()->getKey(),
             'attribute_input'    => 'select',
         ],
         [
             'model'              => 'App\Models\User',
-            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', 'shipping_method')->first()->getKey(),
+            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_SHIPPING_METHOD)->first()->getKey(),
             'attribute_input'    => 'select',
         ],
     ],
