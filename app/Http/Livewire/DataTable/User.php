@@ -26,7 +26,7 @@ class User extends WebsiteBaseDataTableUser
     {
         parent::initBooted();
 
-        $this->addBaseMarketMessageBoxes();
+        $this->addBaseWebsiteMessageBoxes();
     }
 
     /**

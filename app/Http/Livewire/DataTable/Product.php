@@ -31,7 +31,7 @@ class Product extends BaseDataTable
     {
         parent::initBooted();
 
-        $this->addBaseMarketMessageBoxes();
+        $this->addBaseWebsiteMessageBoxes();
     }
 
     /**

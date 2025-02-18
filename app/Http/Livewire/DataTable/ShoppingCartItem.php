@@ -54,7 +54,7 @@ class ShoppingCartItem extends BaseDataTable
             'delete' => 'data-table::livewire.js-dt.tables.columns.buttons.delete',
         ];
 
-        $this->addBaseMarketMessageBoxes();
+        $this->addBaseWebsiteMessageBoxes();
     }
 
     /**
