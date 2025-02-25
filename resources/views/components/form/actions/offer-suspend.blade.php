@@ -10,7 +10,7 @@
         'offer-suspend' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
+            'offerSharedId' => data_get($editFormModelObject, static::frontendKey),
         ],
     ];
 

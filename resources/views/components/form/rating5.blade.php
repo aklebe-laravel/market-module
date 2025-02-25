@@ -1,6 +1,5 @@
 @php
     use Illuminate\Http\Resources\Json\JsonResource;
-    use Modules\Form\app\Forms\Base\ModelBase;
     use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
 
     /**
@@ -25,7 +24,6 @@
      * @var array $x_data
      * @var int $element_index
      * @var JsonResource $object
-     * @var ModelBase $form_instance
      * @var NativeObjectBaseLivewire $form_livewire
      */
 

@@ -2,7 +2,6 @@
     use Illuminate\Http\Resources\Json\JsonResource;
     use Illuminate\Support\Carbon;
     use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
-    use Modules\Form\app\Forms\Base\ModelBase;
     use Modules\SystemBase\app\Services\SystemService;
 
     /**
@@ -20,7 +19,6 @@
      * @var mixed $validator
      * @var string $css_group
      * @var JsonResource $object
-     * @var ModelBase $form_instance
      * @var NativeObjectBaseLivewire $form_livewire
      */
 

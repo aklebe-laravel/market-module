@@ -1,6 +1,5 @@
 @php
     use Illuminate\Http\Resources\Json\JsonResource;
-    use Modules\Form\app\Forms\Base\ModelBase;
     use Modules\Market\app\Models\Product;
     use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
 
@@ -25,13 +24,12 @@
      * @var array $x_data
      * @var int $element_index
      * @var JsonResource $object
-     * @var ModelBase $form_instance
      * @var NativeObjectBaseLivewire $form_livewire
      */
 
 @endphp
 @include('form::components.form.select', [
-    'options' => app('system_base')->toHtmlSelectOptions(Product::with([])->where('user_id', $form_instance->getOwnerUserId())->orderBy('name', 'ASC')->get(), ['name'], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
+    'options' => app('system_base')->toHtmlSelectOptions(Product::with([])->where('user_id', $form_livewire->getOwnerUserId())->orderBy('name', 'ASC')->get(), ['name'], 'id', app('system_base')->selectOptionsSimple[app('system_base')::selectValueNoChoice]),
     ])
 
 

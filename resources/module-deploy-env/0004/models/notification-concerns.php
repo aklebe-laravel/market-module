@@ -2,6 +2,7 @@
 
 use Modules\Market\app\Models\NotificationConcern as NotificationConcernAlias;
 use Modules\WebsiteBase\app\Models\NotificationConcern;
+use Modules\WebsiteBase\app\Services\Notification\Channels\Email;
 
 return [
     // class of eloquent model
@@ -36,7 +37,7 @@ return [
             'is_enabled'                                => true,
             'reason_code'                               => 'market_offer_created',
             'notificationTemplate.code'                 => 'market_offer_created',
-            'notificationTemplate.notification_channel' => 'email',
+            'notificationTemplate.notification_channel' => Email::name,
             'sender'                                    => '',
             'description'                               => 'Offer created successfully.',
             'tags'                                      => [

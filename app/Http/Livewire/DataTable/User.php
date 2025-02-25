@@ -4,7 +4,7 @@ namespace Modules\Market\app\Http\Livewire\DataTable;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
-use Modules\Form\app\Forms\Base\NativeObjectBase;
+use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\WebsiteBase\app\Http\Livewire\DataTable\User as WebsiteBaseDataTableUser;
 use Modules\Market\app\Models\User as UserModel;
 
