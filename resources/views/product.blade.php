@@ -14,9 +14,9 @@
 
     $price = $product->getExtraAttribute('price');
     $userHasAlreadyRated = $product->hasCurrentUserAlreadyRated();
-    $timeLocaleStartedAt = $product->started_at ? Carbon::parse($product->started_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAt = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAtDiff = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->shortRelativeToNowDiffForHumans() : null;
+    $timeLocaleStartedAt = $product->started_at ? Carbon::parse($product->started_at)->toDateString() : null;
+    $timeLocaleExpiredAt = $product->expired_at ? Carbon::parse($product->expired_at)->toDateString() : null;
+    $timeLocaleExpiredAtDiff = $product->expired_at ? Carbon::parse($product->expired_at)->shortRelativeToNowDiffForHumans() : null;
 
     /** @var UserService $userService */
     $userService = app(UserService::class);

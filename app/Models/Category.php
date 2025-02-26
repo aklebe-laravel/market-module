@@ -140,5 +140,18 @@ class Category extends Model
         return $images;
     }
 
+    /**
+     * After replicated/duplicated/copied
+     * but before save()
+     *
+     * @param  Model  $fromItem
+     *
+     * @return void
+     */
+    public function afterReplicated(Model $fromItem): void
+    {
+        $this->web_uri = uniqid('category_');
+    }
+
 
 }

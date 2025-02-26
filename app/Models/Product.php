@@ -56,6 +56,16 @@ class Product extends Model
     protected $guarded = [];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'started_at' => 'datetime:Y-m-d H:i:s',
+        'expired_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
      * @var array|string[]
      */
     protected array $ratingSubCodes = [
