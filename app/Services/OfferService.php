@@ -302,4 +302,14 @@ class OfferService extends BaseService
         return !!$this->getOfferActions($offer);
     }
 
+    /**
+     * @param  int  $userId
+     *
+     * @return Builder
+     */
+    public function getOffersCreatedByUser(int $userId): Builder
+    {
+        return Offer::with([])->where('created_by_user_id', $userId);
+    }
+
 }

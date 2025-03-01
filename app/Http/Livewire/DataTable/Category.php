@@ -85,8 +85,9 @@ class Category extends WebsiteBase
                 'searchable' => true,
                 'sortable'   => true,
                 'options'    => [
-                    'has_open_link' => $this->canEdit(),
-                    'str_limit'     => 30,
+                    'has_open_link'     => $this->canEdit(),
+                    'has_frontend_link' => true,
+                    'str_limit'         => 30,
                 ],
                 'css_all'    => 'w-50',
             ],

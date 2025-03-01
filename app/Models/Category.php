@@ -153,5 +153,15 @@ class Category extends Model
         $this->web_uri = uniqid('category_');
     }
 
+    /**
+     * @return string|null
+     */
+    public function getFrontendLink(): ?string
+    {
+        if (!$this->web_uri) {
+            return null;
+        }
 
+        return route('category-products', $this->web_uri);
+    }
 }

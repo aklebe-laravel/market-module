@@ -5,7 +5,7 @@
      * @var Offer $this
      */
 
-    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.accept-offer';
+    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName(app('system_base')->getSimpleClassName($this->getObjectEloquentModelName())) . '.form.accept-offer';
 
     $messageBoxParams1 = [
         'accept-offer' => [

@@ -7,6 +7,7 @@ use Livewire\Attributes\On;
 use Modules\Form\app\Http\Livewire\Form\Base\ModelBase;
 use Modules\Market\app\Models\Offer as OfferModel;
 use Modules\Market\app\Services\OfferService;
+use Modules\WebsiteBase\app\Services\WebsiteService;
 
 class Offer extends ModelBase
 {
@@ -63,6 +64,17 @@ class Offer extends ModelBase
 
         // @todo: mount injection not working?
         $this->offerService = app(OfferService::class);
+    }
+
+    /**
+     * Runs on every request, after the component is mounted or hydrated, but before any update methods are called
+     *
+     * @return void
+     */
+    protected function initBooted(): void
+    {
+        // message box buttons
+        app(WebsiteService::class)->provideMessageBoxButtons('offer', 'form');
     }
 
     /**
@@ -268,7 +280,7 @@ class Offer extends ModelBase
      *
      * @return void
      */
-    #[On('create-offer-binding')]
+    #[On('offer-create-binding')]
     public function createOfferBinding(mixed $livewireId, mixed $offerSharedId): void
     {
         if (!$this->checkLivewireId($livewireId)) {

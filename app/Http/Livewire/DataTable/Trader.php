@@ -88,6 +88,11 @@ class Trader extends User
                 'css_all'    => 'w-50',
                 'view'       => 'market::livewire.js-dt.tables.columns.default-with-user-rating',
                 'icon'       => 'tag',
+                'options'    => [
+                    'has_open_link'     => $this->canManage(),
+                    'has_frontend_link' => true,
+                    'str_limit'         => 50,
+                ],
             ],
             [
                 'name'       => 'created_at',

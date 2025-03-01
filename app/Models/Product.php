@@ -366,4 +366,15 @@ class Product extends Model
         ];
     }
 
+    /**
+     * @return string|null
+     */
+    public function getFrontendLink(): ?string
+    {
+        if (!$this->web_uri) {
+            return null;
+        }
+
+        return route('product', $this->web_uri);
+    }
 }

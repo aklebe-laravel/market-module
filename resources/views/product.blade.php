@@ -134,7 +134,7 @@
                             {{ __('Provider') }}
                         </div>
                         <div class="col-sm text-sm-end">
-                            <a href="{{ route('user-profile', $product->user->shared_id) }}">
+                            <a href="{{ $product->user->getUserProfileLink() }}">
                                 {{ $product->user->name }}
                                 @if (app('market_settings')->canShowUserRating())
                                     <span class="small"
@@ -182,7 +182,7 @@
                 >
                     <template x-if="(crossSelling.items.length > 1)">
                         <div>
-                            @php $userLink = '<a href="' . route('user-profile', $product->user->shared_id) . '">' . $product->user->name .'</a>' @endphp
+                            @php $userLink = '<a href="' . $product->user->getFrontendLink() . '">' . $product->user->name .'</a>' @endphp
                             <h3 class="">
                                 {!! sprintf(__('More products by %s'), $userLink)  !!}
                                 @if (app('market_settings')->canShowUserRating())

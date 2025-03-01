@@ -4,7 +4,7 @@
     /**
      * @var Offer $this
      */
-    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.offer-suspend';
+    $messageBoxDeleteItemPath = app('system_base_module')->getModelSnakeName(app('system_base')->getSimpleClassName($this->getObjectEloquentModelName())) . '.form.offer-suspend';
 
     $messageBoxParams1 = [
         'offer-suspend' => [
@@ -17,7 +17,7 @@
 @endphp
 <button
         type="button"
-        class="btn btn-outline-danger"
+        class="btn btn-outline-danger btn-form-offer-suspend"
         x-on:click="messageBox.show('{{ $messageBoxDeleteItemPath }}', {{ json_encode($messageBoxParams1) }} )"
 >
     {{ __("Suspend") }}

@@ -5,7 +5,7 @@
      * @var Offer $this
      */
 
-    $messageBoxReOfferPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.re-offer';
+    $messageBoxReOfferPath = app('system_base_module')->getModelSnakeName(app('system_base')->getSimpleClassName($this->getObjectEloquentModelName())) . '.form.re-offer';
 
     $messageBoxParams1 = [
         're-offer' => [
@@ -16,7 +16,7 @@
     ];
 @endphp
 <button
-        class="btn btn-secondary"
+        class="btn btn-secondary btn-form-offer-re-offer"
         x-on:click="messageBox.show('{{ $messageBoxReOfferPath }}', {{ json_encode($messageBoxParams1) }} )"
 >
     {{ __("Create New Offer") }}

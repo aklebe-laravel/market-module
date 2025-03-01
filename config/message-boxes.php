@@ -64,13 +64,13 @@ return [
             ],
         ],
         'form'       => [
-            'create-offer-binding' => [
+            'offer-create-binding' => [
                 'title'   => 'Create Offer Binding',
                 'content' => 'ask_create_offer',
                 // constant names from defaultActions[] or closure
                 'actions' => [
                     'system-base::cancel',
-                    'market::create-offer-binding',
+                    'market::offer-create-binding',
                 ],
             ],
             'offer-suspend'        => [
