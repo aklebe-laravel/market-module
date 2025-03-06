@@ -28,7 +28,7 @@
   "My Market": "Mein Marktplatz",
   "New Offer": "Neues Angebot",
   "OFFER_STATUS_APPLIED": "Vorbereitet",
-  "OFFER_STATUS_APPLIED_DESCRIPTION": "Vorgemerkt, aber noch nicht eingereicht.",
+  "OFFER_STATUS_APPLIED_DESCRIPTION": "Angebot wurde als Vorlage angelegt. Es is nur für dich vorgemerkt, noch nicht eingereicht.",
   "OFFER_STATUS_CLOSED": "Geschlossen",
   "OFFER_STATUS_CLOSED_DESCRIPTION": "Beendet, keine weiteren Handlungen möglich.",
   "OFFER_STATUS_COMPLETED": "Abgeschlossen",

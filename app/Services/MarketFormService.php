@@ -15,7 +15,7 @@ class MarketFormService extends BaseService
      */
     public static function getFormElementShippingMethodOptions(): array
     {
-        return app(CacheService::class)->rememberForever('form_element.select_shipping_method.options', function () {
+        return app(CacheService::class)->rememberFrontend('form_element.select_shipping_method.options', function () {
             /** @var SystemService $systemService */
             $systemService = app('system_base');
 
@@ -57,7 +57,7 @@ class MarketFormService extends BaseService
      */
     public static function getFormElementPaymentMethodOptions(): array
     {
-        return app(CacheService::class)->rememberForever('form_element.select_payment_method.options', function () {
+        return app(CacheService::class)->rememberFrontend('form_element.select_payment_method.options', function () {
             /** @var SystemService $systemService */
             $systemService = app('system_base');
 

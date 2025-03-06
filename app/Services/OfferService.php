@@ -63,7 +63,7 @@ class OfferService extends BaseService
      */
     public function disbandOfferToCartItems(Offer $offer): bool
     {
-        $shoppingCart = app('market_settings')->getCurrentShoppingCart();
+        $shoppingCart = app(ShoppingCartService::class)->getCurrentShoppingCart();
 
         /** @var OfferItem $offerItem */
         foreach ($offer->offerItems as $offerItem) {

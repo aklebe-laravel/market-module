@@ -1,43 +1,25 @@
 @php
+    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
     use Illuminate\Http\Resources\Json\JsonResource;
-    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase as NativeObjectBaseLivewire;
 
     /**
-     * default input text element
-     *
-     * @var bool $visible maybe always true because we are here
-     * @var bool $disabled enabled or disabled
-     * @var bool $read_only disallow edit
-     * @var bool $auto_complete auto fill user inputs
-     * @var string $name name attribute
-     * @var string $id id attribute
-     * @var string $label label of this element
-     * @var mixed $value value attribute
-     * @var mixed $default default value
-     * @var bool $read_only
-     * @var string $description
-     * @var string $css_classes
-     * @var string $css_group
-     * @var string $x_model optional for alpine.js
-     * @var string $livewire
-     * @var array $html_data data attributes
-     * @var array $x_data
-     * @var int $element_index
+     * @var NativeObjectBase $form_instance
      * @var JsonResource $object
-     * @var NativeObjectBaseLivewire $form_livewire
+     * @var array $data
      */
 
     $ratingContainerName = 'ratingContainer';
+
+    // make data copy for rating
+    $ratingData = $data;
+    $ratingData['x_model'] = $ratingContainerName;
 @endphp
 {{--force form_data here for rating--}}
-<div x-data="{ form_data:$wire.dataTransfer, {{ $ratingContainerName }} : { clickable: {{ $disabled ? 'false' : 'true' }} }}"
+<div x-data="{ form_data:$wire.dataTransfer, {{ $ratingContainerName }} : { clickable: {{ $data['disabled'] ? 'false' : 'true' }} }}"
      class="mb-3">
 
-    @include('form::components.form.hidden', ['x_model' => $ratingContainerName])
-    <label>{{ $label }}</label><br/>
-    @include('form::components.alpine.rating', ['ratingAlpineName' => 'form_data.'.$name])
-    @unless(empty($description))
-        <div class="form-text decent">{{ $description }}</div>
-    @endunless
-
+    @include('form::components.form.hidden', ['data' => $ratingData])
+    @include('form::components.form.element-parts.label')
+    @include('form::components.alpine.rating', ['ratingAlpineName' => 'form_data.'.$data['name']])
+    @include('form::components.form.element-parts.description')
 </div>

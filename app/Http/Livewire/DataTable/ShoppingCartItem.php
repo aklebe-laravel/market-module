@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\On;
 use Modules\Acl\app\Models\AclResource;
 use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
+use Modules\Market\app\Services\ShoppingCartService;
 
 
 class ShoppingCartItem extends BaseDataTable
@@ -138,7 +139,7 @@ class ShoppingCartItem extends BaseDataTable
      */
     public function getBaseBuilder(string $collectionName): ?Builder
     {
-        $cart = app('market_settings')->getCurrentShoppingCart();
+        $cart = app(ShoppingCartService::class)->getCurrentShoppingCart();
 
         $builder = parent::getBaseBuilder($collectionName);
 

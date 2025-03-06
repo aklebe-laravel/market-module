@@ -69,6 +69,7 @@ class Product extends ModelBaseExtraAttributes
             'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
             'shipping_method_id' => $settings->getDefaultShippingMethod()->getKey(),
             'web_uri'            => uniqid('product_'),
+            'extra_attributes'   => ['price' => 0],
         ]);
     }
 

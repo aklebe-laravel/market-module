@@ -27,7 +27,12 @@ class CategoryProductController extends Controller
                 app()->abort(404);
             }
         } else {
-            $productsBuilder = Product::with([])->frontendItems()->inRandomOrder();//->limit($itemsPerPage);
+            // random order will make pagination useless ...
+            //$productsBuilder = Product::with([])->frontendItems()->inRandomOrder();//->limit($itemsPerPage);
+
+            // ... use created order FIFO
+            // @todo: calc cross selling or rating order optionally
+            $productsBuilder = Product::with([])->frontendItems()->orderBy('created_at', 'asc');
         }
 
         $productsCount = $productsBuilder->count();
