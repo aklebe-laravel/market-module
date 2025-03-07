@@ -5,6 +5,7 @@ namespace Modules\Market\app\Http\Livewire\Form;
 use Modules\Form\app\Http\Livewire\Form\Base\ModelBase;
 use Modules\Form\app\Services\FormService;
 use Modules\Market\app\Models\Base\ExtraAttributeModel;
+use Modules\Market\app\Models\User as UserModel;
 use Modules\SystemBase\app\Services\SystemService;
 use Modules\WebsiteBase\app\Models\Currency;
 
@@ -33,6 +34,26 @@ class ShoppingCartItem extends ModelBase
      * @var string
      */
     protected string $objectsFrontendLabel = 'Cart Items';
+
+    /**
+     * @return array
+     */
+    public function makeObjectInstanceDefaultValues(): array
+    {
+        $settings = app('market_settings');
+        /** @var UserModel|ExtraAttributeModel $user */
+        $user = null;
+        if ($userId = $this->getOwnerUserId()) {
+            $user = app(UserModel::class)::with([])->where('id', $userId)->first();
+        }
+
+        return app('system_base')->arrayMergeRecursiveDistinct(parent::makeObjectInstanceDefaultValues(), [
+            'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
+            'shipping_method_id' => $settings->getDefaultShippingMethod()->getKey(),
+            'price'              => 0,
+            'currency_code'      => $user ? $user->getExtraAttribute($user::ATTR_CURRENCY) : 'USD',
+        ]);
+    }
 
     /**
      *
@@ -81,21 +102,10 @@ class ShoppingCartItem extends ModelBase
                                         'html_element' => 'number',
                                         'label'        => __('Price'),
                                         'description'  => __('Price'),
-                                        'validator'    => ['required', 'numeric', 'Max:255'],
+                                        'validator'    => ['nullable', 'numeric'],
                                         'css_group'    => 'col-12 col-md-6',
                                     ],
-                                    'currency_code'                 => [
-                                        'html_element' => 'select',
-                                        'label'        => __('Currency'),
-                                        'options'      => $systemService->toHtmlSelectOptions(Currency::orderBy('code',
-                                            'ASC')->get(),
-                                            ['code', 'name'],
-                                            'code',
-                                            $systemService->selectOptionsSimple[$systemService::selectValueNoChoice]),
-                                        'description'  => __('Currency'),
-                                        'validator'    => ['nullable', 'string'],
-                                        'css_group'    => 'col-12 col-md-6',
-                                    ],
+                                    'currency_code'                 => $formService->getFormElement(ExtraAttributeModel::ATTR_CURRENCY),
                                     'payment_method_id'             => $formService->getFormElement(ExtraAttributeModel::ATTR_PAYMENT_METHOD),
                                     'shipping_method_id'            => $formService->getFormElement(ExtraAttributeModel::ATTR_SHIPPING_METHOD),
                                     'description'                   => [

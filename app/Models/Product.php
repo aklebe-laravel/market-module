@@ -99,7 +99,8 @@ class Product extends Model
         parent::__construct($attributes);
 
         $this->appends += [
-            'price',
+            static::ATTR_PRICE,
+            static::ATTR_CURRENCY,
             'price_formatted',
             'rating',
             'rating5',
@@ -184,6 +185,9 @@ class Product extends Model
         return $this->hasMany(OfferItem::class);
     }
 
+    /**
+     * @return Attribute
+     */
     protected function priceFormatted(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
@@ -191,10 +195,29 @@ class Product extends Model
         });
     }
 
+    /**
+     * Append / wrapper for price
+     * @return Attribute
+     */
     protected function price(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
-            return (float) $this->getExtraAttribute('price', 0);
+            return (float) $this->getExtraAttribute(static::ATTR_PRICE, 0);
+        }, set: function ($value, $attributes) {
+            $this->setExtraAttribute(static::ATTR_PRICE, (float) $value);
+        });
+    }
+
+    /**
+     * Append / wrapper for currency
+     * @return Attribute
+     */
+    protected function currency(): Attribute
+    {
+        return Attribute::make(get: function ($value, $attributes) {
+            return $this->getExtraAttribute(static::ATTR_CURRENCY, 0);
+        }, set: function ($value, $attributes) {
+            $this->setExtraAttribute(static::ATTR_CURRENCY, $value);
         });
     }
 

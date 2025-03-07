@@ -117,6 +117,14 @@ return [
                 ],
             ],
         ],
+        '0012' => [
+            [
+                'cmd'     => 'models',
+                'sources' => [
+                    'model-attribute-assignments.php',
+                ],
+            ],
+        ],
     ],
 
 ];

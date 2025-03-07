@@ -3,9 +3,11 @@
 namespace Modules\Market\app\Http\Livewire\Form;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\Form\app\Services\FormService;
 use Modules\Market\app\Models\Base\ExtraAttributeModel;
+use Modules\Market\app\Models\User as UserModel;
 use Modules\WebsiteBase\app\Http\Livewire\Form\Base\ModelBaseExtraAttributes;
 use Modules\WebsiteBase\app\Services\CoreConfigService;
 
@@ -57,8 +59,13 @@ class Product extends ModelBaseExtraAttributes
     public function makeObjectInstanceDefaultValues(): array
     {
         $settings = app('market_settings');
+        /** @var UserModel|ExtraAttributeModel $user */
+        $user = null;
+        if ($userId = $this->getOwnerUserId()) {
+            $user = app(UserModel::class)::with([])->where('id', $userId)->first();
+        }
 
-        return array_merge(parent::makeObjectInstanceDefaultValues(), [
+        return app('system_base')->arrayMergeRecursiveDistinct(parent::makeObjectInstanceDefaultValues(), [
             'is_enabled'         => 1,
             'is_public'          => 0,
             'is_test'            => 0,
@@ -69,7 +76,10 @@ class Product extends ModelBaseExtraAttributes
             'payment_method_id'  => $settings->getDefaultPaymentMethod()->getKey(),
             'shipping_method_id' => $settings->getDefaultShippingMethod()->getKey(),
             'web_uri'            => uniqid('product_'),
-            'extra_attributes'   => ['price' => 0],
+            'extra_attributes'   => [
+                'price'    => 0,
+                'currency' =>  $user ? $user->getExtraAttribute($user::ATTR_CURRENCY) : 'USD',
+            ],
         ]);
     }
 
