@@ -18,10 +18,10 @@
             $cartItems = $cartItemsData['items'];
             $user = $cartItemsData['user'];
         @endphp
-        <h3 class="text-sm">{{ __(':count items by user: :user', ['count' => count($cartItems), 'user' => $user->name]) }}</h3>
+        <h3 class="text-sm alert alert-warning">{{ __(':count items by user: :user', ['count' => count($cartItems), 'user' => $user->name]) }}</h3>
 
         {{-- Data Table--}}
-        <div>
+        <div class="mb-4">
             @php $livewireKey2 = \Modules\SystemBase\app\Services\LivewireService::getKey('manage-default-dt-key-' . $userId); @endphp
             @livewire($livewireTable, [
                 'relatedLivewireForm' => $livewireForm,
