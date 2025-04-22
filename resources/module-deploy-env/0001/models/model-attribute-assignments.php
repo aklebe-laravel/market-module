@@ -51,7 +51,7 @@ return [
         ],
         [
             'model'              => 'App\Models\User',
-            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_PAYMENT_METHOD)->first()->getKey(),
+            'model_attribute_id' => ModelAttribute::with([])->where('code', '=', ExtraAttributeModel::ATTR_SHIPPING_METHOD)->first()->getKey(),
             'attribute_type'     => 'integer',
             'attribute_input'    => 'market::shipping_method',
             'description'        => 'Preferred Shipping Method',
