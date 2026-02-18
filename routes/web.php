@@ -64,10 +64,7 @@ Route::group(['middleware' => [StaffUserPresent::class]], function () {
  */
 Route::group(['middleware' => $forceAuthMiddleware], function () {
 
-    Route::get('offer/potential', [
-        OfferController::class,
-        'potential',
-    ])->name('offer.potential');
+    Route::get('offer/potential', [OfferController::class, 'potential'])->name('offer.potential');
 
 });
 
@@ -121,12 +118,11 @@ Route::group(['middleware' => $defaultMiddleware], function () {
         ]);
     })->name('product');
 
-    Route::get('get-form-rating/product/{id}', [RatingController::class, 'showProduct'])
-         ->name('get.form.rating.product');
-    Route::get('get-form-rating/user/{id}', [RatingController::class, 'showUser'])
-         ->name('get.form.rating.user');
-    Route::post('submit-form-rating', [RatingController::class, 'setProductRating'])
-         ->name('submit.form.rating.product');
+    Route::get('get-form-rating/product/{id}', [RatingController::class, 'showProduct'])->name('get.form.rating.product');
+    Route::get('get-form-rating/user/{id}', [RatingController::class, 'showUser'])->name('get.form.rating.user');
+    Route::post('submit-form-rating', [RatingController::class, 'setProductRating'])->name('submit.form.rating.product');
+
+    Route::get('/cart', [ShoppingCartController::class, 'show'])->name('shopping-cart');
 
     Route::post('cart/add-product', [ShoppingCartController::class, 'addProduct'])->name('cart.add-product');
 
@@ -134,21 +130,11 @@ Route::group(['middleware' => $defaultMiddleware], function () {
 
     Route::post('cart/remove-item', [ShoppingCartController::class, 'removeItem'])->name('cart.remove-item');
 
-    Route::get('/cart', function () {
-
-        return view('website-base::page', [
-            'title'         => 'Cart',
-            'contentView'   => 'website-base::components.data-tables.tables.dt-simple',
-            'livewireTable' => 'market::data-table.shopping-cart-item',
-            'footerView'    => 'market::inc.shopping-cart.actions',
-        ]);
-
-    })->name('shopping-cart');
-
     // ------------------------------------------------------------------------------
     // Search
     // ------------------------------------------------------------------------------
     Route::post('/search', [SearchController::class, 'find'])->name('search');
+    Route::get('/search-results', [SearchController::class, 'searchResults'])->name('search-results');
 
 
     // ------------------------------------------------------------------------------

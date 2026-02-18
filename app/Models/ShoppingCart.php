@@ -26,11 +26,11 @@ class ShoppingCart extends Model
      */
     protected $table = 'shopping_carts';
 
-//    /**
-//     * You can use this instead of newFactory()
-//     * @var string
-//     */
-//    public static string $factory = ShoppingCartFactory::class;
+    //    /**
+    //     * You can use this instead of newFactory()
+    //     * @var string
+    //     */
+    //    public static string $factory = ShoppingCartFactory::class;
 
     /**
      * @return HasMany
@@ -47,7 +47,7 @@ class ShoppingCart extends Model
      */
     public function addProduct(int $productId): ?ShoppingCartItem
     {
-        if (!$this->id) {
+        if (!$this->getKey()) {
             Log::debug('Cart saved first time.', [__METHOD__]);
             $this->save();
         }
@@ -56,7 +56,7 @@ class ShoppingCart extends Model
         if ($product = Product::with([])->whereId($productId)->first()) {
 
             return ShoppingCartItem::create([
-                'shopping_cart_id'   => $this->id,
+                'shopping_cart_id'   => $this->getKey(),
                 'product_id'         => $productId,
                 'product_name'       => $product->name,
                 'payment_method_id'  => $product->payment_method_id,
@@ -74,13 +74,15 @@ class ShoppingCart extends Model
     }
 
     /**
+     * Remove a product from cart.
+     *
      * @param  int  $productId
      *
      * @return bool
      */
     public function removeProduct(int $productId): bool
     {
-        if (!$this->id) {
+        if (!$this->getKey()) {
             return false;
         }
 
@@ -96,13 +98,32 @@ class ShoppingCart extends Model
     }
 
     /**
+     * Remove all items from cart.
+     *
+     * @return bool
+     */
+    public function removeItems(): bool
+    {
+        if (!$this->getKey()) {
+            return false;
+        }
+        Log::debug('Shopping cart items: '.$this->shoppingCartItems->count());
+        foreach ($this->shoppingCartItems as $shoppingCartItem) {
+            $shoppingCartItem->delete();
+            Log::debug('Removed item from shopping cart :'.$shoppingCartItem->getKey());
+        }
+
+        return false;
+    }
+
+    /**
      * @param  int  $itemId
      *
      * @return bool
      */
     public function removeItem(int $itemId): bool
     {
-        if (!$this->id) {
+        if (!$this->getKey()) {
             return false;
         }
 

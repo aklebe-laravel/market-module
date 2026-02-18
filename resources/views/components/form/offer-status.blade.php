@@ -1,33 +1,26 @@
 @php
+    use Illuminate\Http\Resources\Json\JsonResource;
+    use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
+
     /**
-     *
-     * @var string $name
-     * @var string $label
-     * @var \App\Models\User $value
-     * @var bool $read_only
-     * @var string $description
-     * @var string $css_classes
-     * @var string $x_model
-     * @var string $xModelName
-     * @var array $html_data
-     * @var array $x_data
+     * @var NativeObjectBase $form_instance
+     * @var array $data
      */
 
-    $xModelName = (($x_model) ? ($x_model . '.' . $name) : '');
+    /* @var JsonResource $object */
+    $object = $form_instance->getDataSource();
 @endphp
-<div class="form-group form-label-group {{ $css_group }}">
-    <div class="box-offer-status-{{ $value }} p-4">
+<div class="form-group form-label-group {{ $data['css_group'] }}">
+    <div class="box-offer-status-{{ $data['value'] }} p-4">
         <div class=" text-lg">
-            @unless(empty($label))
-                <label>{{ $label }}</label>:
-            @endunless
-            <span class="offer-status-{{ $value }}">
-                {{ __('OFFER_STATUS_' . $value) }}
+            @include('form::components.form.element-parts.label')
+            <span class="offer-status-{{ $data['value'] }}">
+                {{ __('OFFER_STATUS_' . $data['value']) }}
             </span>
         </div>
         <div class="form-text decent">
-            {{ __('OFFER_STATUS_' . $value . '_DESCRIPTION') }}<br/>
-            {{ $description }}
+            {{ __('OFFER_STATUS_' . $data['value'] . '_DESCRIPTION') }}<br/>
+            {{ $data['description'] }}
         </div>
     </div>
 </div>

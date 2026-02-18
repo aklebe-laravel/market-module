@@ -19,7 +19,7 @@
 @livewire('system-base::pagination', $paginationData, key($livewireKey1))
 
 {{--Product Listing--}}
-<div class="row category-list">
+<div class="row product-list">
     @php $i=1; @endphp
     @php /** @var Product $product */ @endphp
     @foreach($productsBuilder->forPage(data_get($paginationData, 'currentPage', 1), data_get($paginationData, 'itemsPerPage', 12))->get() as $product)

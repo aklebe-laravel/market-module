@@ -5,18 +5,18 @@
      * @var Offer $this
      */
 
-    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.reject-offer';
+    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName(app('system_base')->getSimpleClassName($this->getObjectEloquentModelName())) . '.form.reject-offer';
 
     $messageBoxParams1 = [
         'reject-offer' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
+            'offerSharedId' => data_get($editFormModelObject, static::frontendKey),
         ],
     ];
 @endphp
 <button
-        class="btn btn-danger"
+        class="btn btn-danger btn-offer-reject"
         {{--        wire:click="createOfferBinding" type="button" --}}
         x-on:click="messageBox.show('{{ $messageBoxRejectItemPath }}', {{ json_encode($messageBoxParams1) }} )"
 >

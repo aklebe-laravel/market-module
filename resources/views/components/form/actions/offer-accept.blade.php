@@ -5,13 +5,13 @@
      * @var Offer $this
      */
 
-    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName($this->getEloquentModelName()) . '.form.accept-offer';
+    $messageBoxRejectItemPath = app('system_base_module')->getModelSnakeName(app('system_base')->getSimpleClassName($this->getObjectEloquentModelName())) . '.form.accept-offer';
 
     $messageBoxParams1 = [
         'accept-offer' => [
             'livewireId' => $this->getId(),
             'name' => $this->getName(),
-            'offerSharedId' => data_get($editFormModelObject, $this->getFormInstance()::frontendKey),
+            'offerSharedId' => data_get($editFormModelObject, static::frontendKey),
         ],
     ];
 @endphp

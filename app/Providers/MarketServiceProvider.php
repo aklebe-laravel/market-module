@@ -7,10 +7,12 @@ use Modules\Market\app\Console\Maintenance;
 use Modules\Market\app\Console\MarketManager;
 use Modules\Market\app\Models\MediaItem;
 use Modules\Market\app\Models\User;
+use Modules\Market\app\Services\MarketFormService;
 use Modules\Market\app\Services\OfferService;
 use Modules\Market\app\Services\ProductService;
 use Modules\Market\app\Services\RatingService;
 use Modules\Market\app\Services\Setting;
+use Modules\Market\app\Services\ShoppingCartService;
 use Modules\Market\app\Services\SystemInfoService;
 use Modules\Market\app\Services\UserService;
 use Modules\SystemBase\app\Providers\Base\ModuleBaseServiceProvider;
@@ -63,6 +65,8 @@ class MarketServiceProvider extends ModuleBaseServiceProvider
         $this->app->singleton(RatingService::class);
         $this->app->singleton(SystemInfoService::class);
         $this->app->singleton(UserService::class);
+        $this->app->singleton(MarketFormService::class);
+        $this->app->singleton(ShoppingCartService::class);
 
         // Important to get Modules\WebsiteBase\Models\User when accessing app(\App\Models\User::class)
         $this->app->bind(\App\Models\User::class, User::class);

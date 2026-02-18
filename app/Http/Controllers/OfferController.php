@@ -7,25 +7,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Modules\Acl\app\Http\Controllers\Controller;
-use Modules\Market\app\Models\ShoppingCartItem;
+use Modules\Market\app\Services\ShoppingCartService;
 
 class OfferController extends Controller
 {
     public function potential(Request $request): View|Factory|Application
     {
-        $cartItemsByUsers = [];
-        $cart = app('market_settings')->getCurrentShoppingCart();
-        /** @var ShoppingCartItem $shoppingCartItem */
-        foreach ($cart->shoppingCartItems as $shoppingCartItem) {
-            if (!isset($cartItemsByUsers[$shoppingCartItem->product->user_id])) {
-                $cartItemsByUsers[$shoppingCartItem->product->user_id] = [];
-            }
-            $cartItemsByUsers[$shoppingCartItem->product->user_id]['items'][] = $shoppingCartItem->id;
-            $cartItemsByUsers[$shoppingCartItem->product->user_id]['user'] = $shoppingCartItem->product->user;
-        }
-
         return view('market::components.data-tables.tables.offers-potential', [
-            'cartItemsByUsers' => $cartItemsByUsers,
+            'cartItemsByUsers' => app(ShoppingCartService::class)->getCartItemsGroupedByUsers(),
         ]);
     }
 

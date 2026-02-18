@@ -63,7 +63,7 @@ class OfferService extends BaseService
      */
     public function disbandOfferToCartItems(Offer $offer): bool
     {
-        $shoppingCart = app('market_settings')->getCurrentShoppingCart();
+        $shoppingCart = app(ShoppingCartService::class)->getCurrentShoppingCart();
 
         /** @var OfferItem $offerItem */
         foreach ($offer->offerItems as $offerItem) {
@@ -300,6 +300,16 @@ class OfferService extends BaseService
     public function hasOfferActions(Offer $offer): bool
     {
         return !!$this->getOfferActions($offer);
+    }
+
+    /**
+     * @param  int  $userId
+     *
+     * @return Builder
+     */
+    public function getOffersCreatedByUser(int $userId): Builder
+    {
+        return Offer::with([])->where('created_by_user_id', $userId);
     }
 
 }

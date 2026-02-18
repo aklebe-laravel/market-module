@@ -21,15 +21,14 @@ class MarketManager extends MarketCommand
      *
      * @var string
      */
-    protected $description = 'Manage items (products,users,stores,...) like delete or repair. ids can be comma separated and/or from to (x-y). See readme for details.';
+    protected $description = 'Manage items (products,users,stores,...) like "delete" or "repair". ids can be comma separated and/or from to (x-y). See readme for details.';
 
     /**
-     * WARNING! Try to avoid delete user ever!
+     * WARNING! This way objects will be hard deleted if sub_command is 'delete'.
+     *
+     * Normally, try to avoid hard delete users, products and offers!
      * Use Soft delete instead! (like $user->deleteIn3Steps() or $user->is_deleted=true)
-     *
      * A possible reason you want to hard delete a user is on a non production server where users were seeded.
-     *
-     * Execute the console command.
      *
      * @return int
      */

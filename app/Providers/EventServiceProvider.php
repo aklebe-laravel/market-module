@@ -5,6 +5,7 @@ namespace Modules\Market\app\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Modules\DeployEnv\app\Events\ImportContent;
 use Modules\DeployEnv\app\Events\ImportRow;
+use Modules\Form\app\Events\InitFormElements;
 use Modules\Market\app\Listeners\ImportContentAddress;
 use Modules\Market\app\Listeners\ImportContentCategory;
 use Modules\Market\app\Listeners\ImportContentProduct;
@@ -26,25 +27,28 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        InitNavigation::class => [
+        InitNavigation::class              => [
             \Modules\Market\app\Listeners\InitNavigation::class,
         ],
         ModelWithAttributesDeleting::class => [
             \Modules\Market\app\Listeners\ModelWithAttributesDeleting::class,
         ],
-        ImportRow::class      => [
+        ImportRow::class                   => [
             ImportRowProduct::class,
             ImportRowCategory::class,
             ImportRowUser::class,
             ImportRowAddress::class,
             ImportRowStore::class,
         ],
-        ImportContent::class  => [
+        ImportContent::class               => [
             ImportContentProduct::class,
             ImportContentCategory::class,
             ImportContentUser::class,
             ImportContentAddress::class,
             ImportContentStore::class,
+        ],
+        InitFormElements::class            => [
+            \Modules\Market\app\Listeners\InitFormElements::class,
         ],
     ];
 

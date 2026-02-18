@@ -14,9 +14,9 @@
 
     $price = $product->getExtraAttribute('price');
     $userHasAlreadyRated = $product->hasCurrentUserAlreadyRated();
-    $timeLocaleStartedAt = $product->started_at ? Carbon::parse($product->started_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAt = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->toDateString() : null;
-    $timeLocaleExpiredAtDiff = $product->expired_at ? Carbon::parse($product->expired_at)->locale('de')->shortRelativeToNowDiffForHumans() : null;
+    $timeLocaleStartedAt = $product->started_at ? Carbon::parse($product->started_at)->toDateString() : null;
+    $timeLocaleExpiredAt = $product->expired_at ? Carbon::parse($product->expired_at)->toDateString() : null;
+    $timeLocaleExpiredAtDiff = $product->expired_at ? Carbon::parse($product->expired_at)->shortRelativeToNowDiffForHumans() : null;
 
     /** @var UserService $userService */
     $userService = app(UserService::class);
@@ -134,7 +134,7 @@
                             {{ __('Provider') }}
                         </div>
                         <div class="col-sm text-sm-end">
-                            <a href="{{ route('user-profile', $product->user->shared_id) }}">
+                            <a href="{{ $product->user->getUserProfileLink() }}">
                                 {{ $product->user->name }}
                                 @if (app('market_settings')->canShowUserRating())
                                     <span class="small"
@@ -147,7 +147,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 short-description">
-                            <h3>{{ nl2br('Item Information') }}</h3>
+                            <h3>{{ __('Item Information') }}</h3>
                             {!! ($product->short_description) !!}
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 meta-description">
-                        <h3>{{ __('Meta Description') }}</h3>
+                        <h3>{{ __('Meta description') }}</h3>
                         {!! nl2br($product->meta_description) !!}
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                 >
                     <template x-if="(crossSelling.items.length > 1)">
                         <div>
-                            @php $userLink = '<a href="' . route('user-profile', $product->user->shared_id) . '">' . $product->user->name .'</a>' @endphp
+                            @php $userLink = '<a href="' . $product->user->getFrontendLink() . '">' . $product->user->name .'</a>' @endphp
                             <h3 class="">
                                 {!! sprintf(__('More products by %s'), $userLink)  !!}
                                 @if (app('market_settings')->canShowUserRating())

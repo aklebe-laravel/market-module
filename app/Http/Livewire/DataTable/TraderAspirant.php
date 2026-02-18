@@ -57,8 +57,9 @@ class TraderAspirant extends Trader
                 'searchable' => true,
                 'sortable'   => true,
                 'options'    => [
-                    'has_open_link' => $this->canManage(),
-                    'str_limit'     => 30,
+                    'has_open_link'     => $this->canManage(),
+                    'has_frontend_link' => true,
+                    'str_limit'         => 50,
                 ],
                 'css_all'    => 'w-50',
                 'view'       => 'market::livewire.js-dt.tables.columns.default-with-user-rating',

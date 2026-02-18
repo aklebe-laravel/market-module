@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 use Modules\Market\app\Models\Base\TraitBaseAggregatedRating;
 use Modules\Market\database\factories\ProductFactory;
 use Modules\SystemBase\app\Models\Base\TraitModelAddMeta;
@@ -27,7 +28,7 @@ use Modules\WebsiteBase\app\Models\Store;
  */
 class Product extends Model
 {
-    use TraitAttributeAssignment, TraitBaseMedia, HasFactory, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta;
+    use TraitAttributeAssignment, TraitBaseMedia, HasFactory, HasDispatchableEvents, HasOneEvents, HasBelongsToManyEvents, TraitBaseAggregatedRating, TraitModelAddMeta, Searchable;
 
     /**
      * Default media type. Should be overwritten by delivered class.
@@ -53,6 +54,16 @@ class Product extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'started_at' => 'datetime:Y-m-d H:i:s',
+        'expired_at' => 'datetime:Y-m-d H:i:s',
+    ];
 
     /**
      * @var array|string[]
@@ -88,7 +99,8 @@ class Product extends Model
         parent::__construct($attributes);
 
         $this->appends += [
-            'price',
+            static::ATTR_PRICE,
+            static::ATTR_CURRENCY,
             'price_formatted',
             'rating',
             'rating5',
@@ -173,6 +185,9 @@ class Product extends Model
         return $this->hasMany(OfferItem::class);
     }
 
+    /**
+     * @return Attribute
+     */
     protected function priceFormatted(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
@@ -180,10 +195,29 @@ class Product extends Model
         });
     }
 
+    /**
+     * Append / wrapper for price
+     * @return Attribute
+     */
     protected function price(): Attribute
     {
         return Attribute::make(get: function ($value, $attributes) {
-            return (float) $this->getExtraAttribute('price', 0);
+            return (float) $this->getExtraAttribute(static::ATTR_PRICE, 0);
+        }, set: function ($value, $attributes) {
+            $this->setExtraAttribute(static::ATTR_PRICE, (float) $value);
+        });
+    }
+
+    /**
+     * Append / wrapper for currency
+     * @return Attribute
+     */
+    protected function currency(): Attribute
+    {
+        return Attribute::make(get: function ($value, $attributes) {
+            return $this->getExtraAttribute(static::ATTR_CURRENCY, 0);
+        }, set: function ($value, $attributes) {
+            $this->setExtraAttribute(static::ATTR_CURRENCY, $value);
         });
     }
 
@@ -342,4 +376,28 @@ class Product extends Model
         return $changed;
     }
 
+    /**
+     * @return array
+     * @todo: just prepared ...
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'id'          => (int) $this->id,
+            'name'        => $this->name,
+            'description' => (float) $this->description,
+        ];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFrontendLink(): ?string
+    {
+        if (!$this->web_uri) {
+            return null;
+        }
+
+        return route('product', $this->web_uri);
+    }
 }

@@ -22,60 +22,9 @@ class Setting
     protected ?Collection $validPaymentMethods = null;
     protected ?Collection $validShippingMethods = null;
 
-    /**
-     * @var ShoppingCart|null
-     */
-    protected ?ShoppingCart $shoppingCart = null;
-
     public function __construct()
     {
         $this->websiteBaseSetting = app('website_base_settings');
-    }
-
-    /**
-     * @param  bool  $forceReload
-     *
-     * @return ShoppingCart
-     */
-    public function getCurrentShoppingCart(bool $forceReload = false): ShoppingCart
-    {
-        // Not created yet ...
-        if (!$this->shoppingCart || $forceReload) {
-            $carts = ShoppingCart::with(['shoppingCartItems']);
-            if (Auth::check()) {
-                // get by user or by session
-                $carts->where('user_id', '=', Auth::id())->orWhere('session_token', '=', session()->getId());
-            } else {
-                // get by session only
-                $carts->where('session_token', '=', session()->getId());
-            }
-
-            if ($carts->get() && $carts->count() > 0) {
-
-                // here we got all carts by user and by session
-
-                // @todo: select the right one if multiple exist ...
-                // @todo: merge carts here
-
-                $this->shoppingCart = $carts->orderBy('updated_at', 'DESC')->first();
-
-            } else {
-
-                $this->shoppingCart = ShoppingCart::make([
-                    'session_token' => session()->getId(),
-                    'store_id'      => $this->websiteBaseSetting->getStoreId(),
-                    'user_id'       => Auth::id(),
-                ]);
-
-            }
-
-        }
-
-        return $this->shoppingCart;
-    }
-
-    protected function mergeCarts($cart1, $cart2)
-    {
     }
 
     /**
@@ -122,7 +71,8 @@ class Setting
         $navigationCategories = $navigationCategories->get();
 
         foreach ($navigationCategories as $category) {
-            $section->add($category->name, route('category-products', ['category' => $category->web_uri]),
+            $section->add($category->name,
+                route('category-products', ['category' => $category->web_uri]),
                 function ($section2) use ($category) {
 
                     $section2->attributes['icon_class'] = 'bi bi-list';
@@ -189,8 +139,7 @@ class Setting
     public function canShowUserRating(): bool
     {
         if ($this->canShowRating() && app('website_base_config')->getValue('user.rating.enabled', true)
-            && Auth::user()
-                ->hasAclResource('rating.user.visible')
+            && Auth::user()->hasAclResource('rating.user.visible')
         ) {
             return true;
         }
@@ -204,9 +153,7 @@ class Setting
     public function getDefaultPaymentMethod(): ?PaymentMethod
     {
         if (!$this->defaultPaymentMethod) {
-            $this->defaultPaymentMethod = PaymentMethod::with([])
-                ->where('code', PaymentMethod::PAYMENT_METHOD_FREE)
-                ->first();
+            $this->defaultPaymentMethod = PaymentMethod::with([])->where('code', PaymentMethod::PAYMENT_METHOD_FREE)->first();
         }
 
         return $this->defaultPaymentMethod;
@@ -218,9 +165,7 @@ class Setting
     public function getDefaultShippingMethod(): ?ShippingMethod
     {
         if (!$this->defaultShippingMethod) {
-            $this->defaultShippingMethod = ShippingMethod::with([])
-                ->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)
-                ->first();
+            $this->defaultShippingMethod = ShippingMethod::with([])->where('code', ShippingMethod::SHIPPING_METHOD_SELF_COLLECT)->first();
         }
 
         return $this->defaultShippingMethod;

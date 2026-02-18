@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Acl\app\Models\AclResource;
 use Modules\DataTable\app\Http\Livewire\DataTable\Base\BaseDataTable;
-use Modules\Form\app\Forms\Base\NativeObjectBase;
+use Modules\Form\app\Http\Livewire\Form\Base\NativeObjectBase;
 use Modules\Market\app\Models\Offer as OfferModel;
 use Modules\Market\app\Services\OfferService;
 
@@ -148,7 +148,7 @@ class Offer extends BaseDataTable
     {
         parent::initBooted();
 
-        $this->addBaseMarketMessageBoxes();
+        $this->addBaseWebsiteMessageBoxes();
 
         $this->rowCommands = [
             'edit'   => 'data-table::livewire.js-dt.tables.columns.buttons.edit',
