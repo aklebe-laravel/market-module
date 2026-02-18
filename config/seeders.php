@@ -2,30 +2,40 @@
 
 return [
     'core_config' => [
+        // count of config entries
         'count' => 5,
     ],
     'acl_groups'  => [
+        // count of acl group entries
         'count' => 5,
     ],
     'users'       => [
-        'count'       => 50,
+        // count of new users
+        'count'       => 20,
         // max addresses per user to add
         'addresses'   => [
             'count'         => 10,
             'chance_to_add' => 75, // in percent
         ],
         'media_items' => [
-            'image_storage_source_path'            => 'app/seeder/images/samples/products', // (like '/resources/images/samples/products') empty or invalid path = no image creation
-            'count_product_images'                 => 30, // total media items per user
-            'count_avatar_images'                  => 5, // total media items per user
+            // image_storage_source_path:
+            // Relative path in your "storage/"!
+            // (like '/resources/images/samples/products') empty or invalid path = no image creation
+            'image_storage_source_path'            => 'app/seeder/images/samples/products',
+
+            // total media items per user
+            'count_product_images'                 => 30,
+
+            // total media items per user
+            'count_avatar_images'                  => 5,
             'count_min_product_images_per_product' => 6,
             'count_max_product_images_per_product' => 15,
         ],
         // products per user
         'products'    => [
             'sku_prefix' => 'seeder-',
-            'min_count' => 5,
-            'max_count' => 20,
+            'min_count'  => 5,
+            'max_count'  => 20,
         ],
     ],
     'categories'  => [
